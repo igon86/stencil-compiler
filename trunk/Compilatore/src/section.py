@@ -1,0 +1,174 @@
+
+__author__="andrealottarini"
+__date__ ="$5-feb-2012 14.40.53$"
+
+import numpy as np
+import util
+
+from point import *
+from TreeNode import *
+
+import gc
+
+#def tagToCoordinates()
+
+def chooseWinner(x,y):
+    if (x.coolness() == y.coolness()):
+        #this should  be changed
+        return x
+    elif (x.coolness() < y.coolness()):
+        return y
+    else:
+        return x
+    
+
+class Section(object):
+
+        #tricky magari ripensaci con un iteratore
+    def orecursiveInit(self,element,level,coordinate):
+        #print "ELEMENT:\n"+ str(element) + "\nLEVEL:\n" +str(level) + "\nCOORDINATE\n" +str(coordinate)
+        if element is not None:
+            for index, item in enumerate(element):
+                #print "sono nella recursiveInit" ,index,item,element
+                coordinate.append(index)
+                isLast = self.orecursiveInit(item,level+1,coordinate)
+                if isLast:
+                    #print "sto per modificare", str(element[index])
+                    element[index] = SectionPoint(copy.deepcopy(coordinate), util.addList(coordinate , self.oCoordinates),self,True)
+                    #print "stampo cosa ho fatto: " + str(element[index])
+                    #print self
+                coordinate.pop()
+            return False
+        else:
+            return True
+
+    #tricky magari ripensaci con un iteratore
+    def recursiveInit(self,element,level,coordinate):
+        #print "ELEMENT:\n"+ str(element) + "\nLEVEL:\n" +str(level) + "\nCOORDINATE\n" +str(coordinate)
+        if element is not None:
+            for index, item in enumerate(element):
+                #print "sono nella recursiveInit" ,index,item,element
+                coordinate.append(index)
+                isLast = self.recursiveInit(item,level+1,coordinate)
+                if isLast:
+                    #print "sto per modificare", str(element[index])
+                    element[index] = SectionPoint(copy.deepcopy(coordinate),util.addList(coordinate , self.startingCoordinates),self,False)
+                    #print "stampo cosa ho fatto: " +str(index)+" " + str(coordinate)
+                    #print self
+                coordinate.pop()
+            return False
+        else:
+            return True
+
+    def __init__(self,tag,size,father):
+        #coordinate nello spazio delle sezioni
+        self.tag = tag
+
+        #partition which owns this section
+        self.father  = father
+
+        # shape della computazione
+        self.shape = father.shape
+
+        #da queste devo ricavare le coordinate iniziali della sezione nella partizione
+        # questo va modificato per fare il metodo di shift
+        self.startingCoordinates = []
+        self.dim = []
+        self.oCoordinates = []
+        self.odim = []
+        self.isLocal = True
+        for item in tag:
+            if item == 0:
+                self.startingCoordinates.append(0)
+                self.dim.append(self.shape.ordine)
+                self.isLocal = False
+
+                self.oCoordinates.append(- self.shape.ordine)
+                self.odim.append(self.shape.ordine)
+
+            elif item == 1:
+                self.startingCoordinates.append(0)
+                self.dim.append(size)
+
+                self.oCoordinates.append(0)
+                self.odim.append(size)
+            elif item == 2:
+                self.startingCoordinates.append(size - self.shape.ordine)
+                self.dim.append(self.shape.ordine)
+                self.isLocal = False
+
+                self.oCoordinates.append(size)
+                self.odim.append(self.shape.ordine)
+
+        #caso speciale della sezione centrale
+        if self.isLocal:
+            for index in range( len(self.dim) ):
+                self.dim[index] = size - 2*self.shape.ordine
+                self.startingCoordinates[index] = self.shape.ordine
+
+        #ora mi creo l'array di punti della sezione
+        self.points = np.empty(self.dim,dtype=Point)
+
+        #inizializzo i punti
+        self.recursiveInit(self.points,0,[])
+
+    #ora mi creo l'array di punti esterni della sezione
+        if self.isLocal:
+            self.opoints = np.empty(1,dtype=Point)
+        else:
+            self.opoints = np.empty(self.odim,dtype=Point)
+            self.orecursiveInit(self.opoints,0,[])
+    
+
+    def buildTree(self):
+        self.root = Node()
+        #iterate over the inner points of the section
+        for point in self.points.flat:
+            #print point
+            #iterate over the points of the shape
+            lista = []
+            print "\nSection ", self.tag, "has point ", point, "who needs points: "
+            for shift in self.shape:
+                # I compute the point needed,
+                # coordinates has no useful info
+                # gcoordinates contain the gcoord of the point needed
+                toBeFound = point + shift
+                #this is a list of SectionPoints - this should become a method of partition
+                possiblePoints = self.father.getCandidates(toBeFound)
+                print toBeFound, "which can be found here: "
+                for p in possiblePoints:
+                    print p, "in section: ", p.father.tag
+                #now we have to choose the winner among the list of points
+                goodBoy = reduce(chooseWinner,possiblePoints)
+                print "ha vinto", goodBoy
+
+                # compute the offset which has only coordinates meaningful
+                offset = point - goodBoy
+                # reference of the section is wrong so I FIX IT
+                offset.father = point.father
+                print "con offset", offset
+                
+                lista.append(copy.deepcopy(offset))
+            print "ADDO IL NODO"
+            self.root.addChild(point,lista)
+            #gc.collect()
+
+        print self.root
+        self.root.childs = reduce(util.collapseTree, self.root.childs)
+        print self.root
+
+
+    def __contains__(self,item):
+        if item in self.points or item in self.opoints:
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        return " sono la Section: " +str(self.tag) +"os" + str(self.oCoordinates) +"od"+str(self.odim)+"p"+str(self.opoints)
+
+    def __repr__(self):
+        return self.__str__()
+
+if __name__ == "__main__":
+    print "Hello World"
