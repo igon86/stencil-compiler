@@ -8,7 +8,7 @@ class Node(object):
 
     # using [] as default argument can be not a good idea
     def __init__(self,level = -1,source = None,offsets = []):
-        print "addNODE"
+        #print "addNODE"
         self.level = level
         self.childs = []
         self.start = self.end = -1
@@ -17,7 +17,7 @@ class Node(object):
         if source is not None:
             self.start = self.end = source.coordinates[level]
 
-            if self.level == len(source):
+            if self.level == len(source) - 1:
                 self.offsets = offsets
             else:
                 self.offsets = []
@@ -51,7 +51,11 @@ class Node(object):
 
 
     def __eq__(self,other):
-        if self.offsets == other.offsets and self.childs == other.childs:
+        print "confronto " +str(self)+str(other)
+        o = self.offsets == other.offsets
+        c = self.childs == other.childs
+        print o,c
+        if o and c:
             return True
         else:
             return False
