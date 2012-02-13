@@ -9,8 +9,13 @@ from partition import *
 from point import *
 from shape import *
 
+import gc
+
 if __name__ == "__main__":
-        #shape file is opened and read
+
+    if gc.isenabled():
+        print "garbage collection!!"
+    #shape file is opened and read
     f = open("/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape", "r")
     shape_file = f.read()
 
@@ -26,6 +31,6 @@ if __name__ == "__main__":
     print partition
 
     print "\n\n\n\n\n"
-
+    #partition.sezioni.flat[0].buildTree()
     for s in partition.sezioni.flat:
         s.buildTree()

@@ -20,6 +20,7 @@ class Partition(object):
                 isLast = self.recursiveInit(item,level+1,coordinate)
                 if isLast:
                     #print "sto per modificare", str(element[index])
+                    #print self
                     element[index] = Section(copy.deepcopy(coordinate),self.size,self)
                     #print "stampo cosa ho fatto: " +str(index)+" " + str(coordinate)
                     #print self
@@ -68,6 +69,7 @@ class Partition(object):
         """
 
         out = []
+        #qui potrei fare un iteratore
         for section in self.sezioni.flat:
             for point in section.points.flat:
                 if p.isSimilar(point):

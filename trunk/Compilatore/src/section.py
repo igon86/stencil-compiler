@@ -126,7 +126,7 @@ class Section(object):
         for point in self.points.flat:
             #print point
             #iterate over the points of the shape
-            lista = []
+            offsets = []
             print "\nSection ", self.tag, "has point ", point, "who needs points: "
             for shift in self.shape:
                 # I compute the point needed,
@@ -137,21 +137,21 @@ class Section(object):
                 possiblePoints = self.father.getCandidates(toBeFound)
                 print toBeFound, "which can be found here: "
                 for p in possiblePoints:
-                    print p, "in section: ", p.father.tag
+                    print p
                 #now we have to choose the winner among the list of points
                 goodBoy = reduce(chooseWinner,possiblePoints)
                 print "ha vinto", goodBoy
 
                 # compute the offset which has only coordinates meaningful
-                offset = point - goodBoy
+                offset = point.getOffset(goodBoy)
                 # reference of the section is wrong so I FIX IT
-                offset.father = point.father
+                #offset.father = point.father
                 print "con offset", offset
-                
-                lista.append(copy.deepcopy(offset))
+                #OCCHIO
+                offsets.append(offset)
             print "ADDO IL NODO"
-            self.root.addChild(point,lista)
-            #gc.collect()
+            #FALSO
+            self.root.addChild(point,offsets)
 
         print self.root
         self.root.childs = reduce(util.collapseTree, self.root.childs)
@@ -165,7 +165,9 @@ class Section(object):
             return False
 
     def __str__(self):
-        return " sono la Section: " +str(self.tag) +"os" + str(self.oCoordinates) +"od"+str(self.odim)+"p"+str(self.opoints)
+        return " sono la Section: " +str(self.tag) + \
+    "\n ostart" + str(self.oCoordinates) +" odim"+str(self.odim)+"p"+str(self.opoints) + \
+    "\n start" + str(self.startingCoordinates) +" dim"+str(self.dim)+"p"+str(self.points)
 
     def __repr__(self):
         return self.__str__()

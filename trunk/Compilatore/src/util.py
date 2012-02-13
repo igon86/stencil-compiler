@@ -39,23 +39,33 @@ def addList(a,b):
     return out
 
 def collapseTree(a,b):
-    print "invocata la collapse\nA:",a ,"\nB",b
+    #print "invocata la collapse\nA:",a ,"\nB",b
     if len(b.childs) > 0 :
+        #print "invoco la collapse su b"
         b.childs = reduce(collapseTree,b.childs)
     if hasattr(a,'__iter__'):
+        #print "a e una lista"
         lastElement = a[len(a)-1]
         if lastElement == b:
             lastElement.end = b.end
+            #print "spiaccico b sull'ultimo di a"
             return a
         else:
-            return a.append(b)
+            #print "appendo b ad a"
+            a.append(b)
+            #print a
+            return a
     else:
+        #print "a non e una lista"
         if len(a.childs) > 0:
+            #print "invoco la collapse su a"
             a.childs = reduce(collapseTree,a.childs)
         if a == b:
+            #print "unisco i due nodi"
             a.end = b.end
-            return a
+            return [a]
         else:
+            #print "concateno i due nodi"
             return [a,b]
 
 
