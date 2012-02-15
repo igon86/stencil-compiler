@@ -8,13 +8,10 @@ from section import *
 from partition import *
 from point import *
 from shape import *
-
-import gc
+from generatore import *
 
 if __name__ == "__main__":
 
-    if gc.isenabled():
-        print "garbage collection!!"
     #shape file is opened and read
     f = open("/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape", "r")
     shape_file = f.read()
@@ -34,3 +31,7 @@ if __name__ == "__main__":
     #partition.sezioni.flat[0].buildTree()
     for s in partition.sezioni.flat:
         s.buildTree()
+
+    for index,item in enumerate(partition.sezioni.flat):
+        g = Generatore(item)
+        g.generaCodice("out"+str(index)+".m")
