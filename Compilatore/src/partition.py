@@ -52,8 +52,8 @@ class Partition(object):
         self.recursiveInit(self.sezioni,0,[])
 
 
-    #def __getitem__(self,index):
-     #   return self.sezioni[index]
+    def __getitem__(self,index):
+        return self.sezioni.flat[index]
 
     def __str__(self):
         return "sono una partizione\n" +str(self.sezioni)

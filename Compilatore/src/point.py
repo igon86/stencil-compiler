@@ -86,6 +86,16 @@ class Offset(Point):
         else:
             return False
 
+    def getStr(self):
+        out = "("
+        for index,item in enumerate(self.coordinates):
+            if item < 0:
+                out += "i" +str(index)+str(item)+","
+            else:
+                out += "i" +str(index)+"+"+str(item)+","
+        out = out[0:len(out)-1] +")"
+        return out
+
     #da estendere ragionevolmente
     def __str__(self):
         return Point.__str__(self) + str(self.isOuter)[0] + " f" + str(self.father.tag)
