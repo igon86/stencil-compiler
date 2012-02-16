@@ -60,7 +60,7 @@ class Section(object):
         else:
             return True
 
-    def __init__(self,tag,size,father):
+    def __init__(self,tag,father):
         #coordinate nello spazio delle sezioni
         self.tag = tag
 
@@ -70,40 +70,57 @@ class Section(object):
         # shape della computazione
         self.shape = father.shape
 
+
+
         #da queste devo ricavare le coordinate iniziali della sezione nella partizione
         # questo va modificato per fare il metodo di shift
         self.startingCoordinates = []
         self.dim = []
         self.oCoordinates = []
         self.odim = []
+        self.realDim = []
+        self.orealDim = []
         self.isLocal = True
+        #NOTICE there is no big differences among these parameters
+        # they will be difference with the shift method
+        # in general I need to be more general than this
+        # this piece of code sucks :(
         for item in tag:
             if item == 0:
-                self.startingCoordinates.append(0)
-                self.dim.append(self.shape.ordine)
                 self.isLocal = False
-
+                
+                self.startingCoordinates.append(0)
                 self.oCoordinates.append(- self.shape.ordine)
+
+                self.dim.append(self.shape.ordine)
                 self.odim.append(self.shape.ordine)
+                self.realDim.append(self.shape.ordine)
+                self.orealDim.append(self.shape.ordine)
 
             elif item == 1:
                 self.startingCoordinates.append(0)
-                self.dim.append(size)
-
                 self.oCoordinates.append(0)
-                self.odim.append(size)
-            elif item == 2:
-                self.startingCoordinates.append(size - self.shape.ordine)
-                self.dim.append(self.shape.ordine)
-                self.isLocal = False
 
-                self.oCoordinates.append(size)
+                self.dim.append(self.father.size)
+                self.odim.append(self.father.size)
+                self.realDim.append(self.father.finalSize)
+                self.orealDim.append(self.father.finalSize)
+                
+            elif item == 2:
+                self.isLocal = False
+                
+                self.startingCoordinates.append(self.father.size - self.shape.ordine)
+                self.oCoordinates.append(self.father.size)
+
+                self.dim.append(self.shape.ordine)
                 self.odim.append(self.shape.ordine)
+                self.realDim.append(self.shape.ordine)
+                self.orealDim.append(self.shape.ordine)
 
         #caso speciale della sezione centrale
         if self.isLocal:
             for index in range( len(self.dim) ):
-                self.dim[index] = size - 2*self.shape.ordine
+                self.dim[index] = self.father.size - 2*self.shape.ordine
                 self.startingCoordinates[index] = self.shape.ordine
 
         #ora mi creo l'array di punti della sezione
@@ -120,14 +137,14 @@ class Section(object):
             self.orecursiveInit(self.opoints,0,[])
     
 
-    def buildTree(self):
+    def buildTree(self,finalDimension):
         self.root = Node()
         #iterate over the inner points of the section
         for point in self.points.flat:
             #print point
             #iterate over the points of the shape
             offsets = []
-            print "\nSection ", self.tag, "has point ", point, "who needs points: "
+            #print "\nSection ", self.tag, "has point ", point, "who needs points: "
             for shift in self.shape:
                 # I compute the point needed,
                 # coordinates has no useful info
@@ -135,28 +152,29 @@ class Section(object):
                 toBeFound = point + shift
                 #this is a list of SectionPoints - this should become a method of partition
                 possiblePoints = self.father.getCandidates(toBeFound)
-                print toBeFound, "which can be found here: "
-                for p in possiblePoints:
-                    print p
+                #print toBeFound, "which can be found here: "
+                #for p in possiblePoints:
+                #    print p
                 #now we have to choose the winner among the list of points
                 goodBoy = reduce(chooseWinner,possiblePoints)
-                print "ha vinto", goodBoy
+                #print "ha vinto", goodBoy
 
                 # compute the offset which has only coordinates meaningful
                 offset = point.getOffset(goodBoy)
                 # reference of the section is wrong so I FIX IT
                 #offset.father = point.father
-                print "con offset", offset
+                #print "con offset", offset
                 #OCCHIO
                 offsets.append(offset)
-            print "ADDO IL NODO"
+            #print "ADDO IL NODO"
             #FALSO
             self.root.addChild(point,offsets)
 
         print self.root
         self.root.childs = reduce(util.collapseTree, self.root.childs)
         print self.root
-
+        if self.father.finalSize > self.father.size:
+            self.root.expandTree(self.shape.ordine,finalDimension - self.father.size)
 
     def __contains__(self,item):
         if item in self.points or item in self.opoints:

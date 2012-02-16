@@ -4,6 +4,8 @@
 __author__="andrealottarini"
 __date__ ="$15-feb-2012 11.22.26$"
 
+import util
+
 def returnSecId(section):
     out = ""
     for i in section.tag:
@@ -18,9 +20,60 @@ class Generatore(object):
     def generaCodice(self,file):
         albero = self.section.root
 
-        with open(file,'w') as f:
+        with open(file,'a') as f:
             self.generaNodo(albero,f)
 
+    def generaInit(self,file):
+        # in matlab I do not have negative index
+        # indexes start from 1
+        staticOffset = []
+        for i in range(self.section.father.dim):
+            staticOffset.append(self.section.father.ordine+1)
+
+        with open(file,"w") as f:
+            id = returnSecId(self.section)
+            self.start = util.addList(staticOffset, self.section.startingCoordinates)
+            self.end = util.addList(self.start, self.section.realDim)
+            print self.start,self.end
+
+            #internal section
+            f.write("s"+str(id)+"=a(")
+            count = 0
+            for i in zip(self.start,self.end):
+                print i
+                count +=1
+                f.write(str(i[0])+":"+str(i[1]-1)+",")
+            f.seek(f.tell()-1)
+            f.write(");\n")
+
+            #external section
+            self.ostart = util.addList(staticOffset, self.section.oCoordinates)
+            self.oend = util.addList(self.start, self.section.orealDim)
+            print self.ostart,self.oend
+            f.write("o"+str(id)+"=a(")
+            for i in zip(self.ostart,self.oend):
+                print i
+                f.write(str(i[0])+":"+str(i[1]-1)+",")
+            f.seek(f.tell()-1)
+            f.write(");\n")
+
+    def generaClose(self,file):
+
+        staticOffset = []
+        for i in range(self.section.father.dim):
+            staticOffset.append(self.section.father.ordine+1)
+
+        with open(file,"a") as f:
+            id = returnSecId(self.section)
+            self.start = util.addList(staticOffset, self.section.startingCoordinates)
+            self.end = util.addList(self.start, self.section.realDim)
+            print self.start,self.end
+            f.write("b(")
+            for i in zip(self.start,self.end):
+                print i
+                f.write(str(i[0])+":"+str(i[1]-1)+",")
+            f.seek(f.tell()-1)
+            f.write(") = s" +str(id)+"_1 ;\n")
 
     def generaNodo(self,node,f):
         if node is not None:
