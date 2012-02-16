@@ -48,7 +48,25 @@ class Node(object):
                 return child
         return None
 
+    def getInterval(self):
+        return self.end - self.start
 
+    def expandTree(self,ordine,extension):
+
+        #firstly I fix the interval
+        extended = False
+        for item in self.childs:
+            if extended:
+                item.start += extension
+                item.end += extension
+            else:
+                if item.getInterval() > ordine:
+                    extended = True
+                    item.end += extension
+            item.expandTree(ordine,extension)
+
+        for item in self.offsets:
+            item.expand(extension,ordine)
 
     def __eq__(self,other):
         print "confronto " +str(self)+str(other)

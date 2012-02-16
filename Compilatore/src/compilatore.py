@@ -1,3 +1,4 @@
+import partition
 __author__ = "andrealottarini"
 __date__ = "$30-gen-2012 19.53.00$"
 
@@ -12,8 +13,12 @@ from generatore import *
 
 if __name__ == "__main__":
 
+    #questi sono parametri messi come magic numbers!!!
+    dim = 11
+    filename = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape"
+    compilato = "compilato.m"
     #shape file is opened and read
-    f = open("/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape", "r")
+    f = open(filename, "r")
     shape_file = f.read()
 
     # a shape object is created from the shape_file content
@@ -23,15 +28,31 @@ if __name__ == "__main__":
 
     #now a partition is created
     print "\n\n\n\n\n\n\n"
-    partition = Partition(shape)
+    partition = Partition(shape,dim)
 
     print partition
 
     print "\n\n\n\n\n"
     #partition.sezioni.flat[0].buildTree()
     for s in partition.sezioni.flat:
-        s.buildTree()
+        s.buildTree(dim)
+
+    with open(compilato,"w") as f:
+        f.write("function b = compilato(a)\n\n")
+
+    # THIS IS VERY VERY UGLY  
+    for index,item in enumerate(partition.sezioni.flat):
+        g = Generatore(item)
+        g.generaInit(compilato)
 
     for index,item in enumerate(partition.sezioni.flat):
         g = Generatore(item)
-        g.generaCodice("out"+str(index)+".m")
+        g.generaCodice(compilato)
+
+    for index,item in enumerate(partition.sezioni.flat):
+        g = Generatore(item)
+        g.generaClose(compilato)
+
+
+    #partition.createMatlabScript()
+    

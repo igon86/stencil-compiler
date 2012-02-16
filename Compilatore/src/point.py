@@ -96,6 +96,14 @@ class Offset(Point):
         out = out[0:len(out)-1] +")"
         return out
 
+    def expand(self,extension,ordine):
+        for index,item in enumerate(self.coordinates):
+            #the logic of this condition is completely obscure to me now
+            if item > 2*ordine:
+                self[index] = (item/abs(item)) * (abs(item) + extension)
+
+
+
     #da estendere ragionevolmente
     def __str__(self):
         return Point.__str__(self) + str(self.isOuter)[0] + " f" + str(self.father.tag)

@@ -1,3 +1,5 @@
+import util
+import generatore
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
@@ -21,7 +23,7 @@ class Partition(object):
                 if isLast:
                     #print "sto per modificare", str(element[index])
                     #print self
-                    element[index] = Section(copy.deepcopy(coordinate),self.size,self)
+                    element[index] = Section(copy.deepcopy(coordinate),self)
                     #print "stampo cosa ho fatto: " +str(index)+" " + str(coordinate)
                     #print self
                 coordinate.pop()
@@ -29,7 +31,11 @@ class Partition(object):
         else:
             return True
 
-    def __init__(self,shape):
+    def __init__(self,shape,finalSize):
+
+        # if finalSize is less than size then an error is raised,
+        # in order to debug the tree mechanism WITHOUT ESPANSION
+        # finalSize should have the same value of self.size
 
         self.shape = shape
 
@@ -39,6 +45,12 @@ class Partition(object):
 
         #computes size
         self.size = 5*self.ordine + 1
+
+        if finalSize < self.size:
+            raise ValueError("Final Dimension smaller than partition self.father.size")
+        elif finalSize == self.size:
+            print "TREE WILL NOT BE EXPANDED"
+        self.finalSize = finalSize
 
         #creates array of sections
         dimensioni=[]
@@ -78,6 +90,26 @@ class Partition(object):
                 if p.isSimilar(point):
                     out.append(point)
         return out
+
+    #DEPRECATED ABBESTIA
+    def createMatlabScript(self,file1='scriptsections.m'):
+        staticOffset = []
+        for i in range(self.dim):
+            staticOffset.append(self.ordine+1)
+
+        with open(file1,"w") as f:
+            for section in self.sezioni.flat:
+                id = generatore.returnSecId(section)
+                start = util.addList(staticOffset, section.startingCoordinates)
+                end = util.addList(start, section.dim)
+                print start,end
+                f.write("s"+str(id)+"=a(")
+                for i in zip(start,end):
+                    print i
+                    f.write(str(i[0])+":"+str(i[1]-1)+",")
+                f.seek(f.tell()-1)
+                f.write(");\n")
+
 
 if __name__ == "__main__":
     print "No debug for partition"
