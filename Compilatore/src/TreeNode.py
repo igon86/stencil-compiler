@@ -52,27 +52,33 @@ class Node(object):
         return self.end - self.start
 
     def expandTree(self,ordine,extension):
-
+        print "estendo ", self
         #firstly I fix the interval
+
+        for item in self.offsets:
+            item.expand(extension,ordine)
+
         extended = False
         for item in self.childs:
             if extended:
                 item.start += extension
                 item.end += extension
             else:
-                if item.getInterval() > ordine:
+                if item.getInterval() > ordine - 1 :
                     extended = True
                     item.end += extension
+        print "Ho ottenuto ", self
+        for item in self.childs:
             item.expandTree(ordine,extension)
+        
 
-        for item in self.offsets:
-            item.expand(extension,ordine)
+        
 
     def __eq__(self,other):
-        print "confronto " +str(self)+str(other)
+        #print "confronto " +str(self)+str(other)
         o = self.offsets == other.offsets
         c = self.childs == other.childs
-        print o,c
+        #print o,c
         if o and c:
             return True
         else:

@@ -14,7 +14,7 @@ from generatore import *
 if __name__ == "__main__":
 
     #questi sono parametri messi come magic numbers!!!
-    dim = 11
+    dim = 20
     filename = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape"
     compilato = "compilato.m"
     #shape file is opened and read
