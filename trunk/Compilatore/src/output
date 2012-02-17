@@ -8,7 +8,6 @@ this is the shape object  [ [2, 0],  [-2, 1]]
 
 
 
-TREE WILL NOT BE EXPANDED
 sono una partizione
 [[  sono la Section: [0, 0]
  ostart[-2, -2] odim[2, 2]p[[T([0, 0] [-2, -2] f: [0, 0]) T([0, 1] [-2, -1] f: [0, 0])]
@@ -170,28 +169,28 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]
-	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-True True
-True True
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]]
+estendo  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]]
+Ho ottenuto  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]]
+estendo  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
@@ -218,114 +217,6 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 		nodo di livello 1 inizio: 8 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[], 
 		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[], 
 		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 3 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 4 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 5 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 6 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 7 fine: 7 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 7 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 8 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 3 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 4 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 5 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 6 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 7 fine: 7 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 7 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 8 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 2 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]]
-	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 2 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 2 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]
-True True
-True True
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
@@ -333,6 +224,48 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 		nodo di livello 1 inizio: 2 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[], 
 		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[], 
 		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]]]
+estendo  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 2 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]]]
+Ho ottenuto  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 2 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]]]
+estendo  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 2 fine: 8 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 9 fine: 9 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 10 fine: 10 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 2 fine: 17 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 18 fine: 18 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 19 fine: 19 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
+estendo  
+		nodo di livello 1 inizio: 2 fine: 17 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 2 fine: 17 offset [ [0, -2]F f[1, 1],  [0, 1]T f[0, 1]] figli[]
+estendo  
+		nodo di livello 1 inizio: 18 fine: 18 offset [ [2, -9]F f[1, 2],  [0, 1]T f[0, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 18 fine: 18 offset [ [2, -18]F f[1, 2],  [0, 1]T f[0, 1]] figli[]
+estendo  
+		nodo di livello 1 inizio: 19 fine: 19 offset [ [2, -9]F f[1, 2],  [0, -10]T f[0, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 19 fine: 19 offset [ [2, -18]F f[1, 2],  [0, -19]T f[0, 2]] figli[]
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
@@ -341,35 +274,37 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]
-	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
-True True
-True True
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]]
+estendo  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]]
+Ho ottenuto  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]]
+estendo  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 19]T f[0, 1]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
@@ -405,187 +340,6 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 10 fine: 10 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-True True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]
-	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]
-	nodo di livello 0 inizio: 2 fine: 2 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]]
-True False
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 2 fine: 2 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]]
-	nodo di livello 0 inizio: 3 fine: 3 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 2 fine: 3 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]]
-	nodo di livello 0 inizio: 4 fine: 4 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]
-False True
-True False
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 4 fine: 4 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]]
-	nodo di livello 0 inizio: 5 fine: 5 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 4 fine: 5 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]]
-	nodo di livello 0 inizio: 6 fine: 6 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 4 fine: 6 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]]
-	nodo di livello 0 inizio: 7 fine: 7 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-False True
-True False
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 7 fine: 7 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
-	nodo di livello 0 inizio: 8 fine: 8 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 7 fine: 8 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
-	nodo di livello 0 inizio: 9 fine: 9 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-False True
-True False
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 9 fine: 9 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
-	nodo di livello 0 inizio: 10 fine: 10 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]
-True True
-True True
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
@@ -602,6 +356,112 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 9 fine: 10 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]]]
+estendo  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]], 
+	nodo di livello 0 inizio: 2 fine: 3 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]], 
+	nodo di livello 0 inizio: 4 fine: 6 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]], 
+	nodo di livello 0 inizio: 7 fine: 8 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]], 
+	nodo di livello 0 inizio: 9 fine: 10 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]]]
+Ho ottenuto  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]], 
+	nodo di livello 0 inizio: 2 fine: 3 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]], 
+	nodo di livello 0 inizio: 4 fine: 15 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]], 
+	nodo di livello 0 inizio: 16 fine: 17 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]], 
+	nodo di livello 0 inizio: 18 fine: 19 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]]]
+estendo  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 0],  [0, 1]T f[0, 1]] figli[]
+estendo  
+	nodo di livello 0 inizio: 2 fine: 3 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 2 fine: 3 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[0, 1]] figli[]
+estendo  
+	nodo di livello 0 inizio: 4 fine: 15 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 4 fine: 15 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 0],  [-2, 1]F f[1, 0]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 0],  [-4, -1]F f[1, 1]] figli[]
+estendo  
+	nodo di livello 0 inizio: 16 fine: 17 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 16 fine: 17 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-16, 0]F f[2, 1],  [-2, 1]F f[1, 0]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-16, 0]F f[2, 1],  [-4, -1]F f[1, 1]] figli[]
+estendo  
+	nodo di livello 0 inizio: 18 fine: 19 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 18 fine: 19 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-18, 0]T f[2, 1],  [-2, 1]F f[1, 0]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-18, 0]T f[2, 1],  [-4, -1]F f[1, 1]] figli[]
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
@@ -660,262 +520,6 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 		nodo di livello 1 inizio: 4 fine: 4 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[], 
 		nodo di livello 1 inizio: 5 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[], 
 		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 2 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 3 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 4 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 2 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 3 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 4 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 2 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 3 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 4 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 2 fine: 2 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-False True
-True False
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 2 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 3 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 4 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 2 fine: 2 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 3 fine: 3 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 2 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 3 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 4 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 2 fine: 3 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 4 fine: 4 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 2 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 3 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 4 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 2 fine: 4 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 5 fine: 5 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-False True
-True False
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 1 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 2 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 3 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 4 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 5 fine: 5 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 6 fine: 6 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]
-True True
-True True
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
@@ -927,6 +531,76 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 5 fine: 6 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[], 
 		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]]]
+estendo  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]], 
+	nodo di livello 0 inizio: 2 fine: 4 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]], 
+	nodo di livello 0 inizio: 5 fine: 6 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]]]
+Ho ottenuto  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]], 
+	nodo di livello 0 inizio: 2 fine: 13 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]], 
+	nodo di livello 0 inizio: 14 fine: 15 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]]]
+estendo  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 14 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 15 fine: 15 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 14 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 14 offset [ [2, 0]F f[1, 1],  [0, 3]F f[0, 1]] figli[]
+estendo  
+		nodo di livello 1 inizio: 15 fine: 15 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 15 fine: 15 offset [ [2, 0]F f[1, 1],  [0, -15]F f[1, 2]] figli[]
+estendo  
+	nodo di livello 0 inizio: 2 fine: 13 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 5 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 6 fine: 6 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 2 fine: 13 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 14 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 15 fine: 15 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 14 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 14 offset [ [2, 0]F f[1, 1],  [-2, 1]F f[1, 1]] figli[]
+estendo  
+		nodo di livello 1 inizio: 15 fine: 15 offset [ [2, 0]F f[1, 1],  [0, -6]F f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 15 fine: 15 offset [ [2, 0]F f[1, 1],  [0, -15]F f[1, 2]] figli[]
+estendo  
+	nodo di livello 0 inizio: 14 fine: 15 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 5 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 6 fine: 6 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 14 fine: 15 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 14 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 15 fine: 15 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 14 offset [ [-5, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 14 offset [ [-14, 2]F f[2, 1],  [-2, 1]F f[1, 1]] figli[]
+estendo  
+		nodo di livello 1 inizio: 15 fine: 15 offset [ [-5, 2]F f[2, 1],  [0, -6]F f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 15 fine: 15 offset [ [-14, 2]F f[2, 1],  [0, -15]F f[1, 2]] figli[]
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
@@ -962,198 +636,6 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 10 fine: 10 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]
-	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]
-	nodo di livello 0 inizio: 2 fine: 2 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-False True
-True False
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 2 fine: 2 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 3 fine: 3 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 2 fine: 3 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 4 fine: 4 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 2 fine: 4 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 5 fine: 5 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 2 fine: 5 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 6 fine: 6 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 2 fine: 6 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 7 fine: 7 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[]
-False True
-True False
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 7 fine: 7 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 8 fine: 8 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]
-True True
-True True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 7 fine: 8 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 9 fine: 9 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[]
-False True
-True False
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 9 fine: 9 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 10 fine: 10 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]
-True True
-True True
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
@@ -1168,6 +650,98 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 9 fine: 10 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]]]
+estendo  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]], 
+	nodo di livello 0 inizio: 2 fine: 6 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]], 
+	nodo di livello 0 inizio: 7 fine: 8 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]], 
+	nodo di livello 0 inizio: 9 fine: 10 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]]]
+Ho ottenuto  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]], 
+	nodo di livello 0 inizio: 2 fine: 15 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]], 
+	nodo di livello 0 inizio: 16 fine: 17 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]], 
+	nodo di livello 0 inizio: 18 fine: 19 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]]]
+estendo  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 10]T f[0, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [0, 19]T f[0, 1]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [0, -1]T f[0, 2]] figli[]
+estendo  
+	nodo di livello 0 inizio: 2 fine: 15 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 2 fine: 15 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [2, 0]F f[1, 2],  [-2, 1]F f[1, 2]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [2, 0]F f[1, 2],  [-2, -1]T f[1, 2]] figli[]
+estendo  
+	nodo di livello 0 inizio: 16 fine: 17 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 16 fine: 17 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-7, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-16, 0]F f[2, 2],  [-2, 1]F f[1, 2]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-7, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-16, 0]F f[2, 2],  [-2, -1]T f[1, 2]] figli[]
+estendo  
+	nodo di livello 0 inizio: 18 fine: 19 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 18 fine: 19 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-9, 9]T f[2, 1],  [-2, 1]F f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [-18, 18]T f[2, 1],  [-2, 1]F f[1, 2]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-9, 9]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [-18, 18]T f[2, 1],  [-2, -1]T f[1, 2]] figli[]
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
@@ -1176,35 +750,37 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]]
-	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-True True
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]]]
+estendo  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]]]
+Ho ottenuto  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]]]
+estendo  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [16, 1]F f[1, 0]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [14, -1]F f[1, 1]] figli[]
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
@@ -1231,114 +807,6 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 		nodo di livello 1 inizio: 8 fine: 8 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[], 
 		nodo di livello 1 inizio: 9 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[], 
 		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 2 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 3 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 4 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 5 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 6 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 7 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 8 fine: 8 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 8 fine: 8 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 9 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 8 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 2 fine: 2 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 2 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 3 fine: 3 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 3 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 4 fine: 4 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 4 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 5 fine: 5 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 5 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 6 fine: 6 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 6 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 7 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 8 fine: 8 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 8 fine: 8 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 9 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 8 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 8 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[], 
-		nodo di livello 1 inizio: 8 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-		nodo di livello 1 inizio: 1 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 8 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 8 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]
-		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]
-True True
-True True
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
@@ -1346,6 +814,48 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 		nodo di livello 1 inizio: 1 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[], 
 		nodo di livello 1 inizio: 8 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[], 
 		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]]]
+estendo  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 8 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]]]
+Ho ottenuto  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 8 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]]]
+estendo  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 7 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 8 fine: 9 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 10 fine: 10 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 16 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[], 
+		nodo di livello 1 inizio: 17 fine: 18 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 19 fine: 19 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [7, 1]F f[1, 0]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[2, 1],  [16, 1]F f[1, 0]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 16 offset [ [0, 0]T f[2, 1],  [5, -1]F f[1, 1]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 16 offset [ [0, 0]T f[2, 1],  [14, -1]F f[1, 1]] figli[]
+estendo  
+		nodo di livello 1 inizio: 17 fine: 18 offset [ [0, 0]T f[2, 1],  [7, -8]F f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 17 fine: 18 offset [ [0, 0]T f[2, 1],  [16, -17]F f[1, 2]] figli[]
+estendo  
+		nodo di livello 1 inizio: 19 fine: 19 offset [ [0, 0]T f[2, 1],  [7, -10]T f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 19 fine: 19 offset [ [0, 0]T f[2, 1],  [16, -19]T f[1, 2]] figli[]
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
@@ -1354,113 +864,115 @@ nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]
-False True
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]
-False True
-confronto 
-	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]]
-	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[], 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]]
-confronto 
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[]
-		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[]
-True True
-confronto 
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]
-		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]
-True True
-True True
 
 nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
 	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
 		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[], 
 		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]]]
+estendo  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]]]
+Ho ottenuto  
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]]]
+estendo  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]]
+Ho ottenuto  
+	nodo di livello 0 inizio: 0 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[], 
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]]
+estendo  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 9]T f[2, 1],  [7, 1]F f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 18]T f[2, 1],  [16, 1]F f[1, 2]] figli[]
+estendo  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 9]T f[2, 1],  [7, -1]T f[1, 2]] figli[]
+Ho ottenuto  
+		nodo di livello 1 inizio: 1 fine: 1 offset [ [0, 18]T f[2, 1],  [16, -1]T f[1, 2]] figli[]
 [3, 3] [5, 5]
 (3, 5)
 (3, 5)
-[1, 1] [5, 5]
-(1, 5)
-(1, 5)
-[3, 3] [5, 14]
+[1, 1] [3, 3]
+(1, 3)
+(1, 3)
+[3, 3] [5, 23]
 (3, 5)
-(3, 14)
-[1, 3] [5, 14]
-(1, 5)
-(3, 14)
-[3, 12] [5, 14]
+(3, 23)
+[1, 3] [3, 23]
+(1, 3)
+(3, 23)
+[3, 21] [5, 23]
 (3, 5)
-(12, 14)
-[1, 14] [5, 14]
-(1, 5)
-(14, 14)
-[3, 3] [14, 5]
-(3, 14)
+(21, 23)
+[1, 23] [3, 25]
+(1, 3)
+(23, 25)
+[3, 3] [23, 5]
+(3, 23)
 (3, 5)
-[3, 1] [14, 5]
-(3, 14)
-(1, 5)
-[5, 5] [16, 16]
-(5, 16)
-(5, 16)
-[3, 3] [16, 16]
-(3, 16)
-(3, 16)
-[3, 12] [14, 14]
-(3, 14)
-(12, 14)
-[3, 14] [14, 14]
-(3, 14)
-(14, 14)
-[12, 3] [14, 5]
-(12, 14)
+[3, 1] [23, 3]
+(3, 23)
+(1, 3)
+[5, 5] [21, 21]
+(5, 21)
+(5, 21)
+[3, 3] [23, 23]
+(3, 23)
+(3, 23)
+[3, 21] [23, 23]
+(3, 23)
+(21, 23)
+[3, 23] [23, 25]
+(3, 23)
+(23, 25)
+[21, 3] [23, 5]
+(21, 23)
 (3, 5)
-[14, 1] [14, 5]
-(14, 14)
-(1, 5)
-[12, 3] [14, 14]
-(12, 14)
-(3, 14)
-[14, 3] [14, 14]
-(14, 14)
-(3, 14)
-[12, 12] [14, 14]
-(12, 14)
-(12, 14)
-[14, 14] [14, 14]
-(14, 14)
-(14, 14)
-[3, 3] [5, 5]
-(3, 5)
-(3, 5)
-[3, 3] [5, 14]
-(3, 5)
-(3, 14)
-[3, 12] [5, 14]
-(3, 5)
-(12, 14)
-[3, 3] [14, 5]
-(3, 14)
-(3, 5)
-[5, 5] [16, 16]
-(5, 16)
-(5, 16)
-[3, 12] [14, 14]
-(3, 14)
-(12, 14)
-[12, 3] [14, 5]
-(12, 14)
-(3, 5)
-[12, 3] [14, 14]
-(12, 14)
-(3, 14)
-[12, 12] [14, 14]
-(12, 14)
-(12, 14)
+[23, 1] [25, 3]
+(23, 25)
+(1, 3)
+[21, 3] [23, 23]
+(21, 23)
+(3, 23)
+[23, 3] [25, 23]
+(23, 25)
+(3, 23)
+[21, 21] [23, 23]
+(21, 23)
+(21, 23)
+[23, 23] [25, 25]
+(23, 25)
+(23, 25)
+[1, 1] [3, 3]
+(1, 3)
+(1, 3)
+[1, 1] [3, 21]
+(1, 3)
+(1, 21)
+[1, 19] [3, 21]
+(1, 3)
+(19, 21)
+[1, 1] [21, 3]
+(1, 21)
+(1, 3)
+[3, 3] [19, 19]
+(3, 19)
+(3, 19)
+[1, 19] [21, 21]
+(1, 21)
+(19, 21)
+[19, 1] [21, 3]
+(19, 21)
+(1, 3)
+[19, 1] [21, 21]
+(19, 21)
+(1, 21)
+[19, 19] [21, 21]
+(19, 21)
+(19, 21)

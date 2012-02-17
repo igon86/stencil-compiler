@@ -99,7 +99,7 @@ class Offset(Point):
     def expand(self,extension,ordine):
         for index,item in enumerate(self.coordinates):
             #the logic of this condition is completely obscure to me now
-            if item > 2*ordine:
+            if abs(item) > 2*ordine:
                 self[index] = (item/abs(item)) * (abs(item) + extension)
 
 

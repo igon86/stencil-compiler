@@ -77,6 +77,8 @@ class Section(object):
         self.startingCoordinates = []
         self.dim = []
         self.oCoordinates = []
+        self.realCoordinates = []
+        self.orealCoordinates = []
         self.odim = []
         self.realDim = []
         self.orealDim = []
@@ -91,6 +93,8 @@ class Section(object):
                 
                 self.startingCoordinates.append(0)
                 self.oCoordinates.append(- self.shape.ordine)
+                self.realCoordinates.append(0)
+                self.orealCoordinates.append(- self.shape.ordine)
 
                 self.dim.append(self.shape.ordine)
                 self.odim.append(self.shape.ordine)
@@ -100,6 +104,8 @@ class Section(object):
             elif item == 1:
                 self.startingCoordinates.append(0)
                 self.oCoordinates.append(0)
+                self.realCoordinates.append(0)
+                self.orealCoordinates.append(0)
 
                 self.dim.append(self.father.size)
                 self.odim.append(self.father.size)
@@ -111,6 +117,8 @@ class Section(object):
                 
                 self.startingCoordinates.append(self.father.size - self.shape.ordine)
                 self.oCoordinates.append(self.father.size)
+                self.realCoordinates.append(self.father.finalSize - self.shape.ordine)
+                self.orealCoordinates.append(self.father.finalSize)
 
                 self.dim.append(self.shape.ordine)
                 self.odim.append(self.shape.ordine)
@@ -120,8 +128,13 @@ class Section(object):
         #caso speciale della sezione centrale
         if self.isLocal:
             for index in range( len(self.dim) ):
-                self.dim[index] = self.father.size - 2*self.shape.ordine
                 self.startingCoordinates[index] = self.shape.ordine
+                self.realCoordinates[index] = self.shape.ordine
+
+                self.dim[index] = self.father.size - 2*self.shape.ordine
+                self.realDim[index] = self.father.finalSize - 2*self.shape.ordine
+                
+                
 
         #ora mi creo l'array di punti della sezione
         self.points = np.empty(self.dim,dtype=Point)
