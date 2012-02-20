@@ -59,14 +59,13 @@ class Shape(object):
         #shape order is computed from shape points
         self.ordine = 0
         for p in self.points:
-            if p.getAbsMax > self.ordine:
+            if p.getAbsMax() > self.ordine:
                 self.ordine = p.getAbsMax()
 
-        print "ordine is" ,self.ordine
 
     #toString
     def __str__(self):
-        return " " +str(self.points)
+        return "Shape object of dimension: " +str(self.dim)+"\nordine: "+str(self.ordine)+"\npoints:\n"+str(self.points)
 
     def __len__(self):
         return len(self.points)

@@ -6,14 +6,14 @@ __date__ ="$6-feb-2012 17.28.20$"
 
 class Node(object):
 
-    # using [] as default argument can be not a good idea
+    # using [] as default argument is funny
     def __init__(self,level = -1,source = None,offsets = []):
         #print "addNODE"
         self.level = level
         self.childs = []
         self.start = self.end = -1
         self.offsets = []
-        # this should not happen unless for testing purposes
+        # source is None only for the root node of the tree
         if source is not None:
             self.start = self.end = source.coordinates[level]
 
@@ -23,13 +23,22 @@ class Node(object):
                 self.offsets = []
 
     def addChild(self,source,offsets):
-        # print "sono al livello", self.level, len(source)
+        """ add a child to the tree (self)
+
+            self     -- root node, new nodeis added to self.childs
+            source   -- Point
+            offsets  -- list of offsets
+
+        """
         if self.level < len(source) - 1:
             index = source.coordinates[self.level+1]
+            # check if a child with the same coordinates of source exists
             child = self.getChild(index)
             if child is None:
                 child = Node(self.level+1,source,offsets)
                 self.childs.append(child)
+            # method is invoked recursively on the child
+            # one lower level of coordinates
             child.addChild(source,offsets)
             
 
@@ -49,6 +58,12 @@ class Node(object):
         return None
 
     def getInterval(self):
+        """ return the interval of coordinates relative to self
+
+            self    -- a treenode
+
+            output  -- interval of self
+        """
         return self.end - self.start
 
     def expandTree(self,ordine,extension):
@@ -70,9 +85,49 @@ class Node(object):
         print "Ho ottenuto ", self
         for item in self.childs:
             item.expandTree(ordine,extension)
-        
 
+
+    def generaTab(self):
+        tab = ""
+        for i in range(self.level):
+            tab +="\t"
+        return tab
+
+    def generaNode(self,secId):
+        out = ""
+        tab = self.generaTab()
+        node = self
+
+        # the for loop associated to this level is generated
+        out += (tab+"for i"+str(node.level)+" = "+str(node.start+1)+" : " +str(node.end+1)+"\n")
         
+        if len(node.offsets) > 0:
+            #se ho degli offset allora sono al nodo foglia
+            #_1 e per avere output separato da input
+            out += (tab+"\ts"+secId+"_1(")
+
+            for j in range(node.level):
+                out+=("i"+str(j)+",")
+            out+=("i"+str(j+1)+")")
+            out += (" = funzione( " )
+            count = 0
+            for offset in node.offsets:
+                if offset.isOuter is True:
+                    out +=("o")
+                else:
+                    out +=("s")
+                out += (offset.father.generaId())
+                out += (offset.getStr())
+                count +=1
+                if count < len(node.offsets):
+                    out +=(",")
+            out +=(");\n")
+
+
+        for c in self.childs:
+            out += c.generaNode(secId)
+        out +=(tab+"end\n")
+        return out
 
     def __eq__(self,other):
         #print "confronto " +str(self)+str(other)

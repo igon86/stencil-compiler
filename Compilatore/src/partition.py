@@ -91,24 +91,47 @@ class Partition(object):
                     out.append(point)
         return out
 
-    #DEPRECATED ABBESTIA
-    def createMatlabScript(self,file1='scriptsections.m'):
-        staticOffset = []
-        for i in range(self.dim):
-            staticOffset.append(self.ordine+1)
+    def generaInit(self):
+        out = ""
+        for s in self.sezioni.flat:
+            out += s.generaInit()
+        return out
 
-        with open(file1,"w") as f:
-            for section in self.sezioni.flat:
-                id = generatore.returnSecId(section)
-                start = util.addList(staticOffset, section.startingCoordinates)
-                end = util.addList(start, section.dim)
-                print start,end
-                f.write("s"+str(id)+"=a(")
-                for i in zip(start,end):
-                    print i
-                    f.write(str(i[0])+":"+str(i[1]-1)+",")
-                f.seek(f.tell()-1)
-                f.write(");\n")
+    def generaInitC(self):
+        out = ""
+        for i in self.ordine:
+            out += ("i"+str(i))
+        for s in self.sezioni.flat:
+            out += s.generaInitC()
+        return out
+
+    def generaCalcolo(self):
+        out = ""
+        for s in self.sezioni.flat:
+            out += s.generaCalcolo()
+        return out
+
+    def generaClose(self):
+        out = ""
+        for s in self.sezioni.flat:
+            out += s.generaClose()
+        return out
+
+    def generaCodice(self):
+        out = ""
+        out += "function b = compilato(a)\n\n"
+        out += self.generaInit()
+        out += self.generaCalcolo()
+        out += self.generaClose()
+        return out
+
+    def generaCodiceC(self):
+        out = ""
+        with open("./headers/inizio") as f:
+            out += f.read()
+        out += self.generaInitC()
+        return out
+
 
 
 if __name__ == "__main__":
