@@ -70,10 +70,6 @@ class Section(object):
         # shape della computazione
         self.shape = father.shape
 
-
-
-        #da queste devo ricavare le coordinate iniziali della sezione nella partizione
-        # questo va modificato per fare il metodo di shift
         self.startingCoordinates = []
         self.dim = []
         self.oCoordinates = []
@@ -83,7 +79,7 @@ class Section(object):
         self.realDim = []
         self.orealDim = []
         self.isLocal = True
-        #NOTICE there is no big differences among these parameters
+        # FIX there is no big differences among these parameters
         # they will be difference with the shift method
         # in general I need to be more general than this
         # this piece of code sucks :(
@@ -125,7 +121,7 @@ class Section(object):
                 self.realDim.append(self.shape.ordine)
                 self.orealDim.append(self.shape.ordine)
 
-        #caso speciale della sezione centrale
+        #central section is a special case
         if self.isLocal:
             for index in range( len(self.dim) ):
                 self.startingCoordinates[index] = self.shape.ordine
@@ -136,28 +132,28 @@ class Section(object):
                 
                 
 
-        #ora mi creo l'array di punti della sezione
+        # internal points of the section are initialized
         self.points = np.empty(self.dim,dtype=Point)
-
-        #inizializzo i punti
         self.recursiveInit(self.points,0,[])
 
-    #ora mi creo l'array di punti esterni della sezione
+        # external points of the section are initialized
         if self.isLocal:
+            # FIX
             self.opoints = np.empty(1,dtype=Point)
         else:
             self.opoints = np.empty(self.odim,dtype=Point)
             self.orecursiveInit(self.opoints,0,[])
     
 
-    def buildTree(self,finalDimension):
+    def buildTree(self):
         self.root = Node()
-        #iterate over the inner points of the section
+        #iterate over the INTERNAL points of the section
         for point in self.points.flat:
             #print point
-            #iterate over the points of the shape
-            offsets = []
             #print "\nSection ", self.tag, "has point ", point, "who needs points: "
+            
+            offsets = []
+            #iterate over the points of the shape
             for shift in self.shape:
                 # I compute the point needed,
                 # coordinates has no useful info
@@ -187,7 +183,139 @@ class Section(object):
         self.root.childs = reduce(util.collapseTree, self.root.childs)
         print self.root
         if self.father.finalSize > self.father.size:
-            self.root.expandTree(self.shape.ordine,finalDimension - self.father.size)
+            self.root.expandTree(self.shape.ordine,self.father.finalSize - self.father.size)
+
+    def generaId(self):
+        out = ""
+        for i in self.tag:
+            out +=str(i)
+        return out
+
+    def generaInit(self):
+
+        partition = self.father
+        out = ""
+        
+        # indexes start from 1
+        staticOffset = []
+        for i in range(partition.dim):
+            staticOffset.append(partition.ordine+1)
+
+        id = self.generaId()
+
+        #internal section
+        start = util.addList(staticOffset, self.realCoordinates)
+        end = util.addList(start, self.realDim)
+        print start,end
+
+        out += "s"+str(id)+"=a("
+        count = 0
+        merged = zip(start,end)
+        for i in merged:
+            print i
+            count +=1
+            out += (str(i[0])+":"+str(i[1]-1))
+            if count < len(merged):
+                out +=","
+        out +=");\n"
+
+        #external section
+        ostart = util.addList(staticOffset, self.orealCoordinates)
+        oend = util.addList(ostart, self.orealDim)
+        print ostart,oend
+        
+        out += ("o"+str(id)+"=a(")
+        count = 0
+        merged = zip(ostart,oend)
+        for i in merged:
+            print i
+            count +=1
+            out +=(str(i[0])+":"+str(i[1]-1))
+            if count < len(merged):
+                out +=(",")
+        out +=");\n"
+
+        return out
+
+    def generaInitC(self):
+        partition = self.father
+        out = ""
+        # in matlab I do not have negative index
+        # indexes start from 1
+        staticOffset = []
+        for i in range(partition.dim):
+            staticOffset.append(partition.ordine+1)
+
+        id = self.generaId()
+
+        #internal section
+        start = util.addList(staticOffset, self.realCoordinates)
+        end = util.addList(start, self.realDim)
+        print start,end
+
+        out += "s"+str(id)+"=a("
+        count = 0
+        merged = zip(start,end)
+        for i in merged:
+            print i
+            count +=1
+            out += (str(i[0])+":"+str(i[1]-1))
+            if count < len(merged):
+                out +=","
+        out +=");\n"
+
+        #external section
+        ostart = util.addList(staticOffset, self.orealCoordinates)
+        oend = util.addList(ostart, self.orealDim)
+        print ostart,oend
+
+        out += ("o"+str(id)+"=a(")
+        count = 0
+        merged = zip(ostart,oend)
+        for i in merged:
+            print i
+            count +=1
+            out +=(str(i[0])+":"+str(i[1]-1))
+            if count < len(merged):
+                out +=(",")
+        out +=");\n"
+
+        return out
+
+    def generaCalcolo(self):
+        out = ""
+        for c in self.root.childs:
+            # the string of the section id is the only information
+            # not contained in the tree (the tree does not have back pointers)
+            out += c.generaNode(self.generaId())
+        return out
+
+    def generaClose(self):
+        out = ""
+
+        staticOffset = []
+        for i in range(self.father.dim):
+            staticOffset.append(1)
+
+        
+        id = self.generaId()
+        start = util.addList(staticOffset, self.realCoordinates)
+        end = util.addList(start, self.realDim)
+        print start,end
+        out += ("b(")
+        count = 0
+        merged = zip(start,end)
+        for i in merged:
+            print i
+            count +=1
+            out += (str(i[0])+":"+str(i[1]-1))
+            if count < len(merged):
+                out += (",")
+        
+        out += (") = s" +str(id)+"_1 ;\n")
+        print out
+        return out
+
 
     def __contains__(self,item):
         if item in self.points or item in self.opoints:

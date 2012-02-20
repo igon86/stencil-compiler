@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     #questi sono parametri messi come magic numbers!!!
     dim = 20
-    filename = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape"
+    filename = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape2d1"
     compilato = "compilato.m"
     #shape file is opened and read
     f = open(filename, "r")
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     # a shape object is created from the shape_file content
     shape = Shape(shape_file)
 
-    print "this is the shape object", shape
+    print "this is the shape object\n", shape
 
     #now a partition is created
     print "\n\n\n\n\n\n\n"
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     print "\n\n\n\n\n"
     #partition.sezioni.flat[0].buildTree()
     for s in partition.sezioni.flat:
-        s.buildTree(dim)
+        s.buildTree()
 
     with open(compilato,"w") as f:
         f.write("function b = compilato(a)\n\n")
@@ -52,6 +52,8 @@ if __name__ == "__main__":
     for index,item in enumerate(partition.sezioni.flat):
         g = Generatore(item)
         g.generaClose(compilato)
+
+    print partition.generaCodiceC()
 
 
     #partition.createMatlabScript()
