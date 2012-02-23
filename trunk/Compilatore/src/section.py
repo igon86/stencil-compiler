@@ -20,6 +20,14 @@ def chooseWinner(x,y):
         return y
     else:
         return x
+
+def tagToIndex(tag):
+    # from the less significant to the most significant
+    out = 0
+    for index,item in enumerate(reversed(tag)):
+        out += item * pow(3,index)
+    return out
+
     
 
 class Section(object):
@@ -60,6 +68,20 @@ class Section(object):
         else:
             return True
 
+    def getDim(self):
+        out = 1
+        for i in self.realDim:
+            out *= i
+
+        return out
+
+    def getOdim(self):
+        out = 1
+        for i in self.orealDim:
+            out *= i
+
+        return out
+
     def __init__(self,tag,father):
         #coordinate nello spazio delle sezioni
         self.tag = tag
@@ -69,6 +91,11 @@ class Section(object):
 
         # shape della computazione
         self.shape = father.shape
+
+        # flags that indicates if the section has to be sent
+        # or reveived (initially false)
+        self.needsReceive = False
+        self.needsSend    = False
 
         self.startingCoordinates = []
         self.dim = []
@@ -143,7 +170,30 @@ class Section(object):
         else:
             self.opoints = np.empty(self.odim,dtype=Point)
             self.orecursiveInit(self.opoints,0,[])
-    
+
+
+    def getOppositeTag(self):
+        oppositeTag = []
+        for item in self.tag:
+            if item is 0:
+                oppositeTag.append(2)
+            elif item is 2:
+                oppositeTag.append(0)
+            else:
+                oppositeTag.append(1)
+        return oppositeTag
+
+    def getOpposite(self):
+#        oppositeTag = []
+#        for item in self.tag:
+#            if item is 0:
+#                oppositeTag.append(2)
+#            elif item is 2:
+#                oppositeTag.append(0)
+#            else:
+#                oppositeTag.append(1)
+        return self.father[self.getOppositeTag()]
+            
 
     def buildTree(self):
         self.root = Node()
@@ -159,30 +209,30 @@ class Section(object):
                 # coordinates has no useful info
                 # gcoordinates contain the gcoord of the point needed
                 toBeFound = point + shift
-                #this is a list of SectionPoints - this should become a method of partition
+                
+                #this is a list of SectionPoints
+                #ISSUE: this should become a method of partition (forse)
                 possiblePoints = self.father.getCandidates(toBeFound)
-                #print toBeFound, "which can be found here: "
-                #for p in possiblePoints:
-                #    print p
+                
                 #now we have to choose the winner among the list of points
                 goodBoy = reduce(chooseWinner,possiblePoints)
-                #print "ha vinto", goodBoy
 
-                # compute the offset which has only coordinates meaningful
+                if goodBoy.isOuter:
+                    goodBoy.father.needsReceive = True
+                    goodBoy.father.getOpposite().needsSend = True
+
+                # compute the offset 
                 offset = point.getOffset(goodBoy)
-                # reference of the section is wrong so I FIX IT
-                #offset.father = point.father
-                #print "con offset", offset
-                #OCCHIO
+
                 offsets.append(offset)
-            #print "ADDO IL NODO"
-            #FALSO
+            
             self.root.addChild(point,offsets)
 
         print self.root
         self.root.childs = reduce(util.collapseTree, self.root.childs)
         print self.root
         if self.father.finalSize > self.father.size:
+            print "\n\nESPANSIONE ALBERO\n\n"
             self.root.expandTree(self.shape.ordine,self.father.finalSize - self.father.size)
 
     def generaId(self):
@@ -237,57 +287,84 @@ class Section(object):
 
         return out
 
+    def generaBrackets(self):
+        ''' questa funzione ritorna una stringa contenente le
+            dimensioni della sezione
+        '''
+        out = ""
+        for i in self.realDim:
+            out += ("["+str(i)+"]")
+        return out
+
     def generaInitC(self):
         partition = self.father
         out = ""
-        # in matlab I do not have negative index
-        # indexes start from 1
-        staticOffset = []
-        for i in range(partition.dim):
-            staticOffset.append(partition.ordine+1)
-
         id = self.generaId()
+        
+        # genero le s
+        for j in range(2):
+            out += ("\tint s"+id+"_"+str(j)+self.generaBrackets())
+            #for i in range(partition.dim):
+            #    out += ("["+str(self.realDim[i])+"]")
+            out+=";\n"
+            
+        #genero la o
+        out += ("\tint o"+id)
+        for i in range(partition.dim):
+            out += ("["+str(self.realDim[i])+"]")
+        out+=";\n"
 
-        #internal section
-        start = util.addList(staticOffset, self.realCoordinates)
-        end = util.addList(start, self.realDim)
-        print start,end
-
-        out += "s"+str(id)+"=a("
-        count = 0
-        merged = zip(start,end)
-        for i in merged:
-            print i
-            count +=1
-            out += (str(i[0])+":"+str(i[1]-1))
-            if count < len(merged):
-                out +=","
-        out +=");\n"
-
-        #external section
-        ostart = util.addList(staticOffset, self.orealCoordinates)
-        oend = util.addList(ostart, self.orealDim)
-        print ostart,oend
-
-        out += ("o"+str(id)+"=a(")
-        count = 0
-        merged = zip(ostart,oend)
-        for i in merged:
-            print i
-            count +=1
-            out +=(str(i[0])+":"+str(i[1]-1))
-            if count < len(merged):
-                out +=(",")
-        out +=");\n"
+        #genero quella riga strana
+        out += ("\tsezioni["+str(tagToIndex(self.tag))+"].buffer = (int*) s"+id+"_0;\n")
 
         return out
 
+    def generaSend(self,index):
+        print "GeneraSend ",index
+        out = ""
+        if self.needsSend:
+            out += ("SEND(s"+self.generaId()+"_"+str(index)+","+str(self.getDim()))
+            out += (",MPI_INT,sezioni["+str(tagToIndex(self.tag))+"].rank,")
+            out += (str(tagToIndex(self.getOppositeTag()))+",MPI_COMM_WORLD")
+            out += ");\n"
+        return out
+
+    def generaReceive(self):
+        out = ""
+        if self.needsReceive:
+            out += ("RECEIVE(o"+self.generaId()+","+str(self.getDim()))
+            out += (",MPI_INT,sezioni["+str(tagToIndex(self.tag))+"].rank,")
+            out += (str(tagToIndex(self.tag))+",MPI_COMM_WORLD,&status")
+            out += ");\n"
+        return out
+
     def generaCalcolo(self):
+        ''' This method generates the for loops in MATLAB relative to section self
+
+            self    - section which invoke code generation
+
+            output  - string containing generated code
+        '''
         out = ""
         for c in self.root.childs:
             # the string of the section id is the only information
             # not contained in the tree (the tree does not have back pointers)
             out += c.generaNode(self.generaId())
+        return out
+
+    def generaCalcoloC(self,sourceId,targetId):
+        ''' This method generates the for loops in C relative to section self
+
+            self        - section which invoke code generation
+            sourceId    - string containing the postfix
+
+            output  - string containing generated code
+        '''
+        out = ""
+        for c in self.root.childs:
+            # the string of the section id is the only information
+            # not contained in the tree (the tree does not have back pointers)
+            out += c.generaNodeC(self.generaId(),sourceId,targetId)
         return out
 
     def generaClose(self):

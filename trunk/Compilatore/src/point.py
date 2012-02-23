@@ -64,6 +64,7 @@ class Point(object):
 
 
 class Offset(Point):
+    #FIX OFFSET CONTAINS ID OF THE TARGET POINT BUT DO NOT CONTAIN ID OF THE SOURCE POINT
 
     def __init__(self, coord,father,isOuter):
         Point.__init__(self,coord)
@@ -96,6 +97,15 @@ class Offset(Point):
         out = out[0:len(out)-1] +")"
         return out
 
+    def getStrC(self):
+        out = ""
+        for index,item in enumerate(self.coordinates):
+            if item < 0:
+                out += "[i" +str(index)+str(item)+"]"
+            else:
+                out += "[i" +str(index)+"+"+str(item)+"]"
+        return out
+    
     def expand(self,extension,ordine):
         for index,item in enumerate(self.coordinates):
             #the logic of this condition is completely obscure to me now

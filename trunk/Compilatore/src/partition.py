@@ -38,10 +38,9 @@ class Partition(object):
         # finalSize should have the same value of self.size
 
         self.shape = shape
-
         self.ordine = shape.ordine
-
         self.dim = shape.dim
+
 
         #computes size
         self.size = 5*self.ordine + 1
@@ -65,10 +64,30 @@ class Partition(object):
 
 
     def __getitem__(self,index):
-        return self.sezioni.flat[index]
+        if type(index).__name__=='int':
+            return self.sezioni.flat[index]
+        elif type(index).__name__=='list':
+            if len(index) is self.dim:
+                out = self.sezioni
+
+                #array of section is walked recursively
+                for item in index:
+                    out = out[item]
+                    
+                return out
+            else:
+                raise ValueError("Length of index and number of dimension of the partition differ")
+        else:
+            raise TypeError("Index is neither int nor list of int: cannot perform __getItem__ operation")
 
     def __str__(self):
         return "sono una partizione\n" +str(self.sezioni)
+
+    def getLocalSectionTag(self):        
+        localSectionTag = []
+        for i in range(self.dim):
+            localSectionTag.append(1)
+        return localSectionTag
 
     def getCandidates(self, p):
         """ Retrieve all SectionPoints which are contained in partition
@@ -99,16 +118,68 @@ class Partition(object):
 
     def generaInitC(self):
         out = ""
-        for i in self.ordine:
-            out += ("i"+str(i))
+        for i in range(self.ordine):
+            out += ("\tint i"+str(i)+";\n")
+        out +="\n"
+        
         for s in self.sezioni.flat:
             out += s.generaInitC()
         return out
 
+    def generaSend(self,index):
+        ''' Generates outgoing MPI_Send operations
+
+            self    - partition which communication pattern is generated
+            index   - string containing the postfix to be added to the section id (depending on the step)
+
+        '''
+        out = ""
+        for s in self.sezioni.flat:
+            out += s.generaSend(index)
+        return out
+
+    def generaReceive(self):
+        ''' Generates incoming MPI_Recv operations
+
+            self    - partition which communication pattern is generated
+            index   - string containing the postfix to be added to the section id (depending on the step)
+
+        '''
+        out = ""
+        for s in self.sezioni.flat:
+            out += s.generaReceive()
+        return out
+
     def generaCalcolo(self):
+        ''' Funzione che genera l'aggiornamento della matrice in MATLAB
+            
+        '''
         out = ""
         for s in self.sezioni.flat:
             out += s.generaCalcolo()
+        return out
+
+    def generaCalcoloInterno(self,sourceId,targetId):
+        out = ""
+        localSectionTag = self.getLocalSectionTag()
+        #for i in range(self.dim):
+        #    localSectionTag.append(1)
+            
+        localSection = self[localSectionTag]
+        out+=localSection.generaCalcoloC(sourceId,targetId)
+
+        return out
+
+    def generaCalcoloEsterno(self,sourceId,targetId):
+        out = ""
+        localSectionTag = []
+        for i in range(self.dim):
+            localSectionTag.append(1)
+
+        for s in self.sezioni.flat:
+            if s.tag is not localSectionTag:
+                out+=s.generaCalcoloC(sourceId,targetId)
+
         return out
 
     def generaClose(self):
@@ -118,6 +189,11 @@ class Partition(object):
         return out
 
     def generaCodice(self):
+        ''' Metodo che genera codice matlab, non ci sono comunicazioni.
+            Testa solamnete la parte relativa alle sezioni e all'albero
+            della computazione
+
+        '''
         out = ""
         out += "function b = compilato(a)\n\n"
         out += self.generaInit()
@@ -125,12 +201,6 @@ class Partition(object):
         out += self.generaClose()
         return out
 
-    def generaCodiceC(self):
-        out = ""
-        with open("./headers/inizio") as f:
-            out += f.read()
-        out += self.generaInitC()
-        return out
 
 
 

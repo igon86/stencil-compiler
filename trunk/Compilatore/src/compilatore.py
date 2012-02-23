@@ -10,13 +10,15 @@ from partition import *
 from point import *
 from shape import *
 from generatore import *
+from stepmodel import *
 
 if __name__ == "__main__":
 
     #questi sono parametri messi come magic numbers!!!
     dim = 20
+    iterazioni = 2
     filename = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape2d1"
-    compilato = "compilato.m"
+    compilato = "./testBench/compilato.c"
     #shape file is opened and read
     f = open(filename, "r")
     shape_file = f.read()
@@ -28,32 +30,34 @@ if __name__ == "__main__":
 
     #now a partition is created
     print "\n\n\n\n\n\n\n"
-    partition = Partition(shape,dim)
+    stepModel = StepModel(shape,dim,iterazioni)
 
-    print partition
-
+    #partition = stepModel.getPartition()
+    print stepModel
     print "\n\n\n\n\n"
     #partition.sezioni.flat[0].buildTree()
-    for s in partition.sezioni.flat:
-        s.buildTree()
+    #for s in partition.sezioni.flat:
+    #    s.buildTree()
+
+    stepModel.generaAlberi()
 
     with open(compilato,"w") as f:
-        f.write("function b = compilato(a)\n\n")
+#        f.write("function b = compilato(a)\n\n")
+#
+#    # THIS IS VERY VERY UGLY
+#    for index,item in enumerate(partition.sezioni.flat):
+#        g = Generatore(item)
+#        g.generaInit(compilato)
+#
+#    for index,item in enumerate(partition.sezioni.flat):
+#        g = Generatore(item)
+#        g.generaCodice(compilato)
+#
+#    for index,item in enumerate(partition.sezioni.flat):
+#        g = Generatore(item)
+#        g.generaClose(compilato)
 
-    # THIS IS VERY VERY UGLY  
-    for index,item in enumerate(partition.sezioni.flat):
-        g = Generatore(item)
-        g.generaInit(compilato)
-
-    for index,item in enumerate(partition.sezioni.flat):
-        g = Generatore(item)
-        g.generaCodice(compilato)
-
-    for index,item in enumerate(partition.sezioni.flat):
-        g = Generatore(item)
-        g.generaClose(compilato)
-
-    print partition.generaCodiceC()
+        f.write(stepModel.generaCodiceC())
 
 
     #partition.createMatlabScript()
