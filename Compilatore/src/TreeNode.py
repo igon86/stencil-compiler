@@ -129,6 +129,56 @@ class Node(object):
         out +=(tab+"end\n")
         return out
 
+    def generaNodeC(self,secId,sourceId,targetId):
+        ''' Generate the code associated with the node self, a for loop is generated
+            if the node contains a list of offsets: the function (kernel) invocation is generated
+            otherwise generaNodeC is invoked recursively on the children of the node
+
+            secId       -- Is the string id of the the section which owns the node self
+            sourceId    -- Is the string postfix associated with the source point
+            targetId    -- Is the string postfix to be used
+
+            example of generated code:    s$(secId)_$(targetId)[][] = funzione( so2_$(sourceId) , ...  )
+
+        '''
+        out = ""
+        tab = self.generaTab()
+        node = self
+
+        # the for loop associated to this level is generated
+        out += (tab+"for (i"+str(node.level)+" = "+str(node.start)+" ; i"+str(node.level)+" <=" +str(node.end)+";i"+str(node.level)+"++){\n")
+
+        #dovrei fare la generaOffset
+        if len(node.offsets) > 0:
+            #se ho degli offset allora sono al nodo foglia
+            #_1 e per avere output separato da input
+            out += (tab+"\ts"+secId+"_"+targetId)
+
+            for j in range(node.level+1):
+                out+=("[i"+str(j)+"]")
+            
+            
+            out += (" = MACRO( " )
+            count = 0
+            for offset in node.offsets:
+                if offset.isOuter is True:
+                    out +=("o")
+                else:
+                    out +=("s")
+                out += (offset.father.generaId())
+                if offset.isOuter is not True:
+                    out += ("_"+sourceId)
+                out += (offset.getStrC())
+                count +=1
+                if count < len(node.offsets):
+                    out +=(",")
+            out +=(");\n")
+
+        for c in self.childs:
+            out += c.generaNodeC(secId,sourceId,targetId)
+        out +=(tab+"}\n")
+        return out
+
     def __eq__(self,other):
         #print "confronto " +str(self)+str(other)
         o = self.offsets == other.offsets
