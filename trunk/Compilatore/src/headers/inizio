@@ -39,7 +39,6 @@
 	int t2[p];
 	int temp1;
 	int temp2;
-	int temp[ITER];
 
         int i;
 

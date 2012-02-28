@@ -26,9 +26,7 @@ def tagToIndex(tag):
     out = 0
     for index,item in enumerate(reversed(tag)):
         out += item * pow(3,index)
-    return out
-
-    
+    return out 
 
 class Section(object):
 
@@ -82,21 +80,7 @@ class Section(object):
 
         return out
 
-    def __init__(self,tag,father):
-        #coordinate nello spazio delle sezioni
-        self.tag = tag
-
-        #partition which owns this section
-        self.father  = father
-
-        # shape della computazione
-        self.shape = father.shape
-
-        # flags that indicates if the section has to be sent
-        # or reveived (initially false)
-        self.needsReceive = False
-        self.needsSend    = False
-
+    def initSize(self):
         self.startingCoordinates = []
         self.dim = []
         self.oCoordinates = []
@@ -113,7 +97,7 @@ class Section(object):
         for item in tag:
             if item == 0:
                 self.isLocal = False
-                
+
                 self.startingCoordinates.append(0)
                 self.oCoordinates.append(- self.shape.ordine)
                 self.realCoordinates.append(0)
@@ -134,10 +118,10 @@ class Section(object):
                 self.odim.append(self.father.size)
                 self.realDim.append(self.father.finalSize)
                 self.orealDim.append(self.father.finalSize)
-                
+
             elif item == 2:
                 self.isLocal = False
-                
+
                 self.startingCoordinates.append(self.father.size - self.shape.ordine)
                 self.oCoordinates.append(self.father.size)
                 self.realCoordinates.append(self.father.finalSize - self.shape.ordine)
@@ -156,8 +140,26 @@ class Section(object):
 
                 self.dim[index] = self.father.size - 2*self.shape.ordine
                 self.realDim[index] = self.father.finalSize - 2*self.shape.ordine
+
                 
-                
+
+    def __init__(self,tag,father):
+        #coordinate nello spazio delle sezioni
+        self.tag = tag
+
+        #partition which owns this section
+        self.father  = father
+
+        # shape della computazione
+        self.shape = father.shape
+
+        # flags that indicates if the section has to be sent
+        # or reveived (initially false)
+        self.needsReceive = False
+        self.needsSend    = False
+
+        #computing the size of the section is quite complex
+        self.initSize()
 
         # internal points of the section are initialized
         self.points = np.empty(self.dim,dtype=Point)
@@ -184,14 +186,6 @@ class Section(object):
         return oppositeTag
 
     def getOpposite(self):
-#        oppositeTag = []
-#        for item in self.tag:
-#            if item is 0:
-#                oppositeTag.append(2)
-#            elif item is 2:
-#                oppositeTag.append(0)
-#            else:
-#                oppositeTag.append(1)
         return self.father[self.getOppositeTag()]
             
 
@@ -228,12 +222,20 @@ class Section(object):
             
             self.root.addChild(point,offsets)
 
-        print self.root
-        self.root.childs = reduce(util.collapseTree, self.root.childs)
-        print self.root
+        print "\nALBERO TRIVIAL\n",self.root
+        #FIX: THIS IS INCREDIBLY UGLY
+#        ridotto = reduce(util.collapseTree, self.root.childs)
+#        if hasattr(ridotto,'__iter__'):
+#            self.root.childs = ridotto
+#        else:
+#            self.root.childs = [ridotto]
+        self.root.reduceTree()
+        
+        print "\nALBERO RIDOTTO\n",self.root
         if self.father.finalSize > self.father.size:
             print "\n\nESPANSIONE ALBERO\n\n"
             self.root.expandTree(self.shape.ordine,self.father.finalSize - self.father.size)
+            print "\nALBERO ESPANSO\n",self.root
 
     def generaId(self):
         out = ""
@@ -407,6 +409,119 @@ class Section(object):
 
     def __repr__(self):
         return self.__str__()
+
+class SectionShift(Section):
+
+    def __init__(self,tag,father):
+        #coordinate nello spazio delle sezioni
+        self.tag = tag
+
+        #partition which owns this section
+        self.father  = father
+
+        # shape della computazione
+        self.shape = father.shape
+
+        # flags that indicates if the section has to be sent
+        # or reveived (initially false)
+        self.needsReceive = False
+        self.needsSend    = False
+
+        self.startingCoordinates = []
+        self.dim = []
+        self.oCoordinates = []
+        self.realCoordinates = []
+        self.orealCoordinates = []
+        self.odim = []
+        self.realDim = []
+        self.orealDim = []
+        self.isLocal = True
+
+        # by using the shift method some sections are useless
+        # if this is the case this flag is set to false
+        self.isGood = True
+
+        # FIX there is no big differences among these parameters
+        # they will be difference with the shift method
+        # in general I need to be more general than this
+        # this piece of code sucks :(
+        differentThanOne = False
+        for item in tag:
+            if item == 0:
+                if differentThanOne:
+                    self.isGood = False
+                else:
+                    self.isLocal = False
+                    differentThanOne = True
+
+                    self.startingCoordinates.append(0)
+                    self.oCoordinates.append(- self.shape.ordine)
+                    self.realCoordinates.append(0)
+                    self.orealCoordinates.append(- self.shape.ordine)
+
+                    self.dim.append(self.shape.ordine)
+                    self.odim.append(self.shape.ordine)
+                    self.realDim.append(self.shape.ordine)
+                    self.orealDim.append(self.shape.ordine)
+
+            elif item == 1:
+                #if previous coordinates were different than one I have to change the comm coordinates and outside coordinates
+                if differentThanOne:
+                    self.commCoordinates.append(-self.shape.ordine)
+                    self.oCoordinates.append()
+
+                    self.cdim.append(self.father.size + 2*self.shape.ordine)
+                else:
+                    self.startingCoordinates.append(0)
+                    self.oCoordinates.append(0)
+                    self.realCoordinates.append(0)
+                    self.orealCoordinates.append(0)
+
+                    self.dim.append(self.father.size)
+                    self.odim.append(self.father.size)
+                    self.realDim.append(self.father.finalSize)
+                    self.orealDim.append(self.father.finalSize)
+
+            elif item == 2:
+                if differentThanOne:
+                    self.isGood = False
+                else:
+                    self.isLocal = False
+                    differentThanOne = True
+
+                    self.startingCoordinates.append(self.father.size - self.shape.ordine)
+                    self.oCoordinates.append(self.father.size)
+                    self.realCoordinates.append(self.father.finalSize - self.shape.ordine)
+                    self.orealCoordinates.append(self.father.finalSize)
+
+                    self.dim.append(self.shape.ordine)
+                    self.odim.append(self.shape.ordine)
+                    self.realDim.append(self.shape.ordine)
+                    self.orealDim.append(self.shape.ordine)
+
+        #central section is a special case
+        if self.isLocal:
+            for index in range( len(self.dim) ):
+                self.startingCoordinates[index] = self.shape.ordine
+                self.realCoordinates[index] = self.shape.ordine
+
+                self.dim[index] = self.father.size - 2*self.shape.ordine
+                self.realDim[index] = self.father.finalSize - 2*self.shape.ordine
+
+
+
+        # internal points of the section are initialized
+        self.points = np.empty(self.dim,dtype=Point)
+        self.recursiveInit(self.points,0,[])
+
+        # external points of the section are initialized
+        if self.isLocal:
+            # FIX
+            self.opoints = np.empty(1,dtype=Point)
+        else:
+            self.opoints = np.empty(self.odim,dtype=Point)
+            self.orecursiveInit(self.opoints,0,[])
+
 
 if __name__ == "__main__":
     print "Hello World"

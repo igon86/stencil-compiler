@@ -15,10 +15,13 @@ from stepmodel import *
 if __name__ == "__main__":
 
     #questi sono parametri messi come magic numbers!!!
-    dim = 20
+    dim = 40
     iterazioni = 2
-    filename = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape2d1"
+    gradoDiParallelismo = 4
+    filename = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shapeJacobi"
     compilato = "./testBench/compilato.c"
+
+    
     #shape file is opened and read
     f = open(filename, "r")
     shape_file = f.read()
@@ -30,14 +33,10 @@ if __name__ == "__main__":
 
     #now a partition is created
     print "\n\n\n\n\n\n\n"
-    stepModel = StepModel(shape,dim,iterazioni)
+    stepModel = StepModel(shape,dim,iterazioni,gradoDiParallelismo)
 
-    #partition = stepModel.getPartition()
     print stepModel
     print "\n\n\n\n\n"
-    #partition.sezioni.flat[0].buildTree()
-    #for s in partition.sezioni.flat:
-    #    s.buildTree()
 
     stepModel.generaAlberi()
 

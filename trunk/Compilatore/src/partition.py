@@ -38,7 +38,11 @@ class Partition(object):
         # finalSize should have the same value of self.size
 
         self.shape = shape
+        print "sono una partizione e mi e arrivato: ",self.shape
         self.ordine = shape.ordine
+
+        # NOTA: il numero di dimensioni: cioe bidimensionale. tridimensionale etc
+        # viene ricavato dal file di shape
         self.dim = shape.dim
 
 
@@ -61,6 +65,10 @@ class Partition(object):
 
         #every section in the matrix is initialized
         self.recursiveInit(self.sezioni,0,[])
+
+
+    def __len__(self):
+        return len(self.sezioni.flat)
 
 
     def __getitem__(self,index):
@@ -118,7 +126,7 @@ class Partition(object):
 
     def generaInitC(self):
         out = ""
-        for i in range(self.ordine):
+        for i in range(self.dim):
             out += ("\tint i"+str(i)+";\n")
         out +="\n"
         
