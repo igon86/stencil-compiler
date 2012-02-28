@@ -1,1 +1,1 @@
-#define MACRO(A,B,C) A + B +C
+#define MACRO(A,B,C,D) A + B +C+D

@@ -10,19 +10,27 @@ from point import *
 class Shape(object):
 
     def iaddOffset(self,offset):
-        for index,item in enumerate(self.points):
-            for index_1,item_1 in enumerate(self.points[index]):
-                self.points[index] = self.points[index] + self.ordine
+        for index,item in enumerate(self.points):            
+            self.points[index] = self.points[index] + offset
 
     def addOffset(self,offset):
         out = copy.deepcopy(self)
         out.iaddOffset(offset)
+        out.computeOrdine()
+        return out
 
     def getNegativeShape(self):
-        return self.addOffset(-self.ordine)
+        return self.addOffset( -self.ordine )
 
     def getPositiveShape(self):
-        return self.addOffset(self.ordine)
+        return self.addOffset( self.ordine )
+
+    def computeOrdine(self):
+        #shape order is computed from shape points
+        self.ordine = 0
+        for p in self.points:
+            if p.getAbsMax() > self.ordine:
+                self.ordine = p.getAbsMax()
 
     # Inizializzatore della classe
     def __init__(self, data):
@@ -56,16 +64,12 @@ class Shape(object):
         # initialize dim attribute which corresponds to the number of coordinates in a point
         self.dim = len(self[0])
 
-        #shape order is computed from shape points
-        self.ordine = 0
-        for p in self.points:
-            if p.getAbsMax() > self.ordine:
-                self.ordine = p.getAbsMax()
+        self.computeOrdine()
 
 
     #toString
     def __str__(self):
-        return "Shape object of dimension: " +str(self.dim)+"\nordine: "+str(self.ordine)+"\npoints:\n"+str(self.points)
+        return "Shape object in " +str(self.dim)+" spatial dimensions\nordine: "+str(self.ordine)+"\npoints:\n"+str(self.points)
 
     def __len__(self):
         return len(self.points)

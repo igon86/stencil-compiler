@@ -4,6 +4,8 @@
 __author__="andrealottarini"
 __date__ ="$6-feb-2012 17.28.20$"
 
+import util
+
 class Node(object):
 
     # using [] as default argument is funny
@@ -66,15 +68,35 @@ class Node(object):
         """
         return self.end - self.start
 
+    def reduceTree(self):
+        """ this method reduce the tree by collapsing similar nodes
+        
+            self    -- root of the tree to be reduced
+
+
+        """
+        if len(self.childs) > 0:
+            for item in self.childs:
+                item.reduceTree()
+
+            ridotto = reduce(util.collapseTree2,self.childs)
+            if hasattr(ridotto,'__iter__'):
+                self.childs = ridotto
+            else:
+                self.childs = [ridotto]            
+            
+
     def expandTree(self,ordine,extension):
-        print "estendo ", self
+        #print "estendo ", self
         #firstly I fix the interval
 
         for item in self.offsets:
             item.expand(extension,ordine)
 
         extended = False
+        #print self.childs
         for item in self.childs:
+
             if extended:
                 item.start += extension
                 item.end += extension
@@ -82,7 +104,7 @@ class Node(object):
                 if item.getInterval() > ordine - 1 :
                     extended = True
                     item.end += extension
-        print "Ho ottenuto ", self
+        #print "Ho ottenuto ", self
         for item in self.childs:
             item.expandTree(ordine,extension)
 
@@ -181,8 +203,8 @@ class Node(object):
 
     def __eq__(self,other):
         #print "confronto " +str(self)+str(other)
-        o = self.offsets == other.offsets
-        c = self.childs == other.childs
+        o = (self.offsets == other.offsets)
+        c = (self.childs == other.childs)
         #print o,c
         if o and c:
             return True

@@ -58,8 +58,11 @@ def collapseTree(a,b):
     else:
         #print "a non e una lista"
         if len(a.childs) > 0:
-            #print "invoco la collapse su a"
-            a.childs = reduce(collapseTree,a.childs)
+            ridotto = reduce(collapseTree,a.childs)
+            if hasattr(ridotto,'__iter__'):
+                a.childs = ridotto
+            else:
+                a.childs = [ridotto]
         if a == b:
             #print "unisco i due nodi"
             a.end = b.end
@@ -68,7 +71,27 @@ def collapseTree(a,b):
             #print "concateno i due nodi"
             return [a,b]
 
-
+def collapseTree2(a,b):
+    if hasattr(a,'__iter__'):
+        #print "a e una lista"
+        lastElement = a[len(a)-1]
+        if lastElement == b:
+            lastElement.end = b.end
+            #print "spiaccico b sull'ultimo di a"
+            return a
+        else:
+            #print "appendo b ad a"
+            a.append(b)
+            #print a
+            return a
+    else:
+        if a == b:
+            #print "unisco i due nodi"
+            a.end = b.end
+            return [a]
+        else:
+            #print "concateno i due nodi"
+            return [a,b]
 
 
 if __name__ == "__main__":
