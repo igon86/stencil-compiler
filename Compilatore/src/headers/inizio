@@ -22,7 +22,7 @@
  	int my_rank;					/* rank of process				*/ 
  	MPI_Status status;				/* return status for MPI_Recv	*/ 
  	
- 	int local[localsize];			/* dati locali del metodo		*/ 
+ 	//int local[localsize];			/* dati locali del metodo		*/
  	
  	FILE*	in; 
  	FILE*	out; 

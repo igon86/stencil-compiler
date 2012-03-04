@@ -17,10 +17,12 @@ if __name__ == "__main__":
     #questi sono parametri messi come magic numbers!!!
     dim = 40
     iterazioni = 2
-    gradoDiParallelismo = 4
-    filename = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shapeJacobi"
+    gradoDiParallelismo = 8
+    filename = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape3d"
     compilato = "./testBench/compilato.c"
 
+    QT = False
+    Shift = True
     
     #shape file is opened and read
     f = open(filename, "r")
@@ -33,7 +35,10 @@ if __name__ == "__main__":
 
     #now a partition is created
     print "\n\n\n\n\n\n\n"
-    stepModel = StepModel(shape,dim,iterazioni,gradoDiParallelismo)
+    if QT:
+        stepModel = StepModelQT(shape,dim,iterazioni,gradoDiParallelismo)
+    else:
+        stepModel = StepModel(shape,dim,iterazioni,gradoDiParallelismo)
 
     print stepModel
     print "\n\n\n\n\n"

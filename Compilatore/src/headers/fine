@@ -1,9 +1,11 @@
+        STAMPA("condensa terminata\n")
+
 #if DEBUG
-	 printSections(localfp,sezioni);
+	 //printSections(localfp,sezioni);
 #endif
 
 	/* CONDENSA */
-	condensa(sezioni,local);
+	//condensa(sezioni,local);
 
 	/* GATHER DEI DATI */
 	if (my_rank == COLLETTORE) {

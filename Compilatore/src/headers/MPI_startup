@@ -26,10 +26,10 @@
 	init_sections(sezioni,my_rank);
 
 	/* RIEMPIMENTO DELLE SEZIONI */
-	fill_sections(sezioni,local);
+	//fill_sections(sezioni,local);
 
 #if DEBUG
-        printSections(localfp,sezioni);
+        //printSections(localfp,sezioni);
 #endif
 
 	/*CODICE GENERATO DAL COMPILATORE */

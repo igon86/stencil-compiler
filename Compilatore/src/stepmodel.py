@@ -106,6 +106,8 @@ class StepModel(object):
         with open("./headers/MPI_startup") as f:
             out += f.read()
 
+        out += partizione.generaFillSections()
+        # start generating iterations
         if self.iterazioni % len(self.partitions):
             raise ValueError("Number of iterations is not divisible by the number of iterations of the step model")
 
@@ -125,6 +127,10 @@ class StepModel(object):
             out += p.generaCalcoloEsterno(str(source),str(target)) 
             
         out += "}\n"
+
+        out +='STAMPA("calcolo terminato\\n")\n'
+
+        out += partizione.generaCondensa()
 
         with open("./headers/fine") as f:
             out += f.read()
@@ -234,6 +240,8 @@ class StepModelQT(object):
         with open("./headers/MPI_startup") as f:
             out += f.read()
 
+        
+        # start generating iterations
         if self.iterazioni % len(self.partitions):
             raise ValueError("Number of iterations is not divisible by the number of iterations of the step model")
 

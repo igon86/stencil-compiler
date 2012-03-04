@@ -23,7 +23,8 @@ class Partition(object):
                 if isLast:
                     #print "sto per modificare", str(element[index])
                     #print self
-                    element[index] = Section(copy.deepcopy(coordinate),self)
+                    
+                    element[index] = SectionShift(copy.deepcopy(coordinate),self)
                     #print "stampo cosa ho fatto: " +str(index)+" " + str(coordinate)
                     #print self
                 coordinate.pop()
@@ -129,9 +130,26 @@ class Partition(object):
         for i in range(self.dim):
             out += ("\tint i"+str(i)+";\n")
         out +="\n"
+
+        out += "\tint local"
+        for i in range(self.dim):
+            out += ("["+str(self.finalSize)+"]")
+        out +=";\n\n"
         
         for s in self.sezioni.flat:
             out += s.generaInitC()
+        return out
+
+    def generaFillSections(self):
+        out = ""
+        for s in self.sezioni.flat:
+            out += s.generaFillSection()
+        return out
+
+    def generaCondensa(self):
+        out = ""
+        for s in self.sezioni.flat:
+            out += s.generaCondensa()
         return out
 
     def generaSend(self,index):
