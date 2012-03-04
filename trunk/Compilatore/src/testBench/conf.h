@@ -16,16 +16,16 @@
 #define TEMPI "./shapetempi"
 #define RANK_TEST 0
 
-#define p 4
-#define M 1600
+#define p 8
+#define M 64000
 #define lato 40
-#define dim 2
+#define dim 3
 #define s 20
 #define ppd 2
-#define local_section 4
-#define ordine 1
-#define localsize 400
-#define dim_sezione 18
-#define num_sezioni 9
+#define local_section 13
+#define ordine 2
+#define localsize 8000
+#define dim_sezione 16
+#define num_sezioni 27
 
 #endif
