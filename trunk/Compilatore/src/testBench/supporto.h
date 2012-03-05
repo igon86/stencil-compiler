@@ -14,7 +14,7 @@
 #include "macro.h"
 
 #define SEND(a,b,c,d,e,f) \
-fprintf(localfp,"faccio una send a %d di %s con tag %d\n",d,a,e); \
+fprintf(localfp,"faccio una send a %d di dimensione %d con tag %d :\n",d,b,e); \
 fflush(localfp); \
 MPI_Send(a,b,c,d,e,f)
 
