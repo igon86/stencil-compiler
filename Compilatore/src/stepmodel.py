@@ -9,7 +9,6 @@ import section
 import copy
 import math
 
-import re
 
 class StepModel(object):
 
@@ -88,9 +87,7 @@ class StepModel(object):
             out += ("#define dim_sezione "+str(self.partitionSize - 2*self.shape.ordine)+"\n")
             out += ("#define num_sezioni "+str(len(self.partitions[0]))+"\n")
             out += ("\n#endif\n")
-            fout.write(out)
-
-        
+            fout.write(out)        
 
 
     def generaCodiceC(self):
@@ -203,7 +200,7 @@ class StepModelQT(object):
             sulla computazione da eseguire sotto forma di define
 
         '''
-        with open("./testBench/conf2.h","w") as fout:
+        with open("./testBench/conf.h","w") as fout:
             out = ""
             with open("./headers/conf.h") as fin:
 
@@ -240,7 +237,7 @@ class StepModelQT(object):
         with open("./headers/MPI_startup") as f:
             out += f.read()
 
-        
+        out += partizione.generaFillSections()
         # start generating iterations
         if self.iterazioni % len(self.partitions):
             raise ValueError("Number of iterations is not divisible by the number of iterations of the step model")
@@ -261,6 +258,9 @@ class StepModelQT(object):
             out += p.generaCalcoloEsterno(str(source),str(target))
 
         out += "}\n"
+
+        out += partizione.generaCondensa()
+
 
         with open("./headers/fine") as f:
             out += f.read()

@@ -12,57 +12,36 @@ from shape import *
 from generatore import *
 from stepmodel import *
 
+import config
+
 if __name__ == "__main__":
-
-    #questi sono parametri messi come magic numbers!!!
-    dim = 40
-    iterazioni = 2
-    gradoDiParallelismo = 8
-    filename = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape3d"
-    compilato = "./testBench/compilato.c"
-
-    QT = False
-    Shift = True
     
     #shape file is opened and read
-    f = open(filename, "r")
-    shape_file = f.read()
+    f = open(config.SHAPE_FILENAME, "r")
+    shape_file_content = f.read()
 
     # a shape object is created from the shape_file content
-    shape = Shape(shape_file)
+    shape = Shape(shape_file_content)
 
     print "this is the shape object\n", shape
 
     #now a partition is created
     print "\n\n\n\n\n\n\n"
-    if QT:
-        stepModel = StepModelQT(shape,dim,iterazioni,gradoDiParallelismo)
+    if config.QT:
+        print "STEP MODEL QT"
+        stepModel = StepModelQT(shape,config.DOMAIN_EDGE_SIZE,config.ITERATIONS,config.PARALLELISM_DEGREE)
     else:
-        stepModel = StepModel(shape,dim,iterazioni,gradoDiParallelismo)
+        print "STEP MODEL NAIVE"
+        stepModel = StepModel(shape,config.DOMAIN_EDGE_SIZE,config.ITERATIONS,config.PARALLELISM_DEGREE)
 
-    print stepModel
+    with open(config.STEP_MODEL_OUTPUT,'w') as f:
+        f.write(str(stepModel))
     print "\n\n\n\n\n"
 
     stepModel.generaAlberi()
 
-    with open(compilato,"w") as f:
-#        f.write("function b = compilato(a)\n\n")
-#
-#    # THIS IS VERY VERY UGLY
-#    for index,item in enumerate(partition.sezioni.flat):
-#        g = Generatore(item)
-#        g.generaInit(compilato)
-#
-#    for index,item in enumerate(partition.sezioni.flat):
-#        g = Generatore(item)
-#        g.generaCodice(compilato)
-#
-#    for index,item in enumerate(partition.sezioni.flat):
-#        g = Generatore(item)
-#        g.generaClose(compilato)
+    with open(config.OUTPUT_FILENAME,"w") as f:
 
         f.write(stepModel.generaCodiceC())
 
-
-    #partition.createMatlabScript()
     

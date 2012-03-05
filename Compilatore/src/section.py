@@ -176,10 +176,10 @@ class Section(object):
                 self.computationCoordinates[index] = self.shape.ordine
                 self.computationDim[index] = self.father.size - 2*self.shape.ordine
 
-                self.realSendCoordinates[index]
+                self.realSendCoordinates[index] = self.shape.ordine
                 self.realSendDim[index] = self.father.finalSize - 2*self.shape.ordine
 
-                self.realComputationCoordinates[index]
+                self.realComputationCoordinates[index]= self.shape.ordine
                 self.realComputationDim[index] = self.father.finalSize - 2*self.shape.ordine
                 
 
@@ -384,7 +384,7 @@ class Section(object):
                 offset.append(item0-item1)
             
             for index,dimension in enumerate(self.realComputationDim):
-                out += ("for (i"+str(index)+" = "+str(offset[index])+" ; i"+str(index)+" <=" +str(self.realComputationDim[index])+";i"+str(index)+"++){\n")
+                out += ("for (i"+str(index)+" = "+str(offset[index])+" ; i"+str(index)+" <" +str(self.realComputationDim[index])+";i"+str(index)+"++){\n")
                 
             out += "s"+self.generaId()+"_0"
             for index in range(len(self.realComputationDim)):
@@ -411,7 +411,7 @@ class Section(object):
                 offset.append(item0-item1)
 
             for index,dimension in enumerate(self.realComputationDim):
-                out += ("for (i"+str(index)+" = "+str(offset[index])+" ; i"+str(index)+" <=" +str(self.realComputationDim[index])+";i"+str(index)+"++){\n")
+                out += ("for (i"+str(index)+" = "+str(offset[index])+" ; i"+str(index)+" <" +str(self.realComputationDim[index])+";i"+str(index)+"++){\n")
 
             out += "local"
             for index in range(len(self.realComputationDim)):
@@ -448,6 +448,7 @@ class Section(object):
             id = self.generaId()
 
             # genero le s
+            #FIX non e detto che sono solo due
             for j in range(2):
                 out += ("\tint s"+id+"_"+str(j)+self.generaBrackets())
                 #for i in range(partition.dim):
@@ -548,11 +549,27 @@ class Section(object):
         else:
             return False
 
+    def generaDebugPrint(self,subscript):
+        out = ""
+        if self.isGood:
+            out+= "#if DEBUG\n"
+            out +='fprintf(localfp,"\\nSEZIONE '+str(self.tag)+'\\n")'+";\n"
+            for index,item in enumerate(self.realSendDim):
+                out+="for (i"+str(index)+"=0;i"+str(index)+"<"+str(item)+";i"+str(index)+"++){\n"
+            out+= 'fprintf(localfp,"%d\\t",s'+self.generaId()+"_"+subscript
+            for index in range(len(self.sendDim)):
+                out+="[i" +str(index)+"]"
+            out+=");\n"
+            for item in enumerate(self.sendDim):
+                out+="}\n"
+            out+="#endif\n"
+        return out
+
     def __str__(self):
         if self.isGood:
             return " sono la Section: " +str(self.tag) + \
-            "\n ostart" + str(self.outsideCoordinates) +" odim"+str(self.outsideDim)+"p"+str(self.opoints) + \
-            "\n start" + str(self.sendCoordinates) +" dim"+str(self.sendDim)+"p"+str(self.points)
+            "\n ostart" + str(self.realOutsideCoordinates) +" odim"+str(self.outsideDim)+"p"+str(self.opoints) + \
+            "\n sendBuffer" + str(self.realSendCoordinates) +" Computation Buffer "+str(self.realComputationCoordinates) +" dim"+str(self.sendDim)+"p"+str(self.points)
         else:
             return " sono la Section: " +str(self.tag) +" e sono CATTIVA\n"
 

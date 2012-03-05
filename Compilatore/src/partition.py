@@ -9,6 +9,7 @@ __date__ ="$5-feb-2012 14.40.07$"
 import numpy as np
 
 from section import *
+import config
 
 class Partition(object):
 
@@ -23,8 +24,12 @@ class Partition(object):
                 if isLast:
                     #print "sto per modificare", str(element[index])
                     #print self
-                    
-                    element[index] = SectionShift(copy.deepcopy(coordinate),self)
+                    if config.SHIFT:
+                        print "SHIFT SECTION"
+                        element[index] = SectionShift(copy.deepcopy(coordinate),self)
+                    else:
+                        print "NAIVE SECTION"
+                        element[index] = Section(copy.deepcopy(coordinate),self)
                     #print "stampo cosa ho fatto: " +str(index)+" " + str(coordinate)
                     #print self
                 coordinate.pop()
@@ -188,24 +193,23 @@ class Partition(object):
     def generaCalcoloInterno(self,sourceId,targetId):
         out = ""
         localSectionTag = self.getLocalSectionTag()
-        #for i in range(self.dim):
-        #    localSectionTag.append(1)
             
-        localSection = self[localSectionTag]
+        localSection = self[localSectionTag]        
+        out += localSection.generaDebugPrint(sourceId)
         out+=localSection.generaCalcoloC(sourceId,targetId)
+        out += localSection.generaDebugPrint(targetId)
 
         return out
 
     def generaCalcoloEsterno(self,sourceId,targetId):
         out = ""
-        localSectionTag = []
-        for i in range(self.dim):
-            localSectionTag.append(1)
+        localSectionTag = self.getLocalSectionTag()
 
         for s in self.sezioni.flat:
-            if s.tag is not localSectionTag:
+            if s.tag != localSectionTag:
+                out += s.generaDebugPrint(sourceId)
                 out+=s.generaCalcoloC(sourceId,targetId)
-
+                out += s.generaDebugPrint(targetId)
         return out
 
     def generaClose(self):
