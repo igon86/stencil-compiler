@@ -1,0 +1,121 @@
+Section12
+
+Section 12has point F([0, 0] [0, 5] f: [1, 2])who needs points: 
+F([0, 1] [0, 6] f: [1, 2])
+this guy has won: T([0, 0] [0, 6] f: [1, 2])
+
+F([1, 0] [1, 5] f: [1, 2])
+this guy has won: F([1, 0] [1, 5] f: [1, 2])
+
+F([-1, 0] [-1, 5] f: [1, 2])
+this guy has won: T([0, 6] [-1, 5] f: [0, 1])
+
+F([0, -1] [0, 4] f: [1, 2])
+this guy has won: F([0, 5] [0, 4] f: [0, 1])
+
+
+Section 12has point F([1, 0] [1, 5] f: [1, 2])who needs points: 
+F([1, 1] [1, 6] f: [1, 2])
+this guy has won: T([1, 0] [1, 6] f: [1, 2])
+
+F([2, 0] [2, 5] f: [1, 2])
+this guy has won: F([2, 0] [2, 5] f: [1, 2])
+
+F([0, 0] [0, 5] f: [1, 2])
+this guy has won: F([0, 0] [0, 5] f: [1, 2])
+
+F([1, -1] [1, 4] f: [1, 2])
+this guy has won: F([0, 3] [1, 4] f: [1, 1])
+
+
+Section 12has point F([2, 0] [2, 5] f: [1, 2])who needs points: 
+F([2, 1] [2, 6] f: [1, 2])
+this guy has won: T([2, 0] [2, 6] f: [1, 2])
+
+F([3, 0] [3, 5] f: [1, 2])
+this guy has won: F([3, 0] [3, 5] f: [1, 2])
+
+F([1, 0] [1, 5] f: [1, 2])
+this guy has won: F([1, 0] [1, 5] f: [1, 2])
+
+F([2, -1] [2, 4] f: [1, 2])
+this guy has won: F([1, 3] [2, 4] f: [1, 1])
+
+
+Section 12has point F([3, 0] [3, 5] f: [1, 2])who needs points: 
+F([3, 1] [3, 6] f: [1, 2])
+this guy has won: T([3, 0] [3, 6] f: [1, 2])
+
+F([4, 0] [4, 5] f: [1, 2])
+this guy has won: F([4, 0] [4, 5] f: [1, 2])
+
+F([2, 0] [2, 5] f: [1, 2])
+this guy has won: F([2, 0] [2, 5] f: [1, 2])
+
+F([3, -1] [3, 4] f: [1, 2])
+this guy has won: F([2, 3] [3, 4] f: [1, 1])
+
+
+Section 12has point F([4, 0] [4, 5] f: [1, 2])who needs points: 
+F([4, 1] [4, 6] f: [1, 2])
+this guy has won: T([4, 0] [4, 6] f: [1, 2])
+
+F([5, 0] [5, 5] f: [1, 2])
+this guy has won: F([5, 0] [5, 5] f: [1, 2])
+
+F([3, 0] [3, 5] f: [1, 2])
+this guy has won: F([3, 0] [3, 5] f: [1, 2])
+
+F([4, -1] [4, 4] f: [1, 2])
+this guy has won: F([3, 3] [4, 4] f: [1, 1])
+
+
+Section 12has point F([5, 0] [5, 5] f: [1, 2])who needs points: 
+F([5, 1] [5, 6] f: [1, 2])
+this guy has won: T([5, 0] [5, 6] f: [1, 2])
+
+F([6, 0] [6, 5] f: [1, 2])
+this guy has won: T([0, 6] [6, 5] f: [2, 1])
+
+F([4, 0] [4, 5] f: [1, 2])
+this guy has won: F([4, 0] [4, 5] f: [1, 2])
+
+F([5, -1] [5, 4] f: [1, 2])
+this guy has won: F([0, 5] [5, 4] f: [2, 1])
+
+
+ALBERO TRIVIAL
+
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [1, 0]F f[1, 2],  [0, 6]T f[0, 1],  [0, 5]F f[0, 1]] figli[]], 
+	nodo di livello 0 inizio: 1 fine: 1 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [1, 0]F f[1, 2],  [-1, 0]F f[1, 2],  [-1, 3]F f[1, 1]] figli[]], 
+	nodo di livello 0 inizio: 2 fine: 2 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [1, 0]F f[1, 2],  [-1, 0]F f[1, 2],  [-1, 3]F f[1, 1]] figli[]], 
+	nodo di livello 0 inizio: 3 fine: 3 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [1, 0]F f[1, 2],  [-1, 0]F f[1, 2],  [-1, 3]F f[1, 1]] figli[]], 
+	nodo di livello 0 inizio: 4 fine: 4 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [1, 0]F f[1, 2],  [-1, 0]F f[1, 2],  [-1, 3]F f[1, 1]] figli[]], 
+	nodo di livello 0 inizio: 5 fine: 5 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [-5, 6]T f[2, 1],  [-1, 0]F f[1, 2],  [-5, 5]F f[2, 1]] figli[]]]
+ALBERO RIDOTTO
+
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [1, 0]F f[1, 2],  [0, 6]T f[0, 1],  [0, 5]F f[0, 1]] figli[]], 
+	nodo di livello 0 inizio: 1 fine: 4 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [1, 0]F f[1, 2],  [-1, 0]F f[1, 2],  [-1, 3]F f[1, 1]] figli[]], 
+	nodo di livello 0 inizio: 5 fine: 5 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [-5, 6]T f[2, 1],  [-1, 0]F f[1, 2],  [-5, 5]F f[2, 1]] figli[]]]
+ESPANSIONE ALBERO
+
+ALBERO ESPANSO
+
+nodo di livello -1 inizio: -1 fine: -1 offset [] figli[
+	nodo di livello 0 inizio: 0 fine: 0 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [1, 0]F f[1, 2],  [0, 8]T f[0, 1],  [0, 7]F f[0, 1]] figli[]], 
+	nodo di livello 0 inizio: 1 fine: 6 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [1, 0]F f[1, 2],  [-1, 0]F f[1, 2],  [-1, 5]F f[1, 1]] figli[]], 
+	nodo di livello 0 inizio: 7 fine: 7 offset [] figli[
+		nodo di livello 1 inizio: 0 fine: 0 offset [ [0, 0]T f[1, 2],  [-7, 8]T f[2, 1],  [-1, 0]F f[1, 2],  [-7, 7]F f[2, 1]] figli[]]]

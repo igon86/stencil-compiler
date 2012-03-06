@@ -11,6 +11,7 @@ from point import *
 from shape import *
 from generatore import *
 from stepmodel import *
+from stepmodelqt import *
 
 import config
 

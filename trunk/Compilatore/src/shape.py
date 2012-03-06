@@ -43,21 +43,15 @@ class Shape(object):
             for index,item in enumerate(shape_coordinates):
                 shape_coordinates[index] = item.split(',')
 
-            #print shape_coordinates
-
             #split and converts coordinates of every point
             for index,item in enumerate(shape_coordinates):
                 for index_1,item_1 in enumerate(shape_coordinates[index]):
                     item_1 = int(item_1)
                     shape_coordinates[index][index_1] = item_1
 
-            #print shape_coordinates
-
             # creates points
             for index,item in enumerate(shape_coordinates):
                 shape_coordinates[index] = Point(item)
-
-            #print shape_coordinates
 
             self.points = shape_coordinates
 
@@ -90,7 +84,7 @@ if __name__ == "__main__":
     c = a + b
     print "a", a
     print "b", b
-    print "c", c
+    print "c=a+b", c
     d = a + 1
     print "a", a
-    print "d", d
+    print "d = a+1", d
