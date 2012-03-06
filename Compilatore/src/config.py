@@ -4,10 +4,10 @@
 __author__="andrealottarini"
 __date__ ="$4-mar-2012 18.28.37$"
 
-SHIFT               = False
-QT                  = True
+SHIFT               = True
+QT                  = False
 SHAPE_FILENAME      = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shapeJacobi"
-DOMAIN_EDGE_SIZE    = 12
+DOMAIN_EDGE_SIZE    = 8
 ITERATIONS          = 2
 PARALLELISM_DEGREE  = 1
 OUTPUT_FILENAME     = "./testBench/compilato.c"

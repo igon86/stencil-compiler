@@ -1,16 +1,17 @@
 
 
 __author__="andrealottarini"
-__date__ ="$21-feb-2012 14.37.48$"
+__date__ ="$6-mar-2012 16.20.45$"
 
 from partition import *
 from shape import *
 import section
 import copy
 import math
+from stepmodel import *
 
 
-class StepModel(object):
+class StepModelQT(StepModel):
 
     def __init__(self,shape,finalDimension,iterazioni,parallelismDegree):
         ''' This particular init implements
@@ -36,19 +37,17 @@ class StepModel(object):
 
         if math.floor(finalDimension / self.ppd) != (finalDimension / self.ppd):
             raise ValueError("The edge of the domain has size: "+str(finalDimension)+" which is not divisible by "+str(self.ppd))
-        
+
         self.partitionSize = int(finalDimension / self.ppd)
         print "PartitionSize",self.partitionSize
         self.M = finalDimension**self.shape.dim
 
         self.dimPartizione = self.partitionSize**self.shape.dim
-        
-        p = Partition(shape,self.partitionSize)
 
         # there is only one partition in the naive method
         self.partitions = []
-        self.partitions.append( p )
-        self.partitions.append( None )
+        self.partitions.append( Partition(shape.getNegativeShape(),self.partitionSize) )
+        self.partitions.append( Partition(shape.getPositiveShape(),self.partitionSize) )
         self.iterazioni = iterazioni
         self.parallelism = parallelismDegree
 
@@ -57,10 +56,9 @@ class StepModel(object):
         # I pick the first partition
         for s in self.partitions[0].sezioni.flat:
             s.buildTree()
-        # the partition is copied
-        # FIX THIS, IT"S UGLY
-        self.partitions[1] = copy.copy(self.partitions[0])
-
+        for s in self.partitions[1].sezioni.flat:
+            s.buildTree()
+        
 
     def generaConf(self):
         ''' Questo metodo genera il file conf.h
@@ -82,65 +80,13 @@ class StepModel(object):
             out += ("#define ppd "+str(self.ppd)+"\n")
             # ottenere l'indice della local section e una cosa tremenda
             out += ("#define local_section "+str(section.tagToIndex(self.partitions[0].getLocalSectionTag()))+"\n")
-            out += ("#define ordine "+str(self.shape.ordine)+"\n")
+            out += ("#define ordine "+str(self.partitions[0].shape.ordine)+"\n")
             out += ("#define localsize "+str(self.dimPartizione)+"\n")
-            out += ("#define dim_sezione "+str(self.partitionSize - 2*self.shape.ordine)+"\n")
+            out += ("#define dim_sezione "+str(self.partitionSize - 2*self.partitions[0].shape.ordine)+"\n")
             out += ("#define num_sezioni "+str(len(self.partitions[0]))+"\n")
             out += ("\n#endif\n")
-            fout.write(out)        
-
-
-    def generaCodiceC(self):
-        self.generaConf()
-        
-        partizione = self.partitions[0]
-        out = ""
-        with open("./headers/inizio") as f:
-            out += f.read()
-
-        out += partizione.generaInitC()
-        
-        with open("./headers/MPI_startup") as f:
-            out += f.read()
-
-        out += partizione.generaFillSections()
-        # start generating iterations
-        if self.iterazioni % len(self.partitions):
-            raise ValueError("Number of iterations is not divisible by the number of iterations of the step model")
-
-        iter = self.iterazioni / len(self.partitions)
-
-        out += ("for ( i = 0 ; i < "+str(iter)+";i++){\n" )
-
-        for index,p in enumerate(self.partitions):
-            print "GENRATING PARTITION",index
-
-            source = index
-            target = (index+1) % len(self.partitions)
-
-            out += p.generaSend(str(source)) 
-            out += p.generaCalcoloInterno(str(source),str(target)) 
-            out += p.generaReceive() 
-            out += p.generaCalcoloEsterno(str(source),str(target)) 
-            
-        out += "}\n"
-
-        out +='STAMPA("calcolo terminato\\n")\n'
-
-        out += partizione.generaCondensa()
-
-        with open("./headers/fine") as f:
-            out += f.read()
-
-        return out
-
-
-    def getPartition(self):
-        return self.partitions[0]
-
-    def __str__(self):
-          return str(self.partitions[0])
+            fout.write(out)
 
 
 if __name__ == "__main__":
-    print "Not yet supported"
+    print "Hello World"

@@ -17,15 +17,15 @@
 #define RANK_TEST 0
 
 #define p 1
-#define M 144
-#define lato 12
+#define M 64
+#define lato 8
 #define dim 2
-#define s 12
+#define s 8
 #define ppd 1
 #define local_section 4
-#define ordine 2
-#define localsize 144
-#define dim_sezione 8
+#define ordine 1
+#define localsize 64
+#define dim_sezione 6
 #define num_sezioni 9
 
 #endif

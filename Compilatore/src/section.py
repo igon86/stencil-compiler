@@ -8,11 +8,12 @@ import util
 from point import *
 from TreeNode import *
 
-import gc
-
-#def tagToCoordinates()
 
 def chooseWinner(x,y):
+    ''' This function is a reduce function which just return the coolest point
+        coolness is a point property and depends on the section that the point lives in
+        
+    '''
     if (x.coolness() == y.coolness()):
         #this should  be changed
         return x
@@ -22,15 +23,17 @@ def chooseWinner(x,y):
         return x
 
 def tagToIndex(tag):
-    # from the less significant to the most significant
+    ''' map a n-dimensional tag of a section into an index in a one dimensional domain
+
+    '''
     out = 0
     for index,item in enumerate(reversed(tag)):
         out += item * pow(3,index)
-    return out 
+    return out
 
 class Section(object):
 
-        #tricky magari ripensaci con un iteratore
+    #tricky magari ripensaci con un iteratore
     def orecursiveInit(self,element,level,coordinate):
         #print "ELEMENT:\n"+ str(element) + "\nLEVEL:\n" +str(level) + "\nCOORDINATE\n" +str(coordinate)
         if element is not None:
@@ -217,14 +220,12 @@ class Section(object):
         self.realComputationCoordinates = []
         self.realComputationDim = []
 
+        # this will be checked in the initSize method
         self.isLocal = True
         #FIX some section are entirely contained in other section
-        #they are not good
+        #they are NOT good
         self.isGood = True
-        # FIX there is no big differences among these parameters
-        # they will be difference with the shift method
-        # in general I need to be more general than this
-        # this piece of code sucks :(
+
         self.initSize()
 
         # internal points of the section are initialized
@@ -255,72 +256,74 @@ class Section(object):
         return self.father[self.getOppositeTag()]
 
     def isNotShiftPoint(self,point):
-        print point
+        
         for item0,item1 in zip(point.gcoordinates,self.computationCoordinates):
-            print item0,item1
+            
             if item0 < item1 :
-                print "RITORNO FALSE"
+                
                 return False
 
         for item0,item1 in zip(point.gcoordinates,util.addList(self.computationCoordinates,self.computationDim)):
-            print item0,item1
+            
             if item0 > item1 :
-                print "RITORNO FALSE"
+                
                 return False
          
         return True
 
     def buildTree(self):
-        #a section which is not good would fail
-        #alternatively I could modify the __iter__ of partition to ignore bad sections
-        if self.isGood:
-            self.root = Node()
-            #iterate over the INTERNAL points of the section
-            for point in filter( self.isNotShiftPoint,self.points.flat):
-                #print point
-                #print "\nSection ", self.tag, "has point ", point, "who needs points: "
+        debugFilename = "section"+self.generaId()
+        with open(debugFilename,"w") as f:
+            f.write("Section"+self.generaId()+"\n")
+            #a section which is not good would fail
+            #alternatively I could modify the __iter__ of partition to ignore bad sections
+            if self.isGood:
+                self.root = Node()
+                #iterate over the INTERNAL points of the section
+                
+                for point in filter( self.isNotShiftPoint,self.points.flat):
+                    
+                    f.write("\nSection "+self.generaId()+ "has point "+str(point) +"who needs points: \n")
 
-                offsets = []
-                #iterate over the points of the shape
-                for shift in self.shape:
-                    # I compute the point needed,
-                    # coordinates has no useful info
-                    # gcoordinates contain the gcoord of the point needed
-                    toBeFound = point + shift
-                    print toBeFound
+                    offsets = []
+                    #iterate over the points of the shape
+                    for shift in self.shape:
+                        # I compute the point needed,
+                        # coordinates has no useful info
+                        # gcoordinates contain the gcoord of the point needed
+                        toBeFound = point + shift
+                        f.write(str(toBeFound)+"\n")
 
-                    #this is a list of SectionPoints
-                    #ISSUE: this should become a method of partition (forse)
-                    possiblePoints = self.father.getCandidates(toBeFound)
+                        #this is a list of SectionPoints
+                        #ISSUE: this should become a method of partition (forse)
+                        possiblePoints = self.father.getCandidates(toBeFound)
 
-                    #now we have to choose the winner among the list of points
-                    goodBoy = reduce(chooseWinner,possiblePoints)
+                        #now we have to choose the winner among the list of points
+                        goodBoy = reduce(chooseWinner,possiblePoints)
+                        f.write("this guy has won: "+str(goodBoy)+"\n\n")
 
-                    if goodBoy.isOuter:
-                        goodBoy.father.needsReceive = True
-                        goodBoy.father.getOpposite().needsSend = True
+                        if goodBoy.isOuter:
+                            goodBoy.father.needsReceive = True
+                            goodBoy.father.getOpposite().needsSend = True
 
-                    # compute the offset
-                    offset = point.getOffset(goodBoy)
+                        # compute the offset
+                        offset = point.getOffset(goodBoy)
 
-                    offsets.append(offset)
+                        offsets.append(offset)
+                    
+                    self.root.addChild(point,offsets)
 
-                self.root.addChild(point,offsets)
-
-            print "\nALBERO TRIVIAL\n",self.root
-            #FIX: THIS IS INCREDIBLY UGLY
-    #        ridotto = reduce(util.collapseTree, self.root.childs)
-    #        if hasattr(ridotto,'__iter__'):
-    #            self.root.childs = ridotto
-    #        else:
-    #            self.root.childs = [ridotto]
-            self.root.reduceTree()
-
-            print "\nALBERO RIDOTTO\n",self.root
-            if self.father.finalSize > self.father.size:
-                print "\n\nESPANSIONE ALBERO\n\n"
-                self.root.expandTree(self.shape.ordine,self.father.finalSize - self.father.size)
-                print "\nALBERO ESPANSO\n",self.root
+                
+                f.write("\nALBERO TRIVIAL\n"+str(self.root))
+        
+                self.root.reduceTree()
+                
+                f.write("\nALBERO RIDOTTO\n"+str(self.root))
+                if self.father.finalSize > self.father.size:
+                    f.write("\nESPANSIONE ALBERO\n")
+                    self.root.expandTree(self.shape.ordine,self.father.finalSize - self.father.size)
+                    f.write("\nALBERO ESPANSO\n"+str(self.root))
+                
 
     def generaId(self):
         out = ""
@@ -527,12 +530,12 @@ class Section(object):
             id = self.generaId()
             start = util.addList(staticOffset, self.realCoordinates)
             end = util.addList(start, self.realDim)
-            print start,end
+            #print start,end
             out += ("b(")
             count = 0
             merged = zip(start,end)
             for i in merged:
-                print i
+                #print i
                 count +=1
                 out += (str(i[0])+":"+str(i[1]-1))
                 if count < len(merged):
