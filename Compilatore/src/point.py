@@ -123,6 +123,16 @@ class Offset(Point):
 class SectionPoint(Point):
     
     def __init__(self,coord,gcoord,father,isOuter):
+        ''' Constructor of the SectionPoint
+
+            coord   - coordinates inside the section
+            gcoord  - coordinates inside the partition
+            father  - section which owns this point
+            isOuter - flag which indicates if the point is in the send or receive buffer
+            
+
+        '''
+
         Point.__init__(self,coord)
         self.gcoordinates = gcoord
         self.father = father

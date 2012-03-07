@@ -57,6 +57,7 @@ class StepModel(object):
         # I pick the first partition
         for s in self.partitions[0].sezioni.flat:
             s.buildTree()
+            s.buildCommTree()
         # the partition is copied
         # FIX THIS, IT"S UGLY
         self.partitions[1] = copy.copy(self.partitions[0])
@@ -113,15 +114,31 @@ class StepModel(object):
         out += ("for ( i = 0 ; i < "+str(iter)+";i++){\n" )
 
         for index,p in enumerate(self.partitions):
-            print "GENRATING PARTITION",index
+            print "GENRATING PARTITION",index,"CONTAINING",p.numberOfSteps,"STEPS"
 
             source = index
             target = (index+1) % len(self.partitions)
 
-            out += p.generaSend(str(source)) 
-            out += p.generaCalcoloInterno(str(source),str(target)) 
-            out += p.generaReceive() 
-            out += p.generaCalcoloEsterno(str(source),str(target)) 
+            #this indicates which part of the local section has been generated
+            p.generated = 0
+            
+            # the legnth of the edgeof the local section is computed
+            # FIX this should become an attriute of stepmodel
+            p.localSectionEdge =  p.finalSize - 2*self.shape.ordine
+
+            for step in range(p.numberOfSteps):
+                # I firstly compute which interval of the local section should be updated in this partition step
+                intervalLength = int(math.ceil((p.localSectionEdge-p.generated)/(p.numberOfSteps-step)))
+                print "this interval has length",intervalLength
+                start = p.generated
+                end = int(start + intervalLength - 1)
+                print "this interval goes from ",start," to ",end
+                out += p.generaSend(str(source),step)
+                out += p.generaCalcoloInterno(str(source),str(target),start,end)
+                out += p.generaReceive(step)
+                p.generated +=intervalLength
+
+            out += p.generaCalcoloEsterno(str(source),str(target))
             
         out += "}\n"
 
