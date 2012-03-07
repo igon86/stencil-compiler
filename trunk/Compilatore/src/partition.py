@@ -11,6 +11,8 @@ import numpy as np
 from section import *
 import config
 
+from communicationList import *
+
 class Partition(object):
 
     #tricky magari ripensaci con un iteratore
@@ -25,10 +27,10 @@ class Partition(object):
                     #print "sto per modificare", str(element[index])
                     #print self
                     if config.SHIFT:
-                        print "SHIFT SECTION"
+                        print "SHIFT SECTION "+str(coordinate)
                         element[index] = SectionShift(copy.deepcopy(coordinate),self)
                     else:
-                        print "NAIVE SECTION"
+                        print "NAIVE SECTION"+str(coordinate)
                         element[index] = Section(copy.deepcopy(coordinate),self)
                     #print "stampo cosa ho fatto: " +str(index)+" " + str(coordinate)
                     #print self
@@ -46,6 +48,7 @@ class Partition(object):
         self.shape = shape
         print "sono una partizione e mi e arrivato: ",self.shape
         self.ordine = shape.ordine
+        print "Un lato e lungo",finalSize
 
         # NOTA: il numero di dimensioni: cioe bidimensionale. tridimensionale etc
         # viene ricavato dal file di shape
@@ -72,6 +75,19 @@ class Partition(object):
         #every section in the matrix is initialized
         self.recursiveInit(self.sezioni,0,[])
 
+        print "COSTRUISCO LA LISTA DELLA COMUNICAZIONE"
+        self.communicationList = CommList()
+        print self        
+        goodSections = len(filter(lambda x:x.isGood,self.sezioni.flat))
+        while len(self.communicationList) < goodSections:
+            for s in self.sezioni.flat:
+                if s.isGood:
+                    self.communicationList.addSection(s)
+        print str(self.communicationList)
+        # I acquire the number of steps that this partition requires
+        self.numberOfSteps = len(self.communicationList.commList)
+                             
+
 
     def __len__(self):
         return len(self.sezioni.flat)
@@ -95,7 +111,8 @@ class Partition(object):
             raise TypeError("Index is neither int nor list of int: cannot perform __getItem__ operation")
 
     def __str__(self):
-        return "sono una partizione\n" +str(self.sezioni)
+        return "sono una partizione\n" +str(self.sezioni) +\
+        "questa e la lista delle comunicazioni"+str(self.communicationList)
 
     def getLocalSectionTag(self):        
         localSectionTag = []
@@ -157,19 +174,19 @@ class Partition(object):
             out += s.generaCondensa()
         return out
 
-    def generaSend(self,index):
+    def generaSend(self,subscript,index):
         ''' Generates outgoing MPI_Send operations
 
             self    - partition which communication pattern is generated
-            index   - string containing the postfix to be added to the section id (depending on the step)
+            index   - string containing the subscript to be added to the section id (depending on the step)
 
         '''
         out = ""
-        for s in self.sezioni.flat:
-            out += s.generaSend(index)
+        for section in self.communicationList[index]:
+            out += section.generaSend(subscript)
         return out
 
-    def generaReceive(self):
+    def generaReceive(self,index):
         ''' Generates incoming MPI_Recv operations
 
             self    - partition which communication pattern is generated
@@ -177,8 +194,8 @@ class Partition(object):
 
         '''
         out = ""
-        for s in self.sezioni.flat:
-            out += s.generaReceive()
+        for section in self.communicationList[index]:
+            out += section.generaReceive()
         return out
 
     def generaCalcolo(self):
@@ -190,13 +207,13 @@ class Partition(object):
             out += s.generaCalcolo()
         return out
 
-    def generaCalcoloInterno(self,sourceId,targetId):
+    def generaCalcoloInterno(self,sourceId,targetId,start=None,end=None):
         out = ""
         localSectionTag = self.getLocalSectionTag()
             
         localSection = self[localSectionTag]        
         out += localSection.generaDebugPrint(sourceId)
-        out+=localSection.generaCalcoloC(sourceId,targetId)
+        out+=localSection.generaCalcoloC(sourceId,targetId,start,end)
         out += localSection.generaDebugPrint(targetId)
 
         return out

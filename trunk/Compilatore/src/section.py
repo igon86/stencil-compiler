@@ -60,10 +60,26 @@ class Section(object):
                 coordinate.append(index)
                 isLast = self.recursiveInit(item,level+1,coordinate)
                 if isLast:
-                    #print "sto per modificare", str(element[index])
-                    element[index] = SectionPoint(copy.deepcopy(coordinate),util.addList(coordinate , self.sendCoordinates),self,False)
-                    #print "stampo cosa ho fatto: " +str(index)+" " + str(coordinate)
-                    #print self
+                    # coordinates of this point in the partition
+                    globalCoordinates = util.addList(coordinate , self.sendCoordinates)
+
+                    #initialize and assign the point
+                    p = SectionPoint(copy.deepcopy(coordinate),globalCoordinates,self,False)
+                    element[index] = p
+
+                    #CHECK if it is a shift point
+                    lowerBound = self.computationCoordinates
+                    print lowerBound
+                    upperBound = util.addList(self.computationCoordinates,self.computationDim)
+                    print upperBound
+                    isLower = reduce(lambda x,y:x or y,map(lambda x,y: x<y,globalCoordinates,lowerBound))
+                    isUpper = reduce(lambda x,y:x or y,map(lambda x,y: x>=y,globalCoordinates,upperBound))
+                    if isLower or isUpper :
+                        print str(p)+"is a shift point"
+                        self.shiftPoints.append(p)
+                    else:
+                        print str(p)+"is not a shift point"
+                        
                 coordinate.pop()
             return False
         else:
@@ -228,8 +244,9 @@ class Section(object):
 
         self.initSize()
 
-        # internal points of the section are initialized
-        self.points = np.empty(self.computationDim,dtype=Point)
+        # internal points of the section are initialized (they may contain shift points)
+        self.points = np.empty(self.sendDim,dtype=Point)
+        self.shiftPoints = []
         self.recursiveInit(self.points,0,[])
 
         # external points of the section are initialized
@@ -239,6 +256,8 @@ class Section(object):
         else:
             self.opoints = np.empty(self.outsideDim,dtype=Point)
             self.orecursiveInit(self.opoints,0,[])
+
+        
 
 
     def getOppositeTag(self):
@@ -260,19 +279,22 @@ class Section(object):
         for item0,item1 in zip(point.gcoordinates,self.computationCoordinates):
             
             if item0 < item1 :
+                if point in self.shiftPoints:
+                    return False
+                else:
+                    raise ShiftError('Problema: punti di shift non sono corretti')
                 
-                return False
-
         for item0,item1 in zip(point.gcoordinates,util.addList(self.computationCoordinates,self.computationDim)):
             
-            if item0 > item1 :
-                
-                return False
-         
+            if item0 >= item1 :
+                if point in self.shiftPoints:
+                    return False
+                else:
+                    raise ShiftError('Problema: punti di shift non sono corretti')
         return True
 
     def buildTree(self):
-        debugFilename = "section"+self.generaId()
+        debugFilename = "sectionCalc"+self.generaId()
         with open(debugFilename,"w") as f:
             f.write("Section"+self.generaId()+"\n")
             #a section which is not good would fail
@@ -323,8 +345,42 @@ class Section(object):
                     f.write("\nESPANSIONE ALBERO\n")
                     self.root.expandTree(self.shape.ordine,self.father.finalSize - self.father.size)
                     f.write("\nALBERO ESPANSO\n"+str(self.root))
-                
 
+    def buildCommTree(self):
+        ''' This method should be invoked on shift sections in order to computer the dependencies
+            in a similar manner to what done with the comp tree.
+            MUST be invoked after the buildtree?
+
+        '''
+        debugFilename = "sectionComm"+self.generaId()
+        self.commTree = Node()
+        with open(debugFilename,"w") as f:
+            for p in self.shiftPoints:
+                externalPoint = filter(lambda x:x != p ,self.father.getCandidates(p))
+                assert len(externalPoint) == 1 , "Multiple sections for a shift point"+str(p)+"can be found in"+reduce(''.join,(map(str(),externalPoint)))
+                externalPoint = externalPoint[0]
+
+    #            out += "s"+self.generaId()+"_"+str(index)
+    #            for i in p.coordinates:
+    #                out+="["+str(i)+"]"
+    #            out += "=o"+externalPoint.father.generaId()
+    #            for i in externalPoint.coordinates:
+    #                out+="["+str(i)+"]"
+    #            out+=";\n"
+
+                offset = p.getOffset(externalPoint)
+                assert offset.isOuter ,"Un punto usato nella memcpy non e esterno"
+                self.commTree.addChild(p,[offset])
+            f.write("\nALBERO TRIVIAL\n"+str(self.commTree))
+
+            self.commTree.reduceTree()
+
+            f.write("\nALBERO RIDOTTO\n"+str(self.commTree))
+            if self.father.finalSize > self.father.size:
+                    f.write("\nESPANSIONE ALBERO\n")
+                    self.commTree.expandCommTree(self.shape.ordine,self.father.finalSize - self.father.size,self.father.size)
+                    f.write("\nALBERO ESPANSO\n"+str(self.commTree))
+            
     def generaId(self):
         out = ""
         for i in self.tag:
@@ -472,7 +528,7 @@ class Section(object):
     def generaSend(self,index):
         print "GeneraSend ",index
         out = ""
-        if self.needsSend:
+        if self.needsSend:            
             #FIX ASSERT che sia una sezione buona
             out += ("SEND(s"+self.generaId()+"_"+str(index)+","+str(self.getDim()))
             out += (",MPI_INT,sezioni["+str(tagToIndex(self.tag))+"].rank,")
@@ -503,7 +559,7 @@ class Section(object):
             out += c.generaNode(self.generaId())
         return out
 
-    def generaCalcoloC(self,sourceId,targetId):
+    def generaCalcoloC(self,sourceId,targetId,start=None,end=None):
         ''' This method generates the for loops in C relative to section self
 
             self        - section which invoke code generation
@@ -516,7 +572,7 @@ class Section(object):
             for c in self.root.childs:
                 # the string of the section id is the only information
                 # not contained in the tree (the tree does not have back pointers)
-                out += c.generaNodeC(self.generaId(),sourceId,targetId)
+                out += c.generaNodeC(self.generaId(),sourceId,targetId,start,end)
         return out
 
     def generaClose(self):
@@ -572,7 +628,8 @@ class Section(object):
         if self.isGood:
             return " sono la Section: " +str(self.tag) + \
             "\n ostart" + str(self.realOutsideCoordinates) +" odim"+str(self.outsideDim)+"p"+str(self.opoints) + \
-            "\n sendBuffer" + str(self.realSendCoordinates) +" Computation Buffer "+str(self.realComputationCoordinates) +" dim"+str(self.sendDim)+"p"+str(self.points)
+            "\n sendBuffer" + str(self.realSendCoordinates) +"dim"+str(self.sendDim) +"Computation Buffer "+str(self.realComputationCoordinates) +" dim"+str(self.computationDim)+"p"+str(self.points) +\
+            "\n SHIFT POINTS: "+str(self.shiftPoints)+"\n"
         else:
             return " sono la Section: " +str(self.tag) +" e sono CATTIVA\n"
 
@@ -637,6 +694,7 @@ class SectionShift(Section):
                     self.realComputationCoordinates.append(0)
                     self.realComputationDim.append(self.father.finalSize)
                 else:
+                    print "blup"
                     # a coordinate different than one has been found BUT the section is ok if all the OTHER coordinates are 1
                     # MOREOVER we nees to expand because of the shift method
                     self.sendCoordinates.append(-self.shape.ordine)
