@@ -352,7 +352,7 @@ class Section(object):
             MUST be invoked after the buildtree?
 
         '''
-        debugFilename = "sectionComm"+self.generaId()
+        debugFilename = "sectionComm"+self.generaId()+"_"+str(self.father.id)
         self.commTree = Node()
         with open(debugFilename,"w") as f:
             for p in self.shiftPoints:
@@ -528,7 +528,9 @@ class Section(object):
     def generaSend(self,index):
         print "GeneraSend ",index
         out = ""
-        if self.needsSend:            
+        if self.needsSend:
+            for c in self.commTree.childs:
+                out += c.generaMemCpy(self.generaId(), index)
             #FIX ASSERT che sia una sezione buona
             out += ("SEND(s"+self.generaId()+"_"+str(index)+","+str(self.getDim()))
             out += (",MPI_INT,sezioni["+str(tagToIndex(self.tag))+"].rank,")
@@ -563,7 +565,8 @@ class Section(object):
         ''' This method generates the for loops in C relative to section self
 
             self        - section which invoke code generation
-            sourceId    - string containing the postfix
+            sourceId    - string containing the postfix of the section which are read targets
+            targetId    - string containing the postfix of the section which are write targets
 
             output  - string containing generated code
         '''
@@ -613,13 +616,21 @@ class Section(object):
         if self.isGood:
             out+= "#if DEBUG\n"
             out +='fprintf(localfp,"\\nSEZIONE '+str(self.tag)+'\\n")'+";\n"
+            #for cycle
             for index,item in enumerate(self.realSendDim):
                 out+="for (i"+str(index)+"=0;i"+str(index)+"<"+str(item)+";i"+str(index)+"++){\n"
+            #fprintf
             out+= 'fprintf(localfp,"%d\\t",s'+self.generaId()+"_"+subscript
+            #indexes
             for index in range(len(self.sendDim)):
                 out+="[i" +str(index)+"]"
             out+=");\n"
-            for item in enumerate(self.sendDim):
+            #newlines and closure
+            for i in range(len(self.sendDim)):
+                out +='fprintf(localfp,"'
+                for j in range(i):
+                    out+="\\n"
+                out+='");\n'
                 out+="}\n"
             out+="#endif\n"
         return out

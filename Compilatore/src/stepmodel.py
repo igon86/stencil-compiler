@@ -43,7 +43,7 @@ class StepModel(object):
 
         self.dimPartizione = self.partitionSize**self.shape.dim
         
-        p = Partition(shape,self.partitionSize)
+        p = Partition(shape,self.partitionSize,"UNICA")
 
         # there is only one partition in the naive method
         self.partitions = []
@@ -103,6 +103,7 @@ class StepModel(object):
         
         with open("./headers/MPI_startup") as f:
             out += f.read()
+
 
         out += partizione.generaFillSections()
         # start generating iterations

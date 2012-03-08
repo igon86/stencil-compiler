@@ -39,12 +39,12 @@ class Partition(object):
         else:
             return True
 
-    def __init__(self,shape,finalSize):
+    def __init__(self,shape,finalSize,id):
 
         # if finalSize is less than size then an error is raised,
         # in order to debug the tree mechanism WITHOUT ESPANSION
         # finalSize should have the same value of self.size
-
+        self.id= id
         self.shape = shape
         print "sono una partizione e mi e arrivato: ",self.shape
         self.ordine = shape.ordine
@@ -164,6 +164,17 @@ class Partition(object):
 
     def generaFillSections(self):
         out = ""
+        #stampa di debug della matrice local
+        out += '#if DEBUG\n'
+        for i in range(self.dim):
+            out += ("for (i"+str(i)+"=0;i"+str(i)+"<"+str(self.finalSize)+";i"+str(i)+"++){\n")
+        out += 'fprintf(localfp,"%d\\t",local'
+        for i in range(self.dim):
+            out += ("[i"+str(i)+"]")
+        out += ");\n"
+        for i in range(self.dim):
+            out += ("}\n")
+        out += '#endif\n'
         for s in self.sezioni.flat:
             out += s.generaFillSection()
         return out

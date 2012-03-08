@@ -1,3 +1,5 @@
+
+
 compila:
 	python compilatore.py
 
@@ -6,3 +8,11 @@ worker:
 
 testw:
 	mpirun -np 4 ./testBench/worker
+
+clean:
+	rm -f sectionCalc*
+	rm -f sectionComm*
+	rm -f output
+	rm -f ./testBench/PROCESSO*
+	rm -f ./testBench/matrix*
+	rm -f ./stepModel

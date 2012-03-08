@@ -75,6 +75,7 @@ class Node(object):
 
 
         """
+        print "reduceTREE"
         if len(self.childs) > 0:
             for item in self.childs:
                 item.reduceTree()
@@ -135,7 +136,7 @@ class Node(object):
                     extended = True
         #print "Ho ottenuto ", self
         for item in self.childs:
-            item.expandTree(ordine,extension)
+            item.expandCommTree(ordine,extension,originalSize)
 
 
     def generaTab(self):
@@ -180,6 +181,44 @@ class Node(object):
         out +=(tab+"end\n")
         return out
 
+    def generaMemCpy(self,secId,sourceId):
+        out = ""
+        node = self
+        out += ("for (i"+str(node.level)+" = "+str(node.start)+" ; i"+str(node.level)+" <=" +str(node.end)+";i"+str(node.level)+"++){\n")
+
+        #dovrei fare la generaOffset
+        if len(node.offsets) > 0:
+            #se ho degli offset allora sono al nodo foglia
+            #_1 e per avere output separato da input
+            out += ("\ts"+secId+"_"+sourceId)
+
+            for j in range(node.level+1):
+                out+=("[i"+str(j)+"]")
+
+
+            out += (" = " )
+            count = 0
+            for offset in node.offsets:
+                if offset.isOuter is True:
+                    out +=("o")
+                else:
+                    out +=("s")
+                out += (offset.father.generaId())
+                if offset.isOuter is not True:
+                    out += ("_"+sourceId)
+                out += (offset.getStrC())
+                count +=1
+                if count < len(node.offsets):
+                    out +=(",")
+            out +=(";\n")
+
+        for c in self.childs:
+            # notice that the start and end are lost in the recursive calls
+            out += c.generaMemCpy(secId,sourceId)
+        out +=("}\n")
+
+        return out
+
     def generaNodeC(self,secId,sourceId,targetId,start=None,end=None):
         ''' Generate the code associated with the node self, a for loop is generated
             if the node contains a list of offsets: the function (kernel) invocation is generated
@@ -188,6 +227,7 @@ class Node(object):
             secId       -- Is the string id of the the section which owns the node self
             sourceId    -- Is the string postfix associated with the source point
             targetId    -- Is the string postfix to be used
+            start,end   -- Used to generate code relative only to the interval [start,end]
 
             example of generated code:    s$(secId)_$(targetId)[][] = funzione( so2_$(sourceId) , ...  )
 
