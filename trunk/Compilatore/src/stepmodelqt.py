@@ -46,8 +46,8 @@ class StepModelQT(StepModel):
 
         # there is only one partition in the naive method
         self.partitions = []
-        self.partitions.append( Partition(shape.getNegativeShape(),self.partitionSize) )
-        self.partitions.append( Partition(shape.getPositiveShape(),self.partitionSize) )
+        self.partitions.append( Partition(shape.getNegativeShape(),self.partitionSize,"prima") )
+        self.partitions.append( Partition(shape.getPositiveShape(),self.partitionSize,"seconda") )
         self.iterazioni = iterazioni
         self.parallelism = parallelismDegree
 
@@ -56,8 +56,10 @@ class StepModelQT(StepModel):
         # I pick the first partition
         for s in self.partitions[0].sezioni.flat:
             s.buildTree()
+            s.buildCommTree()
         for s in self.partitions[1].sezioni.flat:
             s.buildTree()
+            s.buildCommTree()
         
 
     def generaConf(self):

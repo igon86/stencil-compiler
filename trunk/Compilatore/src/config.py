@@ -4,12 +4,12 @@
 __author__="andrealottarini"
 __date__ ="$4-mar-2012 18.28.37$"
 
-SHIFT               = True
-QT                  = False
-SHAPE_FILENAME      = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shapeJacobi"
-DOMAIN_EDGE_SIZE    = 20
+SHIFT               = False
+QT                  = True
+SHAPE_FILENAME      = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape3d"
+DOMAIN_EDGE_SIZE    = 24
 ITERATIONS          = 2
-PARALLELISM_DEGREE  = 1
+PARALLELISM_DEGREE  = 8
 OUTPUT_FILENAME     = "./testBench/compilato.c"
 STEP_MODEL_OUTPUT   = "./stepModel"
 
