@@ -1,0 +1,75 @@
+#!/bin/bash
+
+#parameter which specifies where to read config files
+#config files are the input of the compiler
+CONFIG_DIR=./config_files
+
+#folder which contains the compiler code
+SVN_DIR=/Users/andrealottarini/NetBeansProjects/Compilatore/src/
+
+#clean up
+rm -f ./$CONFIG_DIR/*~
+
+#get base directory, inutile non funziona...
+#BASE_DIRECTORY= $(pwd)
+
+echo -e "\nINIZIO\n"
+
+for i in $(ls $CONFIG_DIR); do
+    echo $i
+    # the config file is copied in the folder containing the compiler code and the compiler is invoked
+    cp ./config_files/$i $SVN_DIR/config.py
+    python $SVN_DIR/compilatore.py > outputCompilatore
+    if [ $? -gt 0 ]
+    then
+	echo "PROBLEMA NEL COMPILATORE"
+    	exit 113
+    fi
+    # provato ma non mi è riuscito...
+    #TESTBENCH_DIR=$(awk '{ if($1 == "TESTBENCH_DIR") print $3}' ./$CONFIG_DIR/$i | tr '"' ' ')
+    #echo $TESTBENCH_DIR
+    mpicc  -g -lm -w -DDEBUG -DGENERATO ../testBench/compilato.c ../testBench/supporto.c ../testBench/algebric.c -o ../testBench/worker
+        if [ $? -gt 0 ]
+    then
+        echo "PROBLEMA CON MPICC "
+        exit 113
+    fi
+
+    #parso il grado di parallelismo
+    p=$(awk '{ if($1 == "PARALLELISM_DEGREE") print $3}' ./config_files/$i)
+    #echo $p
+
+    #parso dove si trova la matrice
+    risultato=$(awk '{ if($1 == "RISULTATO") print $3}' ./config_files/$i | tr '"' ' ')
+    #echo $risultato
+
+    cd ../testBench
+    mpirun -np $p ./worker > outMPI
+    if [ $? -gt 0 ]
+    then
+        echo "PROBLEMA CON MPIRUN"
+        exit 113
+    fi
+    
+    out=$(diff -B ./matrixpost $risultato)
+    if [ $? -eq 2 ]
+    then
+	echo "PROBLEMA NEL DIFF"
+	exit 113
+    fi 
+
+    out1=$(diff -B ./matrixpost $risultato | wc -l )
+    if [ $out1 -gt 0 ]
+    then
+	echo "CALCOLO NON CORRETTO"
+	echo $out1
+	exit 114
+    fi	
+
+    echo -e "\nGOOD\n\n"
+
+    # e incredibile ma non mi riesce cambia cartella usando variabili ...
+    cd ../UNIT_TEST
+done
+
+echo "TERMINO CON SUCCESSO"

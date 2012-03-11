@@ -1,5 +1,3 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
 
 __author__="andrealottarini"
 __date__ ="$6-feb-2012 17.28.20$"
@@ -74,8 +72,7 @@ class Node(object):
             self    -- root of the tree to be reduced
 
 
-        """
-        print "reduceTREE"
+        """        
         if len(self.childs) > 0:
             for item in self.childs:
                 item.reduceTree()
@@ -88,9 +85,15 @@ class Node(object):
             
 
     def expandTree(self,ordine,extension):
-        #print "estendo ", self
-        #firstly I fix the interval
+        ''' this method is used to expand from the size (defined by the compiler)
+            to the size requested by the user.
 
+            self        --  treenode to be modified
+            ordine      --  shape.ordine used to determined whether an interval has to be extended
+            extension   --  size of the extension (difference between compiler defined partition size and user defined partition size)
+
+        '''
+        print "Esapnsione\n"
         for item in self.offsets:
             item.expand(extension,ordine)
 
@@ -110,8 +113,14 @@ class Node(object):
             item.expandTree(ordine,extension)
 
     def expandCommTree(self,ordine,extension,originalSize):
-        #print "estendo ", self
-        #firstly I fix the interval
+        ''' This method is similar to the previous. It expands the the code for the memcpy of shift section
+            It has to consider the "degenerate" case of shift sections -> shift sections can have points
+            fragmented or continously distributed on the computation domain
+
+            originalSize    --  size of the partition as decided by the compiler,
+                                it is used to detect "jumps" between clusters of shift points
+            
+        '''
 
         for item in self.offsets:
             item.expand(extension,ordine)

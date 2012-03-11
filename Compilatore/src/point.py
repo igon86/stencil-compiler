@@ -3,6 +3,7 @@ __author__="andrealottarini"
 __date__ ="$5-feb-2012 14.38.56$"
 
 import copy
+import config
 
 class Point(object):
 
@@ -109,7 +110,9 @@ class Offset(Point):
     def expand(self,extension,ordine):
         for index,item in enumerate(self.coordinates):
             #the logic of this condition is completely obscure to me now
-            if abs(item) > 2*ordine:
+            # FIX - this is taken from the previous project with little to no reasoning
+            # UPDATE - added offset to make shift work
+            if abs(item) > config.MAGIC_THRESHOLD_FOR_OFFSET*ordine:
                 self[index] = (item/abs(item)) * (abs(item) + extension)
 
 

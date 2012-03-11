@@ -1,5 +1,3 @@
-import util
-import generatore
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
@@ -48,7 +46,7 @@ class Partition(object):
         self.shape = shape
         print "sono una partizione e mi e arrivato: ",self.shape
         self.ordine = shape.ordine
-        print "Un lato e lungo",finalSize
+        
 
         # NOTA: il numero di dimensioni: cioe bidimensionale. tridimensionale etc
         # viene ricavato dal file di shape
@@ -56,10 +54,11 @@ class Partition(object):
 
 
         #computes size
-        self.size = 5*self.ordine + 1
-
+        self.size = config.MAGIC_PARAMETER*self.ordine + 1
+        print "Therefore my size for compilation purposes will be",self.size
+        
         if finalSize < self.size:
-            raise ValueError("Final Dimension smaller than partition self.father.size")
+            raise ValueError("Final Dimension"+str(finalSize)+" smaller than compiler partition size"+str(self.size))
         elif finalSize == self.size:
             print "TREE WILL NOT BE EXPANDED"
         self.finalSize = finalSize
@@ -75,14 +74,22 @@ class Partition(object):
         #every section in the matrix is initialized
         self.recursiveInit(self.sezioni,0,[])
 
-        print "COSTRUISCO LA LISTA DELLA COMUNICAZIONE"
         self.communicationList = CommList()
-        print self        
+
+        print "\n\nHELLO EVERYONE IM THE PARTITION\n\n"
+        
+        print self
+
+        print "\n\n\nCOSTRUISCO LA LISTA DELLA COMUNICAZIONE\n\n\n"
+        
+        
+        
         goodSections = len(filter(lambda x:x.isGood,self.sezioni.flat))
         while len(self.communicationList) < goodSections:
             for s in self.sezioni.flat:
                 if s.isGood:
                     self.communicationList.addSection(s)
+                    print self.communicationList
         print str(self.communicationList)
         # I acquire the number of steps that this partition requires
         self.numberOfSteps = len(self.communicationList.commList)
@@ -134,7 +141,7 @@ class Partition(object):
         #qui potrei fare un iteratore
         for section in self.sezioni.flat:
             for point in section.points.flat:
-                if p.isSimilar(point):
+                if p.isSimilar(point) and section.isNotShiftPoint(point):
                     out.append(point)
             for point in section.opoints.flat:
                 if p.isSimilar(point):

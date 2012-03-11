@@ -39,7 +39,7 @@ class StepModelQT(StepModel):
             raise ValueError("The edge of the domain has size: "+str(finalDimension)+" which is not divisible by "+str(self.ppd))
 
         self.partitionSize = int(finalDimension / self.ppd)
-        print "PartitionSize",self.partitionSize
+        print "Il lato della partizione deve essere lungo almeno",self.partitionSize
         self.M = finalDimension**self.shape.dim
 
         self.dimPartizione = self.partitionSize**self.shape.dim
@@ -61,33 +61,6 @@ class StepModelQT(StepModel):
             s.buildTree()
             s.buildCommTree()
         
-
-    def generaConf(self):
-        ''' Questo metodo genera il file conf.h
-            Il file conf.h contiene un sacco di informazioni piu o meno inutili
-            sulla computazione da eseguire sotto forma di define
-
-        '''
-        with open("./testBench/conf.h","w") as fout:
-            out = ""
-            with open("./headers/conf.h") as fin:
-
-                out += fin.read()
-
-            out += ("#define p "+str(self.parallelism)+"\n")
-            out += ("#define M "+str(self.M)+"\n")
-            out += ("#define lato "+str(self.lato)+"\n")
-            out += ("#define dim "+str(self.shape.dim)+"\n")
-            out += ("#define s "+str(self.partitionSize)+"\n")
-            out += ("#define ppd "+str(self.ppd)+"\n")
-            # ottenere l'indice della local section e una cosa tremenda
-            out += ("#define local_section "+str(section.tagToIndex(self.partitions[0].getLocalSectionTag()))+"\n")
-            out += ("#define ordine "+str(self.partitions[0].shape.ordine)+"\n")
-            out += ("#define localsize "+str(self.dimPartizione)+"\n")
-            out += ("#define dim_sezione "+str(self.partitionSize - 2*self.partitions[0].shape.ordine)+"\n")
-            out += ("#define num_sezioni "+str(len(self.partitions[0]))+"\n")
-            out += ("\n#endif\n")
-            fout.write(out)
 
 
 if __name__ == "__main__":
