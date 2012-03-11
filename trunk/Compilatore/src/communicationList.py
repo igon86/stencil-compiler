@@ -1,5 +1,3 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
 
 __author__="andrealottarini"
 __date__ ="$7-mar-2012 12.17.29$"
@@ -40,6 +38,7 @@ class CommList(object):
                 print str(s.tag)+"E gia presente"
         else:
             if s not in self:
+                print s.tag,"Depends on others sooo I'm going to figure out if I can add it"
                 #now I have to find on which sections s depends
                 myIndex = 1
                 for p in s.shiftPoints:
@@ -47,7 +46,9 @@ class CommList(object):
                     externalPoint = filter(lambda x:x != p ,s.father.getCandidates(p))
 
                     #outside(receive) sections are disjoind SO only one SHOULD be returned
-                    assert len(externalPoint) == 1 , "Multiple sections for a shift point"+str(p)+"can be found in"+reduce(''.join,(map(str(),externalPoint)))
+                    if len(externalPoint)>1:
+                        print "point", p, "in section ",s.tag,"could be satisfied by this list of points",externalPoint
+                    assert len(externalPoint) == 1 , "Multiple sections for a shift point: "+str(externalPoint)
                     #lo "delifto"
                     externalPoint = externalPoint[0]
                     #then I have to find at which STEP otherSection is present

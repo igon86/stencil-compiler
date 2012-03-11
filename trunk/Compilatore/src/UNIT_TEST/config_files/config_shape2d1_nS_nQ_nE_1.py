@@ -5,8 +5,8 @@ __author__="andrealottarini"
 __date__ ="$4-mar-2012 18.28.37$"
 
 SHIFT               = False
-QT                  = True
-DOMAIN_EDGE_SIZE    = 16
+QT                  = False
+DOMAIN_EDGE_SIZE    = 8
 ITERATIONS          = 2
 PARALLELISM_DEGREE  = 1
 OUTPUT_FILENAME     = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/testBench/compilato.c"
@@ -15,11 +15,7 @@ MAGIC_PARAMETER     = 7
 MAGIC_THRESHOLD_FOR_OFFSET  = 4
 
 #questo e il path al file dalla shape
-SHAPE_FILENAME      = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shapeJacobi"
-
-# questo file contiene la #define di MACRO
-HEADER_FUNZIONE     = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/headers/macroJacobi.h"
-
+SHAPE_FILENAME      = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape2d1"
 
 #questa cartella contiene il supporto a runtime del compilatore e i dati per la computazione
 TESTBENCH_DIR       = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/testBench/"
@@ -27,7 +23,10 @@ TESTBENCH_DIR       = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/t
 #in questa cartella sono salvati diversi chunk di header C che il compilatore andra a inserire nel file compilato
 HEADERS_DIR         = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/headers/"
 
+# questo file contiene la #define di MACRO
+HEADER_FUNZIONE     = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/headers/macro2d1.h"
+
 # questo file contiene la matrice risulato per la computazione specificata in questo config
-RISULTATO           = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/UNIT_TEST/matrices/jacobi16"
+RISULTATO           = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/UNIT_TEST/matrices/2d1_8"
 
 

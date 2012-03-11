@@ -1,15 +1,12 @@
-import partition
 __author__ = "andrealottarini"
 __date__ = "$30-gen-2012 19.53.00$"
 
-import sys
 
 from point import *
 from section import *
 from partition import *
 from point import *
 from shape import *
-from generatore import *
 from stepmodel import *
 from stepmodelqt import *
 
@@ -18,8 +15,10 @@ import config
 if __name__ == "__main__":
     
     #shape file is opened and read
-    f = open(config.SHAPE_FILENAME, "r")
-    shape_file_content = f.read()
+    with open(config.SHAPE_FILENAME, "r") as f:
+        shape_file_content = f.read()
+
+    #raise TypeError
 
     # a shape object is created from the shape_file content
     shape = Shape(shape_file_content)
@@ -35,14 +34,16 @@ if __name__ == "__main__":
         print "STEP MODEL NAIVE"
         stepModel = StepModel(shape,config.DOMAIN_EDGE_SIZE,config.ITERATIONS,config.PARALLELISM_DEGREE)
 
-    with open(config.STEP_MODEL_OUTPUT,'w') as f:
+    with open('./stepModel','w') as f:
         f.write(str(stepModel))
+
     print "\n\n\n\n\n"
 
-    stepModel.generaAlberi()
 
-    with open(config.OUTPUT_FILENAME,"w") as f:
-
-        f.write(stepModel.generaCodiceC())
+#    stepModel.generaAlberi()
+#
+#    with open(config.OUTPUT_FILENAME,"w") as f:
+#
+#        f.write(stepModel.generaCodiceC())
 
     

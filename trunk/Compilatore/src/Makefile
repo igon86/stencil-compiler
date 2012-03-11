@@ -16,3 +16,6 @@ clean:
 	rm -f ./testBench/PROCESSO*
 	rm -f ./testBench/matrix*
 	rm -f ./stepModel
+	rm -f ./stepModelShift
+	rm -f *.pyc
+	rm -f ./UNIT_TEST/section*

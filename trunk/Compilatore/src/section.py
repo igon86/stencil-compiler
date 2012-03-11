@@ -234,7 +234,7 @@ class Section(object):
         self.realOutsideDim = []
 
         self.realComputationCoordinates = []
-        self.realComputationDim = []
+        self.realComputationDim = []        
 
         # this will be checked in the initSize method
         self.isLocal = True
@@ -243,6 +243,11 @@ class Section(object):
         self.isGood = True
 
         self.initSize()
+        #the offset between computation and send coordinates is stored
+        # it will be used in tree expansion
+        self.offset = []
+        for item1,item2 in zip(self.computationCoordinates,self.sendCoordinates):
+            self.offset.append(item1-item2)
 
         # internal points of the section are initialized (they may contain shift points)
         self.points = np.empty(self.sendDim,dtype=Point)
@@ -282,7 +287,9 @@ class Section(object):
                 if point in self.shiftPoints:
                     return False
                 else:
-                    raise ShiftError('Problema: punti di shift non sono corretti')
+                    print "point is",point
+                    print "section is",self
+                    raise ValueError('Problema: punti di shift non sono corretti'+str(point))
                 
         for item0,item1 in zip(point.gcoordinates,util.addList(self.computationCoordinates,self.computationDim)):
             
@@ -290,7 +297,7 @@ class Section(object):
                 if point in self.shiftPoints:
                     return False
                 else:
-                    raise ShiftError('Problema: punti di shift non sono corretti')
+                    raise ValueError('Problema: punti di shift non sono corretti')
         return True
 
     def buildTree(self):
@@ -441,9 +448,11 @@ class Section(object):
             offset = []
             for item0,item1 in zip(self.realComputationCoordinates,self.realSendCoordinates):
                 offset.append(item0-item1)
+
+            print "la section",self.tag,"ha offset",offset
             
             for index,dimension in enumerate(self.realComputationDim):
-                out += ("for (i"+str(index)+" = "+str(offset[index])+" ; i"+str(index)+" <" +str(self.realComputationDim[index])+";i"+str(index)+"++){\n")
+                out += ("for (i"+str(index)+" = "+str(offset[index])+" ; i"+str(index)+" <" +str(self.realComputationDim[index]+offset[index])+";i"+str(index)+"++){\n")
                 
             out += "s"+self.generaId()+"_0"
             for index in range(len(self.realComputationDim)):
@@ -704,8 +713,7 @@ class SectionShift(Section):
 
                     self.realComputationCoordinates.append(0)
                     self.realComputationDim.append(self.father.finalSize)
-                else:
-                    print "blup"
+                else:                    
                     # a coordinate different than one has been found BUT the section is ok if all the OTHER coordinates are 1
                     # MOREOVER we nees to expand because of the shift method
                     self.sendCoordinates.append(-self.shape.ordine)
@@ -752,7 +760,6 @@ class SectionShift(Section):
 
         #central section is a special case
         if self.isLocal:
-            #nothing changes with respect of the naive case
             for index in range( len(self.sendDim) ):
 
                 self.sendCoordinates[index] = self.shape.ordine
@@ -761,10 +768,10 @@ class SectionShift(Section):
                 self.computationCoordinates[index] = self.shape.ordine
                 self.computationDim[index] = self.father.size - 2*self.shape.ordine
 
-                self.realSendCoordinates[index]
+                self.realSendCoordinates[index] = self.shape.ordine
                 self.realSendDim[index] = self.father.finalSize - 2*self.shape.ordine
 
-                self.realComputationCoordinates[index]
+                self.realComputationCoordinates[index]= self.shape.ordine
                 self.realComputationDim[index] = self.father.finalSize - 2*self.shape.ordine
 
 

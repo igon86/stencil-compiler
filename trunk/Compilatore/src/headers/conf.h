@@ -1,9 +1,5 @@
-#ifndef __CONF_H
-#define __CONF_H
 
-#include <mpi.h>
 
-#include "funzione.h"
 
 #define STAMPA(A) if(my_rank==RANK_TEST) printf(A);
 #define STAMPA2(A,B) if(my_rank==RANK_TEST) printf(A,B);

@@ -9,6 +9,7 @@ import section
 import copy
 import math
 
+import config
 
 class StepModel(object):
 
@@ -38,10 +39,13 @@ class StepModel(object):
             raise ValueError("The edge of the domain has size: "+str(finalDimension)+" which is not divisible by "+str(self.ppd))
         
         self.partitionSize = int(finalDimension / self.ppd)
-        print "PartitionSize",self.partitionSize
+        print "Il lato della partizione sara lungo ",self.partitionSize
         self.M = finalDimension**self.shape.dim
 
         self.dimPartizione = self.partitionSize**self.shape.dim
+
+        self.parallelism = parallelismDegree
+        print "GRADO DI PARALLELISMO",self.parallelism
         
         p = Partition(shape,self.partitionSize,"UNICA")
 
@@ -50,7 +54,7 @@ class StepModel(object):
         self.partitions.append( p )
         self.partitions.append( None )
         self.iterazioni = iterazioni
-        self.parallelism = parallelismDegree
+        
 
 
     def generaAlberi(self):
@@ -69,10 +73,12 @@ class StepModel(object):
             sulla computazione da eseguire sotto forma di define
 
         '''
-        with open("./testBench/conf.h","w") as fout:
+        with open(config.TESTBENCH_DIR+"conf.h","w") as fout:
             out = ""
-            with open("./headers/conf.h") as fin:
+            out += '#ifndef __CONF_H\n#define __CONF_H\n\n#include <mpi.h>\n'
 
+            out += '#include "'+config.HEADER_FUNZIONE +'"\n'
+            with open(config.HEADERS_DIR+"conf.h") as fin:
                 out += fin.read()
 
             out += ("#define p "+str(self.parallelism)+"\n")
@@ -83,9 +89,9 @@ class StepModel(object):
             out += ("#define ppd "+str(self.ppd)+"\n")
             # ottenere l'indice della local section e una cosa tremenda
             out += ("#define local_section "+str(section.tagToIndex(self.partitions[0].getLocalSectionTag()))+"\n")
-            out += ("#define ordine "+str(self.shape.ordine)+"\n")
+            out += ("#define ordine "+str(self.partitions[0].shape.ordine)+"\n")
             out += ("#define localsize "+str(self.dimPartizione)+"\n")
-            out += ("#define dim_sezione "+str(self.partitionSize - 2*self.shape.ordine)+"\n")
+            out += ("#define dim_sezione "+str(self.partitionSize - 2*self.partitions[0].shape.ordine)+"\n")
             out += ("#define num_sezioni "+str(len(self.partitions[0]))+"\n")
             out += ("\n#endif\n")
             fout.write(out)        
@@ -96,12 +102,12 @@ class StepModel(object):
         
         partizione = self.partitions[0]
         out = ""
-        with open("./headers/inizio") as f:
+        with open(config.HEADERS_DIR+"inizio") as f:
             out += f.read()
 
         out += partizione.generaInitC()
         
-        with open("./headers/MPI_startup") as f:
+        with open(config.HEADERS_DIR+"MPI_startup") as f:
             out += f.read()
 
 
@@ -147,7 +153,7 @@ class StepModel(object):
 
         out += partizione.generaCondensa()
 
-        with open("./headers/fine") as f:
+        with open(config.HEADERS_DIR+"fine") as f:
             out += f.read()
 
         return out
