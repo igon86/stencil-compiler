@@ -297,6 +297,8 @@ class Section(object):
                 if point in self.shiftPoints:
                     return False
                 else:
+                    print "point is",point
+                    print "section is",self
                     raise ValueError('Problema: punti di shift non sono corretti')
         return True
 
@@ -362,31 +364,24 @@ class Section(object):
         debugFilename = "sectionComm"+self.generaId()+"_"+str(self.father.id)
         self.commTree = Node()
         with open(debugFilename,"w") as f:
-            for p in self.shiftPoints:
-                externalPoint = filter(lambda x:x != p ,self.father.getCandidates(p))
-                assert len(externalPoint) == 1 , "Multiple sections for a shift point"+str(p)+"can be found in"+reduce(''.join,(map(str(),externalPoint)))
-                externalPoint = externalPoint[0]
+            if self.isGood:
+                for p in self.shiftPoints:
+                    externalPoint = filter(lambda x:x != p ,self.father.getCandidates(p))
+                    assert len(externalPoint) == 1 , "Multiple sections for a shift point"+str(p)+"can be found in"+str(externalPoint)
+                    externalPoint = externalPoint[0]
 
-    #            out += "s"+self.generaId()+"_"+str(index)
-    #            for i in p.coordinates:
-    #                out+="["+str(i)+"]"
-    #            out += "=o"+externalPoint.father.generaId()
-    #            for i in externalPoint.coordinates:
-    #                out+="["+str(i)+"]"
-    #            out+=";\n"
+                    offset = p.getOffset(externalPoint)
+                    assert offset.isOuter ,"Un punto usato nella memcpy non e esterno"
+                    self.commTree.addChild(p,[offset])
+                f.write("\nALBERO TRIVIAL\n"+str(self.commTree))
 
-                offset = p.getOffset(externalPoint)
-                assert offset.isOuter ,"Un punto usato nella memcpy non e esterno"
-                self.commTree.addChild(p,[offset])
-            f.write("\nALBERO TRIVIAL\n"+str(self.commTree))
+                self.commTree.reduceTree()
 
-            self.commTree.reduceTree()
-
-            f.write("\nALBERO RIDOTTO\n"+str(self.commTree))
-            if self.father.finalSize > self.father.size:
-                    f.write("\nESPANSIONE ALBERO\n")
-                    self.commTree.expandCommTree(self.shape.ordine,self.father.finalSize - self.father.size,self.father.size)
-                    f.write("\nALBERO ESPANSO\n"+str(self.commTree))
+                f.write("\nALBERO RIDOTTO\n"+str(self.commTree))
+                if self.father.finalSize > self.father.size:
+                        f.write("\nESPANSIONE ALBERO\n")
+                        self.commTree.expandCommTree(self.shape.ordine,self.father.finalSize - self.father.size,self.father.size)
+                        f.write("\nALBERO ESPANSO\n"+str(self.commTree))
             
     def generaId(self):
         out = ""

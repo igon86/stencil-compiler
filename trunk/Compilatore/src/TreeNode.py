@@ -93,7 +93,7 @@ class Node(object):
             extension   --  size of the extension (difference between compiler defined partition size and user defined partition size)
 
         '''
-        print "Esapnsione\n"
+        print "Espansione CALCOLO\n"
         for item in self.offsets:
             item.expand(extension,ordine)
 
@@ -121,7 +121,7 @@ class Node(object):
                                 it is used to detect "jumps" between clusters of shift points
             
         '''
-
+        print "Espansione COMUNICAZIONE\n"
         for item in self.offsets:
             item.expand(extension,ordine)
 

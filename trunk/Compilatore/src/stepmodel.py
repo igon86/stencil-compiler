@@ -10,7 +10,7 @@ import copy
 import math
 
 import config
-
+import os.path
 class StepModel(object):
 
     def __init__(self,shape,finalDimension,iterazioni,parallelismDegree):
@@ -73,7 +73,10 @@ class StepModel(object):
             sulla computazione da eseguire sotto forma di define
 
         '''
+        print "GENERA CONF WAS FUCKING INVOKED"
+        assert os.path.isdir(config.TESTBENCH_DIR)
         with open(config.TESTBENCH_DIR+"conf.h","w") as fout:
+            print "I'm writing to a conf file somewhere"
             out = ""
             out += '#ifndef __CONF_H\n#define __CONF_H\n\n#include <mpi.h>\n'
 
@@ -98,6 +101,7 @@ class StepModel(object):
 
 
     def generaCodiceC(self):
+        print "GENERAZIONE CODICE"
         self.generaConf()
         
         partizione = self.partitions[0]
@@ -109,7 +113,6 @@ class StepModel(object):
         
         with open(config.HEADERS_DIR+"MPI_startup") as f:
             out += f.read()
-
 
         out += partizione.generaFillSections()
         # start generating iterations

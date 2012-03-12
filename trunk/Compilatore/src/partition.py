@@ -141,6 +141,8 @@ class Partition(object):
         #qui potrei fare un iteratore
         for section in self.sezioni.flat:
             for point in section.points.flat:
+                # a point in the send section might be a shift point
+                # a shift point should never be used for communication or as a memcpy source
                 if p.isSimilar(point) and section.isNotShiftPoint(point):
                     out.append(point)
             for point in section.opoints.flat:
@@ -180,7 +182,10 @@ class Partition(object):
             out += ("[i"+str(i)+"]")
         out += ");\n"
         for i in range(self.dim):
+            if i >0:
+                out += 'fprintf(localfp,"\\n");\n'
             out += ("}\n")
+            
         out += '#endif\n'
         for s in self.sezioni.flat:
             out += s.generaFillSection()

@@ -68,6 +68,10 @@ for i in $(ls $CONFIG_DIR); do
 
     echo -e "\nGOOD\n\n"
 
+    rm ./compilato.c
+    rm ./worker
+    rm ./conf.h
+
     # e incredibile ma non mi riesce cambia cartella usando variabili ...
     cd ../UNIT_TEST
 done
