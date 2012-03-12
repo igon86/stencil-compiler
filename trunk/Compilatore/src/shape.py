@@ -19,11 +19,19 @@ class Shape(object):
         out.computeOrdine()
         return out
 
+    #FIX: a positive (or negative) shape does not necessarily have ordine which is two times
+    # the original one; however this is enforced in order for code generation to work
+    def addOffsetTricky(self,offset):
+        out = copy.deepcopy(self)
+        out.iaddOffset(offset)
+        out.ordine += abs(offset)
+        return out
+
     def getNegativeShape(self):
-        return self.addOffset( -self.ordine )
+        return self.addOffsetTricky( -self.ordine )
 
     def getPositiveShape(self):
-        return self.addOffset( self.ordine )
+        return self.addOffsetTricky( self.ordine )
 
     def computeOrdine(self):
         #shape order is computed from shape points
