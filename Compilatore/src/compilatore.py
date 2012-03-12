@@ -40,10 +40,10 @@ if __name__ == "__main__":
     print "\n\n\n\n\n"
 
 
-#    stepModel.generaAlberi()
-#
-#    with open(config.OUTPUT_FILENAME,"w") as f:
-#
-#        f.write(stepModel.generaCodiceC())
+    stepModel.generaAlberi()
+
+    with open(config.OUTPUT_FILENAME,"w") as f:
+
+        f.write(stepModel.generaCodiceC())
 
     

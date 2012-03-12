@@ -6,7 +6,7 @@ __date__ ="$4-mar-2012 18.28.37$"
 
 SHIFT               = False
 QT                  = True
-DOMAIN_EDGE_SIZE    = 16
+DOMAIN_EDGE_SIZE    = 32
 ITERATIONS          = 2
 PARALLELISM_DEGREE  = 1
 OUTPUT_FILENAME     = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/testBench/compilato.c"
@@ -28,6 +28,6 @@ TESTBENCH_DIR       = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/t
 HEADERS_DIR         = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/headers/"
 
 # questo file contiene la matrice risulato per la computazione specificata in questo config
-RISULTATO           = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/UNIT_TEST/matrices/3d_16"
+RISULTATO           = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/UNIT_TEST/matrices/3d_32"
 
 
