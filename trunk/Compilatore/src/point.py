@@ -168,10 +168,6 @@ class SectionPoint(Point):
         else:
             return False
 
-    def __eq__(self,other):
-        #questo va finito e testato
-        super(SectionPoint, self).__eq__(other)
-
     def __str__(self):
         return str(self.isOuter)[0]+"(" +str(self.coordinates) + " " +str(self.gcoordinates) +" f: "+str(self.father.tag)+")"
 
@@ -206,6 +202,24 @@ class SectionPoint(Point):
         for index in range(len(out)):
             out.coordinates[index] = - out.coordinates[index]
         return out
+
+    def __le__(self,other):
+        """Implement the x<=y operation with x (self) of type SectionPoint"""
+        
+        flags = map(lambda x,y:x<=y,self.gcoordinates,other.gcoordinates)
+        for i in flags:
+            if i != True:
+                return False
+        return True
+
+    def __ge__(self,other):
+        """Implement the x>=y operation with x (self) of type SectionPoint"""
+
+        flags = map(lambda x,y:x>=y,self.gcoordinates,other.gcoordinates)
+        for i in flags:
+            if i != True:
+                return False
+        return True
 
     def __sub__(self,p):
         return self.__add__(-p)

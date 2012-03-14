@@ -1,3 +1,4 @@
+import pdb
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
@@ -8,6 +9,8 @@ import numpy as np
 
 from section import *
 import config
+
+import pdb
 
 from communicationList import *
 
@@ -138,16 +141,27 @@ class Partition(object):
         """
 
         out = []
-        #qui potrei fare un iteratore
-        for section in self.sezioni.flat:
-            for point in section.points.flat:
-                # a point in the send section might be a shift point
-                # a shift point should never be used for communication or as a memcpy source
-                if p.isSimilar(point) and section.isNotShiftPoint(point):
-                    out.append(point)
-            for point in section.opoints.flat:
-                if p.isSimilar(point):
-                    out.append(point)
+        for section in filter(lambda x:x.isGood,self.sezioni.flat):
+            if section.isInner(p):
+#                point = section.getPoint(p)
+#                if point is not None:
+#                    out.append(point)
+                for point in section.points.flat:
+                    # a point in the send section might be a shift point
+                    # a shift point should never be used for communication or as a memcpy source
+                    if p.isSimilar(point) and section.isNotShiftPoint(point):
+                        out.append(point)
+                        break
+
+                        
+            if section.isOuter(p):
+#                point = section.getPoint(p)
+#                if point is not None:
+#                    out.append(point)
+                for point in section.opoints.flat:
+                    if p.isSimilar(point):
+                        out.append(point)
+                        break
         return out
 
     def generaInit(self):
