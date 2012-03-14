@@ -263,9 +263,9 @@ class Section(object):
             for index in range(len(self.tag)):
                 print "coordinata",index
                 print "SOMMO ",self.sendCoordinates[index],self.sendDim[index]
-                self.sendEnd.append(self.sendCoordinates[index] + self.sendDim[index])
+                self.sendEnd.append(self.sendCoordinates[index] + self.sendDim[index]-1)
                 print "SOMMO ",self.outsideCoordinates[index],self.outsideDim[index]
-                self.outsideEnd.append(self.outsideCoordinates[index] + self.outsideDim[index])
+                self.outsideEnd.append(self.outsideCoordinates[index] + self.outsideDim[index]-1)
 
             print "il risultato e",self.sendEnd,self.outsideEnd
             #the offset between computation and send coordinates is stored
@@ -299,17 +299,10 @@ class Section(object):
         '''
         if self.isInner(point):
             coordinates = map(lambda x,y:x-y,point.gcoordinates,self.sendCoordinates)
-            out = self.points
-            try:
-                for i in coordinates:
-                    out = out[i]
-            except:
-                print "This is section ",self.tag,"la sezione interna",self.sendCoordinates,self.sendDim," richiesto il punto",point,"che dovrebbe sta",str(coordinates)
-                print "\nvediamo che succede\n"
-                out = self.points
-                for i in coordinates:
-                    out = out[i]
-                    print out
+            out = self.points            
+            for i in coordinates:
+                out = out[i]
+            assert out.isSimilar(point)
             return out
 
         if self.isOuter(point):
