@@ -8,11 +8,11 @@ SHIFT               = False
 QT                  = False
 DOMAIN_EDGE_SIZE    = 16
 ITERATIONS          = 2
-PARALLELISM_DEGREE  = 4
 OUTPUT_FILENAME     = "/Users/andrealottarini/NetBeansProjects/Compilatore/src/testBench/compilato.c"
 STEP_MODEL_OUTPUT   = "./stepModel"
 MAGIC_PARAMETER     = 7
 MAGIC_THRESHOLD_FOR_OFFSET  = 4
+PARALLELISM_DEGREE  = 4
 
 #questo e il path al file dalla shape
 SHAPE_FILENAME      = "/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/shape2d1"

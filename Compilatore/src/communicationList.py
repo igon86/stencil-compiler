@@ -45,9 +45,7 @@ class CommList(object):
                     #i filter myself out from the list of POINTS
                     externalPoint = filter(lambda x:x != p ,s.father.getCandidates(p))
 
-                    #outside(receive) sections are disjoind SO only one SHOULD be returned
-                    if len(externalPoint)>1:
-                        print "point", p, "in section ",s.tag,"could be satisfied by this list of points",externalPoint
+                    #outside(receive) sections are disjoind SO only one SHOULD be returned                    
                     assert len(externalPoint) == 1 , "Multiple sections for a shift point: "+str(externalPoint)
                     #lo "delifto"
                     externalPoint = externalPoint[0]

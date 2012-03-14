@@ -8,9 +8,12 @@ import util
 from point import *
 from TreeNode import *
 
+import time
+
+import pdb
 
 def chooseWinner(x,y):
-    ''' This function is a reduce function which just return the coolest point
+    ''' This function is a reduce function which just return the best point for code generation
         coolness is a point property and depends on the section that the point lives in
         
     '''
@@ -23,9 +26,7 @@ def chooseWinner(x,y):
         return x
 
 def tagToIndex(tag):
-    ''' map a n-dimensional tag of a section into an index in a one dimensional domain
-
-    '''
+    ''' map a n-dimensional tag of a section into an index in a one dimensional domain'''
     out = 0
     for index,item in enumerate(reversed(tag)):
         out += item * pow(3,index)
@@ -43,7 +44,12 @@ class Section(object):
                 isLast = self.orecursiveInit(item,level+1,coordinate)
                 if isLast:
                     #print "sto per modificare", str(element[index])
-                    element[index] = SectionPoint(copy.deepcopy(coordinate), util.addList(coordinate , self.outsideCoordinates),self,True)
+                    p = SectionPoint(copy.deepcopy(coordinate), util.addList(coordinate , self.outsideCoordinates),self,True)
+#                    if self.minPoint is None or p < self.minPoint:
+#                        self.minPoint = p
+#                    if self.maxPoint is None or p > self.maxPoint:
+#                        self.MaxPoint = p
+                    element[index] = p
                     #print "stampo cosa ho fatto: " + str(element[index])
                     #print self
                 coordinate.pop()
@@ -65,6 +71,10 @@ class Section(object):
 
                     #initialize and assign the point
                     p = SectionPoint(copy.deepcopy(coordinate),globalCoordinates,self,False)
+#                    if self.minPoint is None or p < self.minPoint:
+#                        self.minPoint = p
+#                    if self.maxPoint is None or p > self.maxPoint:
+#                        self.MaxPoint = p
                     element[index] = p
 
                     #CHECK if it is a shift point
@@ -243,16 +253,34 @@ class Section(object):
         self.isGood = True
 
         self.initSize()
-        #the offset between computation and send coordinates is stored
-        # it will be used in tree expansion
-        self.offset = []
-        for item1,item2 in zip(self.computationCoordinates,self.sendCoordinates):
-            self.offset.append(item1-item2)
 
-        # internal points of the section are initialized (they may contain shift points)
-        self.points = np.empty(self.sendDim,dtype=Point)
-        self.shiftPoints = []
-        self.recursiveInit(self.points,0,[])
+        #this has been determined in the initSize method
+        if self.isGood:
+            #pdb.set_trace()
+            self.sendEnd = []
+            self.outsideEnd = []
+            print "SEZIONE ",self.tag
+            for index in range(len(self.tag)):
+                print "coordinata",index
+                print "SOMMO ",self.sendCoordinates[index],self.sendDim[index]
+                self.sendEnd.append(self.sendCoordinates[index] + self.sendDim[index])
+                print "SOMMO ",self.outsideCoordinates[index],self.outsideDim[index]
+                self.outsideEnd.append(self.outsideCoordinates[index] + self.outsideDim[index])
+
+            print "il risultato e",self.sendEnd,self.outsideEnd
+            #the offset between computation and send coordinates is stored
+            # it will be used in tree expansion
+            self.offset = []
+            for item1,item2 in zip(self.computationCoordinates,self.sendCoordinates):
+                self.offset.append(item1-item2)
+
+            #THIS points are used by the getCandidates functions
+
+
+            # internal points of the section are initialized (they may contain shift points)
+            self.points = np.empty(self.sendDim,dtype=Point)
+            self.shiftPoints = []
+            self.recursiveInit(self.points,0,[])
 
         # external points of the section are initialized
         if self.isLocal:
@@ -262,7 +290,39 @@ class Section(object):
             self.opoints = np.empty(self.outsideDim,dtype=Point)
             self.orecursiveInit(self.opoints,0,[])
 
-        
+            
+    def getPoint(self,point):
+        ''' this method return the SectionPoint belonging to self
+            which is similar (same global coordinates) to point
+
+            point   -- SectionPoint to be found in self
+        '''
+        if self.isInner(point):
+            coordinates = map(lambda x,y:x-y,point.gcoordinates,self.sendCoordinates)
+            out = self.points
+            try:
+                for i in coordinates:
+                    out = out[i]
+            except:
+                print "This is section ",self.tag,"la sezione interna",self.sendCoordinates,self.sendDim," richiesto il punto",point,"che dovrebbe sta",str(coordinates)
+                print "\nvediamo che succede\n"
+                out = self.points
+                for i in coordinates:
+                    out = out[i]
+                    print out
+            return out
+
+        if self.isOuter(point):
+            coordinates = map(lambda x,y:x-y,point.gcoordinates,self.outsideCoordinates)
+            out = self.opoints
+            try:
+                for i in coordinates:
+                    out = out[i]
+            except:
+                print "This is section ",self.tag,"richiesto il punto",point,"che dovrebbe sta",str(coordinates)
+            return out
+
+        return None
 
 
     def getOppositeTag(self):
@@ -309,6 +369,8 @@ class Section(object):
             #a section which is not good would fail
             #alternatively I could modify the __iter__ of partition to ignore bad sections
             if self.isGood:
+                time1=time.time()
+                elapsedTime = 0
                 self.root = Node()
                 #iterate over the INTERNAL points of the section
                 
@@ -327,7 +389,11 @@ class Section(object):
 
                         #this is a list of SectionPoints
                         #ISSUE: this should become a method of partition (forse)
+                        timeC1 = time.time()
                         possiblePoints = self.father.getCandidates(toBeFound)
+                        timeC2 = time.time()
+
+                        elapsedTime += (timeC2-timeC1)
 
                         #now we have to choose the winner among the list of points
                         goodBoy = reduce(chooseWinner,possiblePoints)
@@ -346,14 +412,30 @@ class Section(object):
 
                 
                 f.write("\nALBERO TRIVIAL\n"+str(self.root))
-        
+
+                time2=time.time()
+                tempo = time2-time1
+                if tempo > 1:
+                    print "TIME ALBERO TRIVIAL DI",self.tag,":",tempo
+                    print "OF WHICH ",elapsedTime,"were spent on getCandidates"
+
+                time1 = time.time()
                 self.root.reduceTree()
-                
+                time2=time.time()
+                tempo = time2-time1
+                if tempo > 1:
+                    print "TIME REDUCE ALBERO DI",self.tag,":",tempo
+
                 f.write("\nALBERO RIDOTTO\n"+str(self.root))
                 if self.father.finalSize > self.father.size:
+                    time1 = time.time()
                     f.write("\nESPANSIONE ALBERO\n")
                     self.root.expandTree(self.shape.ordine,self.father.finalSize - self.father.size)
                     f.write("\nALBERO ESPANSO\n"+str(self.root))
+                    time2=time.time()
+                    tempo = time2-time1
+                    if tempo > 1:
+                        print "TIME ESPANSIONE ALBERO DI",self.tag,":",tempo
 
     def buildCommTree(self):
         ''' This method should be invoked on shift sections in order to computer the dependencies
@@ -608,12 +690,30 @@ class Section(object):
             
         return out
 
+    def isOuter(self,item):
+        if self.isLocal:
+            return False
+        for index in range(len(self.tag)):
+            if item[index] > self.outsideEnd[index] or item[index] < self.outsideCoordinates[index]:
+                return False
+        return True
+
+    def isInner(self,item):
+        for index in range(len(self.tag)):
+            if item[index] > self.sendEnd[index] or item[index] < self.sendCoordinates[index]:
+                return False
+        return True
 
     def __contains__(self,item):
-        if item in self.points or item in self.opoints:
+        ''' Implements the in operator for a section '''
+#        if item in self.points or item in self.opoints:
+#            return True
+#        else:
+#            return False
+        if self.isOuter(item) or self.isInner(item):
             return True
-        else:
-            return False
+        return False
+
 
     def generaDebugPrint(self,subscript):
         out = ""
@@ -642,8 +742,8 @@ class Section(object):
     def __str__(self):
         if self.isGood:
             return " sono la Section: " +str(self.tag) + \
-            "\n ostart" + str(self.realOutsideCoordinates) +" odim"+str(self.outsideDim)+"p"+str(self.opoints) + \
-            "\n sendBuffer" + str(self.realSendCoordinates) +"dim"+str(self.sendDim) +"Computation Buffer "+str(self.realComputationCoordinates) +" dim"+str(self.computationDim)+"p"+str(self.points) +\
+            "\n ostart" + str(self.outsideCoordinates) +" odim"+str(self.outsideDim)+" oend "+str(self.outsideEnd)+"p"+str(self.opoints) + \
+            "\n sendBuffer" + str(self.sendCoordinates) +"dim"+str(self.sendDim) +"Computation Buffer "+str(self.computationCoordinates) +" dim"+str(self.computationDim)+"p"+str(self.points) +\
             "\n SHIFT POINTS: "+str(self.shiftPoints)+"\n"
         else:
             return " sono la Section: " +str(self.tag) +" e sono CATTIVA\n"

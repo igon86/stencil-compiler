@@ -12,6 +12,8 @@ from stepmodelqt import *
 
 import config
 
+import time
+
 if __name__ == "__main__":
     
     #shape file is opened and read
@@ -39,11 +41,13 @@ if __name__ == "__main__":
 
     print "\n\n\n\n\n"
 
-
+    time1=time.time()
     stepModel.generaAlberi()
+    time2=time.time()
+
+    print "TIME GENERATE TREES", time2-time1
 
     with open(config.OUTPUT_FILENAME,"w") as f:
 
         f.write(stepModel.generaCodiceC())
-
     

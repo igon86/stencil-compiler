@@ -10,6 +10,7 @@ import copy
 import math
 from stepmodel import *
 
+import time
 
 class StepModelQT(StepModel):
 
@@ -54,13 +55,24 @@ class StepModelQT(StepModel):
 
     def generaAlberi(self):
         # I pick the first partition
-        for s in self.partitions[0].sezioni.flat:
-            s.buildTree()
-            s.buildCommTree()
-        for s in self.partitions[1].sezioni.flat:
-            s.buildTree()
-            s.buildCommTree()
+        for p in self.partitions:
+            for s in p.sezioni.flat:
+                time1 = time.time()
+                s.buildTree()
+                time2 = time.time()
+                tempo = time2-time1
+                if tempo > 1:
+                    print "TIME ALBERO CALCOLO SEZIONE",s.tag,":",tempo
+                time1 = time.time()
+                s.buildCommTree()
+                time2 = time.time()
+                tempo = time2-time1
+                if tempo > 1:
+                    print "TIME ALBERO COMUNICAZIONE SEZIONE",s.tag,":",tempo
         
+
+    def __str__(self):
+        return str(self.partitions[0]) + str(self.partitions[1])
 
 
 if __name__ == "__main__":
