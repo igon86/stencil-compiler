@@ -72,8 +72,7 @@ class StepModel(object):
             Il file conf.h contiene un sacco di informazioni piu o meno inutili
             sulla computazione da eseguire sotto forma di define
 
-        '''
-        print "GENERA CONF WAS FUCKING INVOKED"
+        '''        
         assert os.path.isdir(config.TESTBENCH_DIR)
         with open(config.TESTBENCH_DIR+"conf.h","w") as fout:
             print "I'm writing to a conf file somewhere"
@@ -84,6 +83,12 @@ class StepModel(object):
             with open(config.HEADERS_DIR+"conf.h") as fin:
                 out += fin.read()
 
+            out += ('#define DATATYPE ')+str(config.DATATYPE)+"\n"
+            dict = {'int': '"%d\\t"\n','double': '"%lf\\t"\n','float': '"%f\\t"\n'}
+            #FIX questo mi sembra rischioso
+            out += "#define FORMAT "+dict[config.DATATYPE]
+            dict = {'int': 'MPI_INT\n','double': 'MPI_DOUBLE\n','float': 'MPI_FLOAT\n'}
+            out += "#define MPI_DATATYPE "+dict[config.DATATYPE]
             out += ("#define p "+str(self.parallelism)+"\n")
             out += ("#define M "+str(self.M)+"\n")
             out += ("#define lato "+str(self.lato)+"\n")

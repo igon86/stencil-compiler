@@ -1,3 +1,4 @@
+import config
 
 __author__="andrealottarini"
 __date__ ="$5-feb-2012 14.40.53$"
@@ -465,6 +466,7 @@ class Section(object):
         return out
 
     def generaInit(self):
+        ''' this method produces the init in MATLAB code '''
         out = ""
         if self.isGood:
             partition = self.father
@@ -588,19 +590,19 @@ class Section(object):
             # genero le s
             #FIX non e detto che sono solo due
             for j in range(2):
-                out += ("\tint s"+id+"_"+str(j)+self.generaBrackets())
+                out += ("\t"+config.DATATYPE+ " s"+id+"_"+str(j)+self.generaBrackets())
                 #for i in range(partition.dim):
                 #    out += ("["+str(self.realDim[i])+"]")
                 out+=";\n"
 
             #genero la o
-            out += ("\tint o"+id)
+            out += ("\t"+config.DATATYPE+ " o"+id)
             for i in range(partition.dim):
                 out += ("["+str(self.realSendDim[i])+"]")
             out+=";\n"
 
             #genero quella riga strana
-            out += ("\tsezioni["+str(tagToIndex(self.tag))+"].buffer = (int*) s"+id+"_0;\n")
+            out += ("\tsezioni["+str(tagToIndex(self.tag))+"].buffer = ("+config.DATATYPE+"*) s"+id+"_0;\n")
 
         return out
 
@@ -612,7 +614,7 @@ class Section(object):
                 out += c.generaMemCpy(self.generaId(), index)
             #FIX ASSERT che sia una sezione buona
             out += ("SEND(s"+self.generaId()+"_"+str(index)+","+str(self.getDim()))
-            out += (",MPI_INT,sezioni["+str(tagToIndex(self.tag))+"].rank,")
+            out += (",MPI_"+config.DATATYPE.upper()+",sezioni["+str(tagToIndex(self.tag))+"].rank,")
             out += (str(tagToIndex(self.getOppositeTag()))+",MPI_COMM_WORLD")
             out += ");\n"
         return out
@@ -621,7 +623,7 @@ class Section(object):
         out = ""
         if self.needsReceive:
             out += ("RECEIVE(o"+self.generaId()+","+str(self.getDim()))
-            out += (",MPI_INT,sezioni["+str(tagToIndex(self.tag))+"].rank,")
+            out += (",MPI_"+config.DATATYPE.upper()+",sezioni["+str(tagToIndex(self.tag))+"].rank,")
             out += (str(tagToIndex(self.tag))+",MPI_COMM_WORLD,&status")
             out += ");\n"
         return out
@@ -716,18 +718,19 @@ class Section(object):
             #for cycle
             for index,item in enumerate(self.realSendDim):
                 out+="for (i"+str(index)+"=0;i"+str(index)+"<"+str(item)+";i"+str(index)+"++){\n"
-            #fprintf
-            out+= 'fprintf(localfp,"%d\\t",s'+self.generaId()+"_"+subscript
+            
+            out+= 'fprintf(localfp,FORMAT,s'+self.generaId()+"_"+subscript
             #indexes
             for index in range(len(self.sendDim)):
                 out+="[i" +str(index)+"]"
             out+=");\n"
             #newlines and closure
             for i in range(len(self.sendDim)):
-                out +='fprintf(localfp,"'
-                for j in range(i):
-                    out+="\\n"
-                out+='");\n'
+                if i > 0:
+                    out +='fprintf(localfp,"'
+                    for j in range(i):
+                        out+="\\n"
+                    out+='");\n'
                 out+="}\n"
             out+="#endif\n"
         return out

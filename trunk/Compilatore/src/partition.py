@@ -176,7 +176,9 @@ class Partition(object):
             out += ("\tint i"+str(i)+";\n")
         out +="\n"
 
-        out += "\tint local"
+        out += "\t"+config.DATATYPE+" matrix[M];\n"
+
+        out += "\t"+config.DATATYPE+" local"
         for i in range(self.dim):
             out += ("["+str(self.finalSize)+"]")
         out +=";\n\n"
@@ -191,7 +193,7 @@ class Partition(object):
         out += '#if DEBUG\n'
         for i in range(self.dim):
             out += ("for (i"+str(i)+"=0;i"+str(i)+"<"+str(self.finalSize)+";i"+str(i)+"++){\n")
-        out += 'fprintf(localfp,"%d\\t",local'
+        out += 'fprintf(localfp,FORMAT,local'
         for i in range(self.dim):
             out += ("[i"+str(i)+"]")
         out += ");\n"

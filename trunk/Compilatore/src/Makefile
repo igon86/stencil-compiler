@@ -1,14 +1,11 @@
-
-
+	
 compila:
 	python compilatore.py
 
 worker:
-	mpicc -g -lm -w -DDEBUG -DGENERATO ./testBench/compilato.c ./testBench/supporto.c ./testBench/algebric.c -o ./testBench/worker
+	mpicc -g -Wall -pedantic -lm -w -DDEBUG -DGENERATO ./testBench/compilato.c ./testBench/supporto.c ./testBench/algebric.c -o ./testBench/worker
 
-testw:
-	cd testBench
-	mpirun -np 1 ./worker
+all: clean compila worker
 
 clean:
 	rm -f sectionCalc*
@@ -16,6 +13,8 @@ clean:
 	rm -f output
 	rm -f ./testBench/PROCESSO*
 	rm -f ./testBench/matrix*
+	rm -f ./testBench/conf.h
+	rm -f ./testBench/compilato.c
 	rm -f ./stepModel
 	rm -f ./stepModelShift
 	rm -f *.pyc
