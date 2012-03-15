@@ -5,8 +5,6 @@ __date__ ="$6-mar-2012 16.20.45$"
 
 from partition import *
 from shape import *
-import section
-import copy
 import math
 from stepmodel import *
 

@@ -12,6 +12,7 @@
  
  #define LOTS_OF_CHAR 100
  #define   OUTPUT_MATRIX "./matrixpost"
+
  /******************************************************************* 
  					MAIN 
   *******************************************************************/ 
@@ -21,25 +22,13 @@
  	
  	int my_rank;					/* rank of process				*/ 
  	MPI_Status status;				/* return status for MPI_Recv	*/ 
- 	
- 	//int local[localsize];			/* dati locali del metodo		*/
- 	
- 	FILE*	in; 
- 	FILE*	out; 
- 	FILE*	tempi;
- 	FILE* localfp; 
- 	char filename[LOTS_OF_CHAR]; 
-	
- 	int matrix[M];
-	
-	sezione sezioni[num_sezioni];
-	
-	struct timeval tv1,tv2;
-	int t1[p];
-	int t2[p];
-	int temp1;
-	int temp2;
 
+        FILE* localfp;
+        char filename[LOTS_OF_CHAR];
+	
+        sezione sezioni[num_sezioni];
+	
+        struct timeval tv1,tv2;
         int i;
 
 

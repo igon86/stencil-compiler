@@ -18,7 +18,7 @@
 	}else {
 
 		/* RECEIVE DELLE PARTIZIONI */
-		MPI_Recv(local, localsize, MPI_INT, EMETTITORE, TAG, MPI_COMM_WORLD,&status);
+		MPI_Recv(local, localsize, MPI_DATATYPE, EMETTITORE, TAG, MPI_COMM_WORLD,&status);
 
 	}
 
