@@ -1,0 +1,9 @@
+#!/bin/bash
+
+sed -ibak s:'/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/':'../shapes/': *.py
+sed -ibak s:'/Users/andrealottarini/NetBeansProjects/Compilatore/src/':'../': *.py
+for i in $(ls *.py); do
+    echo $i
+    echo 'DATATYPE = "int"' >> $i
+    echo 'OPEN_MP = False' >> $i
+done

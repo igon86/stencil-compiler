@@ -260,12 +260,25 @@ class Partition(object):
     def generaCalcoloEsterno(self,sourceId,targetId):
         out = ""
         localSectionTag = self.getLocalSectionTag()
+        if config.OPEN_MP:
+            out += '#pragma omp parallel sections\n{\n'
+            for s in self.sezioni.flat:
+                if s.tag != localSectionTag:
+            
+                    
+                    out+=s.generaCalcoloC(sourceId,targetId)
+                    
 
-        for s in self.sezioni.flat:
-            if s.tag != localSectionTag:
-                out += s.generaDebugPrint(sourceId)
-                out+=s.generaCalcoloC(sourceId,targetId)
-                out += s.generaDebugPrint(targetId)
+            if config.OPEN_MP:
+                out += '\n}\n'
+        else:            
+            for s in self.sezioni.flat:
+                if s.tag != localSectionTag:
+
+                    out += s.generaDebugPrint(sourceId)
+                    out+=s.generaCalcoloC(sourceId,targetId)
+                    out += s.generaDebugPrint(targetId)
+
         return out
 
     def generaClose(self):

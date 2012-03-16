@@ -652,11 +652,24 @@ class Section(object):
             output  - string containing generated code
         '''
         out = ""
+        
         if self.isGood:
+            
             for c in self.root.childs:
-                # the string of the section id is the only information
-                # not contained in the tree (the tree does not have back pointers)
-                out += c.generaNodeC(self.generaId(),sourceId,targetId,start,end)
+                codice = ""
+                #out += c.generaNodeC(self.generaId(),sourceId,targetId,start,end)
+                size = c.checkInterval(start, end)
+                if size > 0:
+                    codice = c.generaNodeC(self.generaId(),sourceId,targetId,start,end)
+                if config.OPEN_MP:
+                    if self.isLocal:
+                        if size > self.shape.ordine:
+                            codice="#pragma omp parallel for\n"+codice
+                    else:
+                        codice='#pragma omp section\n{\n'+codice+'\n}\n'
+                if size >0:
+                    out +=codice
+
         return out
 
     def generaClose(self):
@@ -714,6 +727,9 @@ class Section(object):
         out = ""
         if self.isGood:
             out+= "#if DEBUG\n"
+            if config.OPEN_MP and not self.isLocal:
+                out += '#pragma omp master\n{\n'
+            
             out +='fprintf(localfp,"\\nSEZIONE '+str(self.tag)+'\\n")'+";\n"
             #for cycle
             for index,item in enumerate(self.realSendDim):
@@ -732,6 +748,9 @@ class Section(object):
                         out+="\\n"
                     out+='");\n'
                 out+="}\n"
+            
+            if config.OPEN_MP and not self.isLocal:
+                out += '\n}\n'
             out+="#endif\n"
         return out
 

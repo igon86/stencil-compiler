@@ -4,14 +4,8 @@
 #config files are the input of the compiler
 CONFIG_DIR=./config_files
 
-#folder which contains the compiler code
-SVN_DIR=/Users/andrealottarini/NetBeansProjects/Compilatore/src/
-
 #clean up
 rm -f ./$CONFIG_DIR/*~
-
-#get base directory, inutile non funziona...
-#BASE_DIRECTORY= $(pwd)
 
 echo -e "\nINIZIO\n"
 
@@ -20,8 +14,8 @@ echo -e "benchmark\n\n" > benchmark
 for i in $(ls $CONFIG_DIR); do
     echo $i
     # the config file is copied in the folder containing the compiler code and the compiler is invoked
-    cp ./config_files/$i $SVN_DIR/config.py
-    python $SVN_DIR/compilatore.py > outputCompilatore
+    cp ./config_files/$i ../config.py
+    python ../compilatore.py > outputCompilatore
     if [ $? -gt 0 ]
     then
         echo "PROBLEMA NEL COMPILATORE"
@@ -32,11 +26,8 @@ for i in $(ls $CONFIG_DIR); do
     grep TIME outputCompilatore >> benchmark
     echo -e "\n\n\n" >> benchmark
 
-    # provato ma non mi e riuscito...
-    #TESTBENCH_DIR=$(awk '{ if($1 == "TESTBENCH_DIR") print $3}' ./$CONFIG_DIR/$i | tr '"' ' ')
-    #echo $TESTBENCH_DIR
-    mpicc  -g -lm -w -DDEBUG -DGENERATO ../testBench/compilato.c ../testBench/supporto.c ../testBench/algebric.c -o ../testBench/worker
-        if [ $? -gt 0 ]
+    mpicc -fopenmp -g -lm -w -DDEBUG -DGENERATO ../testBench/compilato.c ../testBench/supporto.c ../testBench/algebric.c -o ../testBench/worker
+    if [ $? -gt 0 ]
     then
         echo "PROBLEMA CON MPICC "
         exit 113
@@ -55,7 +46,7 @@ for i in $(ls $CONFIG_DIR); do
     fgh=$(grep "#define p $p" ./conf.h | wc -l)
     if [ $fgh -eq 0 ]
     then
-	echo "PROBLEMA INCAPIBILE"
+	echo "PROBLEMA INCAPIBILE NELLA GENERAZIONE DI CONF.H"
 	exit 111
     fi	
     mpirun -np $p ./worker > outMPI
@@ -87,7 +78,6 @@ for i in $(ls $CONFIG_DIR); do
     rm ./conf.h
     rm ./matrixpost
 
-    # e incredibile ma non mi riesce cambia cartella usando variabili ...
     cd ../UNIT_TEST
 done
 
