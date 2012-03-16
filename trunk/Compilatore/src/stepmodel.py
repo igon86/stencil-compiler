@@ -78,6 +78,8 @@ class StepModel(object):
             print "I'm writing to a conf file somewhere"
             out = ""
             out += '#ifndef __CONF_H\n#define __CONF_H\n\n#include <mpi.h>\n'
+            if config.OPEN_MP:
+                out += '#include <omp.h>\n'
 
             out += '#include "'+config.HEADER_FUNZIONE +'"\n'
             with open(config.HEADERS_DIR+"conf.h") as fin:
@@ -85,7 +87,7 @@ class StepModel(object):
 
             out += ('#define DATATYPE ')+str(config.DATATYPE)+"\n"
             dict = {'int': '"%d\\t"\n','double': '"%lf\\t"\n','float': '"%f\\t"\n'}
-            #FIX questo mi sembra rischioso
+            #FIX questo mi sembra un po bruttino
             out += "#define FORMAT "+dict[config.DATATYPE]
             dict = {'int': 'MPI_INT\n','double': 'MPI_DOUBLE\n','float': 'MPI_FLOAT\n'}
             out += "#define MPI_DATATYPE "+dict[config.DATATYPE]

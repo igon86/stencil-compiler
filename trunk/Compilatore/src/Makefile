@@ -3,7 +3,7 @@ compila:
 	python compilatore.py
 
 worker:
-	mpicc -g -Wall -pedantic -lm -w -DDEBUG -DGENERATO ./testBench/compilato.c ./testBench/supporto.c ./testBench/algebric.c -o ./testBench/worker
+	mpicc -g -fopenmp -Wall -pedantic -lm -w -DDEBUG -DGENERATO ./testBench/compilato.c ./testBench/supporto.c ./testBench/algebric.c -o ./testBench/worker
 
 all: clean compila worker
 

@@ -105,7 +105,7 @@ class Node(object):
                 item.start += extension
                 item.end += extension
             else:
-                if item.getInterval() > ordine - 1 :
+                if item.getInterval() >= ordine :
                     extended = True
                     item.end += extension
         #print "Ho ottenuto ", self
@@ -133,7 +133,7 @@ class Node(object):
                 item.start += extension
                 item.end += extension
             else:
-                if item.getInterval() > ordine - 1 :
+                if item.getInterval() >= ordine:
                     extended = True
                     item.end += extension
                 print "confronto "+str(item.start)+" " +str(originalSize)
@@ -227,6 +227,21 @@ class Node(object):
         out +=("}\n")
 
         return out
+
+    def checkInterval(self,start,end):
+        ''' returns the size of the tree which would be generated if self.GeneraNodeC()
+            was invoked with start and end
+            
+        '''
+        if start is not None and end is not None:
+            start = max(start,self.start)
+            end = min(end,self.end)
+        else:
+            start = self.start
+            end = self.end
+
+        if end >= start:
+            return end - start + 1
 
     def generaNodeC(self,secId,sourceId,targetId,start=None,end=None):
         ''' Generate the code associated with the node self, a for loop is generated
