@@ -15,7 +15,8 @@ for i in $(ls $CONFIG_DIR); do
     echo $i
     # the config file is copied in the folder containing the compiler code and the compiler is invoked
     cp ./config_files/$i ../config.py
-    python ../compilatore.py > outputCompilatore
+    cd ..
+    python ./compilatore.py > outputCompilatore
     if [ $? -gt 0 ]
     then
         echo "PROBLEMA NEL COMPILATORE"
@@ -26,7 +27,18 @@ for i in $(ls $CONFIG_DIR); do
     grep TIME outputCompilatore >> benchmark
     echo -e "\n\n\n" >> benchmark
 
-    mpicc -fopenmp -g -lm -w -DDEBUG -DGENERATO ../testBench/compilato.c ../testBench/supporto.c ../testBench/algebric.c -o ../testBench/worker
+    cd ./UNIT_TEST
+    
+    openmp=$(awk '{ if($1 == "OPEN_MP") print $3}' ./config_files/$i)
+    #echo $openmp
+    if [ $openmp == 'True' ]
+    then        
+        echo "compilo con openMP"
+        mpicc -g -fopenmp -lm -w -DDEBUG ../testBench/compilato.c ../testBench/supporto.c ../testBench/algebric.c -o ../testBench/worker
+    else
+        mpicc -g -lm -w -DDEBUG ../testBench/compilato.c ../testBench/supporto.c ../testBench/algebric.c -o ../testBench/worker
+    fi
+    
     if [ $? -gt 0 ]
     then
         echo "PROBLEMA CON MPICC "
