@@ -588,18 +588,31 @@ class Section(object):
             id = self.generaId()
 
             # genero le s
-            #FIX non e detto che sono solo due
+            #FIX non e detto che sono solo due...se ho step model con oversending
             for j in range(2):
-                out += ("\t"+config.DATATYPE+ " s"+id+"_"+str(j)+self.generaBrackets())
+                out += ("\t"+config.DATATYPE+ " (* s"+id+"_"+str(j)+")")
+                for index,item in enumerate(self.realSendDim):
+                    if index > 0:
+                        out += ("["+str(item)+"]")
+                out += " = malloc(sizeof("+     config.DATATYPE +")"
+                for item in self.realSendDim:
+                    out += ("*"+str(item))
+                out += ")"
+                # THIS IS THE METHOD FOR STACK ALLOCATION
+                #out += ("\t"+config.DATATYPE+ " s"+id+"_"+str(j)+self.generaBrackets())
                 #for i in range(partition.dim):
                 #    out += ("["+str(self.realDim[i])+"]")
                 out+=";\n"
 
             #genero la o
-            out += ("\t"+config.DATATYPE+ " o"+id)
-            for i in range(partition.dim):
-                out += ("["+str(self.realSendDim[i])+"]")
-            out+=";\n"
+            out += ("\t"+config.DATATYPE+ " (* o"+id+")")
+            for index,item in enumerate(self.realSendDim):
+                if index > 0:
+                    out += ("["+str(item)+"]")
+            out += " = malloc(sizeof("+     config.DATATYPE +")"
+            for item in self.realOutsideDim:
+                out += ("*"+str(item))
+            out += ");\n"
 
             #genero quella riga strana
             out += ("\tsezioni["+str(tagToIndex(self.tag))+"].buffer = ("+config.DATATYPE+"*) s"+id+"_0;\n")
@@ -664,7 +677,14 @@ class Section(object):
                 if config.OPEN_MP:
                     if self.isLocal:
                         if size > self.shape.ordine:
-                            codice="#pragma omp parallel for\n"+codice
+                            aggiunta = "#pragma omp parallel for private("
+                            for i in range(len(self.tag)):
+                                if i>1:
+                                    aggiunta += ","
+                                if i >0:
+                                    aggiunta += ( "i"+str(i) )
+                            aggiunta += ")\n"
+                            codice=aggiunta+codice
                     else:
                         codice='#pragma omp section\n{\n'+codice+'\n}\n'
                 if size >0:

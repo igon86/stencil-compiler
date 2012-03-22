@@ -11,6 +11,7 @@ import math
 
 import config
 import os.path
+
 class StepModel(object):
 
     def __init__(self,shape,finalDimension,iterazioni,parallelismDegree):

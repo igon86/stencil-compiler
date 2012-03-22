@@ -31,4 +31,4 @@ RISULTATO           = "../UNIT_TEST/matrices/2d1_8"
 
 
 DATATYPE = "int"
-OPEN_MP = False
+OPEN_MP = True
