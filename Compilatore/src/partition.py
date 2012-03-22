@@ -261,11 +261,14 @@ class Partition(object):
         out = ""
         localSectionTag = self.getLocalSectionTag()
         if config.OPEN_MP:
-            out += '#pragma omp parallel sections\n{\n'
+            out += '#pragma omp parallel sections private('
+            for i in range(self.dim):
+                if i > 0:
+                    out +=","
+                out += "i"+str(i)
+            out += ")\n{\n"
             for s in self.sezioni.flat:
                 if s.tag != localSectionTag:
-            
-                    
                     out+=s.generaCalcoloC(sourceId,targetId)
                     
 

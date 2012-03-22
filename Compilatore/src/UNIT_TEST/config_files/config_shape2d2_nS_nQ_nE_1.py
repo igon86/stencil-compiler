@@ -32,4 +32,4 @@ RISULTATO           = "../UNIT_TEST/matrices/2d2_16"
 
 
 DATATYPE = "int"
-OPEN_MP = False
+OPEN_MP = True

@@ -1,4 +1,4 @@
-FLAGS = -g -fopenmp -Wall -pedantic -lm -DDEBUG
+FLAGS = -g -w -fopenmp -Wall -pedantic -lm -DDEBUG
 
 compila:
 	python compilatore.py
