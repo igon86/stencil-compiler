@@ -12,6 +12,7 @@ clean:
 	rm -f sectionCalc*
 	rm -f sectionComm*
 	rm -f output
+	rm -f ./testBench/worker
 	rm -f ./benchmark
 	rm -f ./testBench/PROCESSO*
 	rm -f ./testBench/matrix*

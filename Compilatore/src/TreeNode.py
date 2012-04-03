@@ -92,8 +92,7 @@ class Node(object):
             ordine      --  shape.ordine used to determined whether an interval has to be extended
             extension   --  size of the extension (difference between compiler defined partition size and user defined partition size)
 
-        '''
-        print "Espansione CALCOLO\n"
+        '''        
         for item in self.offsets:
             item.expand(extension,ordine)
 
@@ -112,16 +111,45 @@ class Node(object):
         for item in self.childs:
             item.expandTree(ordine,extension)
 
+    def expandTreeLiteral(self,ordine):
+        ''' this method is used to expand from the size (defined by the compiler)
+            to the size requested by the user.
+            By using this method, final size can be determined at runtime instead of at compila time .
+
+            self        --  treenode to be modified
+            ordine      --  shape.ordine used to determined whether an interval has to be extended
+            extension   --  size of the extension (difference between compiler defined partition size and user defined partition size)
+
+        '''
+        print "Invocata la ExpandTreeLiteral su ",self
+        for item in self.offsets:
+            item.expandLiteral(ordine)
+
+        extended = False
+        #print self.childs
+        for item in self.childs:
+
+            if extended:
+                item.start = str(item.start) + "+extension"
+                item.end = str(item.end) + "+extension"
+            else:
+                if item.getInterval() >= ordine :
+                    extended = True
+                    item.end = str(item.end) + "+extension"
+        #print "Ho ottenuto ", self
+        for item in self.childs:
+            item.expandTreeLiteral(ordine)
+            
+            
     def expandCommTree(self,ordine,extension,originalSize):
-        ''' This method is similar to the previous. It expands the the code for the memcpy of shift section
+        ''' This method is similar to expandTree. It expands the the code for the memcpy of shift section
             It has to consider the "degenerate" case of shift sections -> shift sections can have points
             fragmented or continously distributed on the computation domain
 
             originalSize    --  size of the partition as decided by the compiler,
                                 it is used to detect "jumps" between clusters of shift points
             
-        '''
-        print "Espansione COMUNICAZIONE\n"
+        '''        
         for item in self.offsets:
             item.expand(extension,ordine)
 
@@ -136,7 +164,7 @@ class Node(object):
                 if item.getInterval() >= ordine:
                     extended = True
                     item.end += extension
-                print "confronto "+str(item.start)+" " +str(originalSize)
+                
                 if item.start > originalSize:
                     # THIS IS THE DEGENERATE CASE OF THE SHIFT
                     # CHECK FIX CHECK
@@ -146,6 +174,42 @@ class Node(object):
         #print "Ho ottenuto ", self
         for item in self.childs:
             item.expandCommTree(ordine,extension,originalSize)
+
+
+    def expandCommTreeLiteral(self,ordine,originalSize):
+        ''' This method is similar to the previous. It expands the the code for the memcpy of shift section
+            It has to consider the "degenerate" case of shift sections -> shift sections can have points
+            fragmented or continously distributed on the computation domain
+
+            originalSize    --  size of the partition as decided by the compiler,
+                                it is used to detect "jumps" between clusters of shift points
+
+        '''
+        print "Invocata la ExpandCommLiteral su ",self
+        for item in self.offsets:
+            item.expandLiteral(ordine)
+
+        extended = False
+        #print self.childs
+        for item in self.childs:
+
+            if extended:
+                item.start = str(item.start) + "+extension"
+                item.end = str(item.end) + "+extension"
+            else:
+                if item.getInterval() >= ordine:
+                    extended = True
+                    item.end = str(item.end) + "+extension"
+                
+                if item.start > originalSize:
+                    # THIS IS THE DEGENERATE CASE OF THE SHIFT
+                    # CHECK FIX CHECK
+                    item.start = str(item.start) + "+extension"
+                    item.end = str(item.end) + "+extension"
+                    extended = True
+        #print "Ho ottenuto ", self
+        for item in self.childs:
+            item.expandCommTreeLiteral(ordine,originalSize)
 
 
     def generaTab(self):
@@ -229,8 +293,8 @@ class Node(object):
         return out
 
     def checkInterval(self,start,end):
-        ''' returns the size of the tree which would be generated if self.GeneraNodeC()
-            was invoked with start and end
+        ''' returns the size of the tree which would be generated if
+            self.GeneraNodeC(start,end) was invoked
             
         '''
         if start is not None and end is not None:
@@ -251,7 +315,7 @@ class Node(object):
             secId       -- Is the string id of the the section which owns the node self
             sourceId    -- Is the string postfix associated with the source point
             targetId    -- Is the string postfix to be used
-            start,end   -- Used to generate code relative only to the interval [start,end]
+            start,end   -- Used to generate code relative only to the interval [start,end] in the outer loop
 
             example of generated code:    s$(secId)_$(targetId)[][] = funzione( so2_$(sourceId) , ...  )
 
