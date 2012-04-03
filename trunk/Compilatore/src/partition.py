@@ -237,14 +237,6 @@ class Partition(object):
             out += section.generaReceive()
         return out
 
-    def generaCalcolo(self):
-        ''' Funzione che genera l'aggiornamento della matrice in MATLAB
-            
-        '''
-        out = ""
-        for s in self.sezioni.flat:
-            out += s.generaCalcolo()
-        return out
 
     def generaCalcoloInterno(self,sourceId,targetId,start=None,end=None):
         out = ""

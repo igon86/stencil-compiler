@@ -76,7 +76,6 @@ class StepModel(object):
         '''        
         assert os.path.isdir(config.TESTBENCH_DIR)
         with open(config.TESTBENCH_DIR+"conf.h","w") as fout:
-            print "I'm writing to a conf file somewhere"
             out = ""
             out += '#ifndef __CONF_H\n#define __CONF_H\n\n#include <mpi.h>\n'
             if config.OPEN_MP:

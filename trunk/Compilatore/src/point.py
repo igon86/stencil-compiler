@@ -101,10 +101,14 @@ class Offset(Point):
     def getStrC(self):
         out = ""
         for index,item in enumerate(self.coordinates):
-            if item < 0:
+            #I have strings when final dimension are not specified
+            if type(item).__name__ == 'str':
                 out += "[i" +str(index)+str(item)+"]"
             else:
-                out += "[i" +str(index)+"+"+str(item)+"]"
+                if item < 0:
+                    out += "[i" +str(index)+str(item)+"]"
+                else:
+                    out += "[i" +str(index)+"+"+str(item)+"]"
         return out
     
     def expand(self,extension,ordine):
@@ -115,7 +119,15 @@ class Offset(Point):
             if abs(item) > config.MAGIC_THRESHOLD_FOR_OFFSET*ordine:
                 self[index] = (item/abs(item)) * (abs(item) + extension)
 
-
+    def expandLiteral(self,ordine):
+        for index,item in enumerate(self.coordinates):            
+            # FIX - this is taken from the previous project, the threshold is indeed MAGIC
+            # UPDATE - added offset to make shift work
+            if abs(item) > config.MAGIC_THRESHOLD_FOR_OFFSET*ordine:
+                if item > 0:
+                    self[index] = str(item) + "+extension"
+                else:
+                    self[index] = str(item) + "-extension"
 
     #da estendere ragionevolmente
     def __str__(self):

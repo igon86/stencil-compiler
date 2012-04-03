@@ -4,7 +4,7 @@
 __author__="andrealottarini"
 __date__ ="$4-mar-2012 18.28.37$"
 
-SHIFT               = False
+SHIFT               = True
 QT                  = False
 DOMAIN_EDGE_SIZE    = 8
 ITERATIONS          = 2
@@ -15,10 +15,10 @@ MAGIC_PARAMETER     = 7
 MAGIC_THRESHOLD_FOR_OFFSET  = 4
 
 #questo e il path al file dalla shape
-SHAPE_FILENAME      = "./shapes/shape3d"
+SHAPE_FILENAME      = "./shapes/shape2d1"
 
 # questo file contiene la #define di MACRO
-HEADER_FUNZIONE     = "../headers/macro3d.h"
+HEADER_FUNZIONE     = "../headers/macro2d1.h"
 
 
 #questa cartella contiene il supporto a runtime del compilatore e i dati per la computazione
@@ -28,8 +28,11 @@ TESTBENCH_DIR       = "./testBench/"
 HEADERS_DIR         = "./headers/"
 
 # questo file contiene la matrice risulato per la computazione specificata in questo config
-RISULTATO           = "../UNIT_TEST/matrices/3d_8"
+RISULTATO           = "../UNIT_TEST/matrices/2d1_8"
 
 
 DATATYPE = "int"
 OPEN_MP = True
+
+RUNTIME_DIM = True
+

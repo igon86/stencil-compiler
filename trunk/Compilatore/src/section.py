@@ -421,15 +421,18 @@ class Section(object):
                     print "TIME REDUCE ALBERO DI",self.tag,":",tempo
 
                 f.write("\nALBERO RIDOTTO\n"+str(self.root))
-                if self.father.finalSize > self.father.size:
-                    time1 = time.time()
-                    f.write("\nESPANSIONE ALBERO\n")
-                    self.root.expandTree(self.shape.ordine,self.father.finalSize - self.father.size)
-                    f.write("\nALBERO ESPANSO\n"+str(self.root))
-                    time2=time.time()
-                    tempo = time2-time1
-                    if tempo > 1:
-                        print "TIME ESPANSIONE ALBERO DI",self.tag,":",tempo
+                if config.RUNTIME_DIM:
+                    self.root.expandTreeLiteral(self.shape.ordine)
+                else:
+                    if self.father.finalSize > self.father.size:
+                        time1 = time.time()
+                        f.write("\nESPANSIONE ALBERO\n")
+                        self.root.expandTree(self.shape.ordine,self.father.finalSize - self.father.size)
+                        f.write("\nALBERO ESPANSO\n"+str(self.root))
+                        time2=time.time()
+                        tempo = time2-time1
+                        if tempo > 1:
+                            print "TIME ESPANSIONE ALBERO DI",self.tag,":",tempo
 
     def buildCommTree(self):
         ''' This method should be invoked on shift sections in order to computer the dependencies
@@ -454,10 +457,13 @@ class Section(object):
                 self.commTree.reduceTree()
 
                 f.write("\nALBERO RIDOTTO\n"+str(self.commTree))
-                if self.father.finalSize > self.father.size:
-                        f.write("\nESPANSIONE ALBERO\n")
-                        self.commTree.expandCommTree(self.shape.ordine,self.father.finalSize - self.father.size,self.father.size)
-                        f.write("\nALBERO ESPANSO\n"+str(self.commTree))
+                if config.RUNTIME_DIM:
+                    self.commTree.expandCommTreeLiteral(self.shape.ordine,self.father.size)
+                else:
+                    if self.father.finalSize > self.father.size:
+                            f.write("\nESPANSIONE ALBERO\n")
+                            self.commTree.expandCommTree(self.shape.ordine,self.father.finalSize - self.father.size,self.father.size)
+                            f.write("\nALBERO ESPANSO\n"+str(self.commTree))
             
     def generaId(self):
         out = ""
@@ -465,53 +471,6 @@ class Section(object):
             out +=str(i)
         return out
 
-    def generaInit(self):
-        ''' this method produces the init in MATLAB code '''
-        out = ""
-        if self.isGood:
-            partition = self.father
-
-
-            # indexes start from 1
-            staticOffset = []
-            for i in range(partition.dim):
-                staticOffset.append(partition.ordine+1)
-
-            id = self.generaId()
-
-            #internal section
-            start = util.addList(staticOffset, self.realCoordinates)
-            end = util.addList(start, self.realDim)
-            print start,end
-
-            out += "s"+str(id)+"=a("
-            count = 0
-            merged = zip(start,end)
-            for i in merged:
-                print i
-                count +=1
-                out += (str(i[0])+":"+str(i[1]-1))
-                if count < len(merged):
-                    out +=","
-            out +=");\n"
-
-            #external section
-            ostart = util.addList(staticOffset, self.orealCoordinates)
-            oend = util.addList(ostart, self.orealDim)
-            print ostart,oend
-
-            out += ("o"+str(id)+"=a(")
-            count = 0
-            merged = zip(ostart,oend)
-            for i in merged:
-                print i
-                count +=1
-                out +=(str(i[0])+":"+str(i[1]-1))
-                if count < len(merged):
-                    out +=(",")
-            out +=");\n"
-
-        return out
 
     def generaFillSection(self):
         out = ""
@@ -641,20 +600,6 @@ class Section(object):
             out += ");\n"
         return out
 
-    def generaCalcolo(self):
-        ''' This method generates the for loops in MATLAB relative to section self
-
-            self    - section which invoke code generation
-
-            output  - string containing generated code
-        '''
-        out = ""
-        for c in self.root.childs:
-            # the string of the section id is the only information
-            # not contained in the tree (the tree does not have back pointers)
-            out += c.generaNode(self.generaId())
-        return out
-
     def generaCalcoloC(self,sourceId,targetId,start=None,end=None):
         ''' This method generates the for loops in C relative to section self
 
@@ -669,26 +614,28 @@ class Section(object):
         if self.isGood:
             
             for c in self.root.childs:
-                codice = ""
-                #out += c.generaNodeC(self.generaId(),sourceId,targetId,start,end)
-                size = c.checkInterval(start, end)
-                if size > 0:
-                    codice = c.generaNodeC(self.generaId(),sourceId,targetId,start,end)
-                if config.OPEN_MP:
-                    if self.isLocal:
-                        if size > self.shape.ordine:
-                            aggiunta = "#pragma omp parallel for private("
-                            for i in range(len(self.tag)):
-                                if i>1:
-                                    aggiunta += ","
-                                if i >0:
-                                    aggiunta += ( "i"+str(i) )
-                            aggiunta += ")\n"
-                            codice=aggiunta+codice
-                    else:
-                        codice='#pragma omp section\n{\n'+codice+'\n}\n'
-                if size >0:
-                    out +=codice
+                if not config.OPEN_MP or not start:
+                    out += c.generaNodeC(self.generaId(),sourceId,targetId)
+                else:
+                    codice = ""
+                    size = c.checkInterval(start, end)
+                    if size > 0:
+                        codice = c.generaNodeC(self.generaId(),sourceId,targetId,start,end)
+                    if config.OPEN_MP:
+                        if self.isLocal:
+                            if size > self.shape.ordine:
+                                aggiunta = "#pragma omp parallel for private("
+                                for i in range(len(self.tag)):
+                                    if i>1:
+                                        aggiunta += ","
+                                    if i >0:
+                                        aggiunta += ( "i"+str(i) )
+                                aggiunta += ")\n"
+                                codice=aggiunta+codice
+                        else:
+                            codice='#pragma omp section\n{\n'+codice+'\n}\n'
+                    if size >0:
+                        out +=codice
 
         return out
 
