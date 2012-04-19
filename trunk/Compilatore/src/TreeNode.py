@@ -13,6 +13,8 @@ class Node(object):
         self.childs = []
         self.start = self.end = -1
         self.offsets = []
+        #the central node represents the part of the tree that has to be expanded
+        self.isCentral = False
         # source is None only for the root node of the tree
         if source is not None:
             self.start = self.end = source.coordinates[level]
@@ -106,6 +108,7 @@ class Node(object):
             else:
                 if item.getInterval() >= ordine :
                     extended = True
+                    self.isCentral = True
                     item.end += extension
         #print "Ho ottenuto ", self
         for item in self.childs:
@@ -135,6 +138,7 @@ class Node(object):
             else:
                 if item.getInterval() >= ordine :
                     extended = True
+                    self.isCentral = True
                     item.end = str(item.end) + "+extension"
         #print "Ho ottenuto ", self
         for item in self.childs:

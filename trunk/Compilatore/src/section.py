@@ -97,16 +97,34 @@ class Section(object):
             return True
 
     def getDim(self):
-        out = 1
-        for i in self.realSendDim:
-            out *= i
+        if config.RUNTIME_DIM:
+            out = ""
+            for i in self.sendDim:
+                if i > self.father.ordine:
+                    out += "("+str(i)+"+extension)*"
+                else:
+                    out += str(i)+"*"
+            out+="1"
+        else:
+            out=1
+            for i in self.realSendDim:
+                out *= i
 
         return out
 
     def getOdim(self):
-        out = 1
-        for i in self.realOutsideDim:
-            out *= i
+        if config.RUNTIME_DIM:
+            out = ""
+            for i in self.outsideDim:
+                if i > self.father.ordine:
+                    out += "("+str(i)+"+extension)*"
+                else:
+                    out += str(i)+"*"
+            out+="1"
+        else:
+            out = 1
+            for i in self.realOutsideDim:
+                out *= i
 
         return out
 
@@ -147,14 +165,15 @@ class Section(object):
                 self.computationCoordinates.append(0)
                 self.computationDim.append(self.shape.ordine)
 
-                self.realSendCoordinates.append(0)
-                self.realSendDim.append(self.shape.ordine)
+                if not config.RUNTIME_DIM:
+                    self.realSendCoordinates.append(0)
+                    self.realSendDim.append(self.shape.ordine)
 
-                self.realOutsideCoordinates.append(-self.shape.ordine)
-                self.realOutsideDim.append(self.shape.ordine)
+                    self.realOutsideCoordinates.append(-self.shape.ordine)
+                    self.realOutsideDim.append(self.shape.ordine)
 
-                self.realComputationCoordinates.append(0)
-                self.realComputationDim.append(self.shape.ordine)
+                    self.realComputationCoordinates.append(0)
+                    self.realComputationDim.append(self.shape.ordine)
 
             elif item == 1:
                 self.sendCoordinates.append(0)
@@ -166,14 +185,15 @@ class Section(object):
                 self.computationCoordinates.append(0)
                 self.computationDim.append(self.father.size)
 
-                self.realSendCoordinates.append(0)
-                self.realSendDim.append(self.father.finalSize)
+                if not config.RUNTIME_DIM:
+                    self.realSendCoordinates.append(0)
+                    self.realSendDim.append(self.father.finalSize)
 
-                self.realOutsideCoordinates.append(0)
-                self.realOutsideDim.append(self.father.finalSize)
+                    self.realOutsideCoordinates.append(0)
+                    self.realOutsideDim.append(self.father.finalSize)
 
-                self.realComputationCoordinates.append(0)
-                self.realComputationDim.append(self.father.finalSize)
+                    self.realComputationCoordinates.append(0)
+                    self.realComputationDim.append(self.father.finalSize)
 
             elif item == 2:
                 self.isLocal = False
@@ -187,14 +207,15 @@ class Section(object):
                 self.computationCoordinates.append(self.father.size - self.shape.ordine)
                 self.computationDim.append(self.shape.ordine)
 
-                self.realSendCoordinates.append(self.father.finalSize - self.shape.ordine)
-                self.realSendDim.append(self.shape.ordine)
+                if not config.RUNTIME_DIM:
+                    self.realSendCoordinates.append(self.father.finalSize - self.shape.ordine)
+                    self.realSendDim.append(self.shape.ordine)
 
-                self.realOutsideCoordinates.append(self.father.finalSize)
-                self.realOutsideDim.append(self.shape.ordine)
+                    self.realOutsideCoordinates.append(self.father.finalSize)
+                    self.realOutsideDim.append(self.shape.ordine)
 
-                self.realComputationCoordinates.append(self.father.finalSize - self.shape.ordine)
-                self.realComputationDim.append(self.shape.ordine)
+                    self.realComputationCoordinates.append(self.father.finalSize - self.shape.ordine)
+                    self.realComputationDim.append(self.shape.ordine)
 
         #central section is a special case
         if self.isLocal:
@@ -206,11 +227,12 @@ class Section(object):
                 self.computationCoordinates[index] = self.shape.ordine
                 self.computationDim[index] = self.father.size - 2*self.shape.ordine
 
-                self.realSendCoordinates[index] = self.shape.ordine
-                self.realSendDim[index] = self.father.finalSize - 2*self.shape.ordine
+                if not config.RUNTIME_DIM:
+                    self.realSendCoordinates[index] = self.shape.ordine
+                    self.realSendDim[index] = self.father.finalSize - 2*self.shape.ordine
 
-                self.realComputationCoordinates[index]= self.shape.ordine
-                self.realComputationDim[index] = self.father.finalSize - 2*self.shape.ordine
+                    self.realComputationCoordinates[index]= self.shape.ordine
+                    self.realComputationDim[index] = self.father.finalSize - 2*self.shape.ordine
                 
 
     def __init__(self,tag,father):
@@ -436,8 +458,7 @@ class Section(object):
 
     def buildCommTree(self):
         ''' This method should be invoked on shift sections in order to computer the dependencies
-            in a similar manner to what done with the comp tree.
-            MUST be invoked after the buildtree?
+            in a similar manner to what done with the comp tree.            
 
         '''
         debugFilename = "sectionComm"+self.generaId()+"_"+str(self.father.id)
@@ -473,32 +494,65 @@ class Section(object):
 
 
     def generaFillSection(self):
+        ''' This method generates the piece of code where data is copied
+            from the scatter input buffer to the section buffers
+
+        '''
         out = ""
         if self.isGood or self.isLocal:
             #if the section has a shift then the offset will be non zero
             offset = []
-            for item0,item1 in zip(self.realComputationCoordinates,self.realSendCoordinates):
+            for item0,item1 in zip(self.computationCoordinates,self.sendCoordinates):
                 offset.append(item0-item1)
-
             print "la section",self.tag,"ha offset",offset
-            
-            for index,dimension in enumerate(self.realComputationDim):
-                out += ("for (i"+str(index)+" = "+str(offset[index])+" ; i"+str(index)+" <" +str(self.realComputationDim[index]+offset[index])+";i"+str(index)+"++){\n")
-                
-            out += "s"+self.generaId()+"_0"
-            for index in range(len(self.realComputationDim)):
-                out+="[i"+str(index)+"]"
-                
-            out += "= local"
-            for index in range(len(self.realComputationDim)):
-                if self.realSendCoordinates[index] >=0:
-                    out+="[i"+str(index)+"+"+str(self.realSendCoordinates[index])+"]"
-                else:
-                    out +="[i"+str(index)+str(self.realSendCoordinates[index])+"]"
 
-            out+=";\n"
-            for index in range(len(self.realComputationDim)):
-                out+="}\n"
+            # FIX mettere una spiegazione di cosa sta succedendo
+            if config.RUNTIME_DIM:
+                for index,dimension in enumerate(self.computationDim):
+                    if dimension > self.father.ordine:
+                        out += ("for (i"+str(index)+" = "+str(offset[index])+" ; i"+str(index)+" <" +str(self.computationDim[index]+offset[index])+"+extension;i"+str(index)+"++){\n")
+                    else:
+                        out += ("for (i"+str(index)+" = "+str(offset[index])+" ; i"+str(index)+" <" +str(self.computationDim[index]+offset[index])+";i"+str(index)+"++){\n")
+
+                out += "s"+self.generaId()+"_0"
+                for index in range(len(self.computationDim)):
+                    out+="[i"+str(index)+"]"
+
+                out += "= local"
+                for index,dimension in enumerate(self.computationDim):
+                    if dimension > self.father.ordine:
+                        if self.sendCoordinates[index] >=0:
+                            out+="[i"+str(index)+"+"+str(self.sendCoordinates[index])+"extension]"
+                        else:
+                            out +="[i"+str(index)+str(self.sendCoordinates[index])+"extension]"
+                    else:
+                        if self.sendCoordinates[index] >=0:
+                            out+="[i"+str(index)+"+"+str(self.sendCoordinates[index])+"]"
+                        else:
+                            out +="[i"+str(index)+str(self.sendCoordinates[index])+"]"
+
+                out+=";\n"
+                for index in range(len(self.computationDim)):
+                    out+="}\n"
+            else:
+
+                for index,dimension in enumerate(self.realComputationDim):
+                    out += ("for (i"+str(index)+" = "+str(offset[index])+" ; i"+str(index)+" <" +str(self.realComputationDim[index]+offset[index])+";i"+str(index)+"++){\n")
+
+                out += "s"+self.generaId()+"_0"
+                for index in range(len(self.realComputationDim)):
+                    out+="[i"+str(index)+"]"
+
+                out += "= local"
+                for index in range(len(self.realComputationDim)):
+                    if self.realSendCoordinates[index] >=0:
+                        out+="[i"+str(index)+"+"+str(self.realSendCoordinates[index])+"]"
+                    else:
+                        out +="[i"+str(index)+str(self.realSendCoordinates[index])+"]"
+
+                out+=";\n"
+                for index in range(len(self.realComputationDim)):
+                    out+="}\n"
         return out
 
     def generaCondensa(self):
@@ -600,42 +654,65 @@ class Section(object):
             out += ");\n"
         return out
 
-    def generaCalcoloC(self,sourceId,targetId,start=None,end=None):
+    def generaCalcoloC(self,sourceId,targetId,start = None,end = None):
         ''' This method generates the for loops in C relative to section self
 
             self        - section which invoke code generation
-            sourceId    - string containing the postfix of the section which are read targets
-            targetId    - string containing the postfix of the section which are write targets
+            sourceId    - string containing the subscript of the sections which are read targets
+            targetId    - string containing the subscript of the sections which are write targets
+            start,end   - interval for the outermost loop
 
             output  - string containing generated code
         '''
         out = ""
-        
+        print "Section ",self.tag,"start: ",start,"end",end
         if self.isGood:
             
-            for c in self.root.childs:
-                if not config.OPEN_MP or not start:
-                    out += c.generaNodeC(self.generaId(),sourceId,targetId)
-                else:
+            for node in self.root.childs:
+                if config.OPEN_MP:
                     codice = ""
-                    size = c.checkInterval(start, end)
+                    size = node.checkInterval(start, end)
                     if size > 0:
-                        codice = c.generaNodeC(self.generaId(),sourceId,targetId,start,end)
-                    if config.OPEN_MP:
-                        if self.isLocal:
-                            if size > self.shape.ordine:
-                                aggiunta = "#pragma omp parallel for private("
-                                for i in range(len(self.tag)):
-                                    if i>1:
-                                        aggiunta += ","
-                                    if i >0:
-                                        aggiunta += ( "i"+str(i) )
-                                aggiunta += ")\n"
-                                codice=aggiunta+codice
-                        else:
-                            codice='#pragma omp section\n{\n'+codice+'\n}\n'
+                        codice = node.generaNodeC(self.generaId(),sourceId,targetId,start,end)                        
+                    
+                    if self.isLocal:
+                        if size > self.shape.ordine:
+                            aggiunta = "#pragma omp parallel for private("
+                            for i in range(len(self.tag)):
+                                if i>1:
+                                    aggiunta += ","
+                                if i >0:
+                                    aggiunta += ( "i"+str(i) )
+                            aggiunta += ")\n"
+                            codice=aggiunta+codice
+                    else:
+                        codice='#pragma omp section\n{\n'+codice+'\n}\n'
                     if size >0:
-                        out +=codice
+                        out +=codice            
+                else:
+                    out += node.generaNodeC(self.generaId(),sourceId,targetId,start,end)
+
+        return out
+
+    def generaCalcoloRuntimeDim(self,sourceId,targetId,step):
+        ''' This method generates the for loops in C relative to section self
+
+            self        - section which invoke code generation
+            sourceId    - string containing the subscript of the sections which are read targets
+            targetId    - string containing the subscript of the sections which are write targets
+            step        - step to be generated
+            
+            output  - string containing generated code
+        '''
+        out = ""
+
+        if self.isGood:
+
+            for node in self.root.childs:
+                if config.OPEN_MP:
+                    raise NotImplementedError("Runtime Dim does not work yet")
+                else:
+                    out += node.generaNodeC(self.generaId(),sourceId,targetId)
 
         return out
 
@@ -758,14 +835,15 @@ class SectionShift(Section):
                     self.computationCoordinates.append(0)
                     self.computationDim.append(self.shape.ordine)
 
-                    self.realSendCoordinates.append(0)
-                    self.realSendDim.append(self.shape.ordine)
+                    if not config.RUNTIME_DIM:
+                        self.realSendCoordinates.append(0)
+                        self.realSendDim.append(self.shape.ordine)
 
-                    self.realOutsideCoordinates.append(-self.shape.ordine)
-                    self.realOutsideDim.append(self.shape.ordine)
+                        self.realOutsideCoordinates.append(-self.shape.ordine)
+                        self.realOutsideDim.append(self.shape.ordine)
 
-                    self.realComputationCoordinates.append(0)
-                    self.realComputationDim.append(self.shape.ordine)
+                        self.realComputationCoordinates.append(0)
+                        self.realComputationDim.append(self.shape.ordine)
                 else:
                     # a second coordinate different than 1 (central coordinate) has been found
                     # therefore the section does not have to be generated
@@ -782,14 +860,15 @@ class SectionShift(Section):
                     self.computationCoordinates.append(0)
                     self.computationDim.append(self.father.size)
 
-                    self.realSendCoordinates.append(0)
-                    self.realSendDim.append(self.father.finalSize)
+                    if not config.RUNTIME_DIM:
+                        self.realSendCoordinates.append(0)
+                        self.realSendDim.append(self.father.finalSize)
 
-                    self.realOutsideCoordinates.append(0)
-                    self.realOutsideDim.append(self.father.finalSize)
+                        self.realOutsideCoordinates.append(0)
+                        self.realOutsideDim.append(self.father.finalSize)
 
-                    self.realComputationCoordinates.append(0)
-                    self.realComputationDim.append(self.father.finalSize)
+                        self.realComputationCoordinates.append(0)
+                        self.realComputationDim.append(self.father.finalSize)
                 else:                    
                     # a coordinate different than one has been found BUT the section is ok if all the OTHER coordinates are 1
                     # MOREOVER we nees to expand because of the shift method
@@ -802,14 +881,15 @@ class SectionShift(Section):
                     self.computationCoordinates.append(0)
                     self.computationDim.append(self.father.size)
 
-                    self.realSendCoordinates.append(-self.shape.ordine)
-                    self.realSendDim.append(self.father.finalSize +2 *self.shape.ordine)
+                    if not config.RUNTIME_DIM:
+                        self.realSendCoordinates.append(-self.shape.ordine)
+                        self.realSendDim.append(self.father.finalSize +2 *self.shape.ordine)
 
-                    self.realOutsideCoordinates.append(-self.shape.ordine)
-                    self.realOutsideDim.append(self.father.finalSize+2 *self.shape.ordine)
+                        self.realOutsideCoordinates.append(-self.shape.ordine)
+                        self.realOutsideDim.append(self.father.finalSize+2 *self.shape.ordine)
 
-                    self.realComputationCoordinates.append(0)
-                    self.realComputationDim.append(self.father.finalSize)
+                        self.realComputationCoordinates.append(0)
+                        self.realComputationDim.append(self.father.finalSize)
 
             elif item == 2:
                 if self.isLocal:
@@ -824,14 +904,15 @@ class SectionShift(Section):
                     self.computationCoordinates.append(self.father.size - self.shape.ordine)
                     self.computationDim.append(self.shape.ordine)
 
-                    self.realSendCoordinates.append(self.father.finalSize - self.shape.ordine)
-                    self.realSendDim.append(self.shape.ordine)
+                    if not config.RUNTIME_DIM:
+                        self.realSendCoordinates.append(self.father.finalSize - self.shape.ordine)
+                        self.realSendDim.append(self.shape.ordine)
 
-                    self.realOutsideCoordinates.append(self.father.finalSize)
-                    self.realOutsideDim.append(self.shape.ordine)
+                        self.realOutsideCoordinates.append(self.father.finalSize)
+                        self.realOutsideDim.append(self.shape.ordine)
 
-                    self.realComputationCoordinates.append(self.father.finalSize - self.shape.ordine)
-                    self.realComputationDim.append(self.shape.ordine)
+                        self.realComputationCoordinates.append(self.father.finalSize - self.shape.ordine)
+                        self.realComputationDim.append(self.shape.ordine)
                 else:
                     self.isGood = False
 
@@ -845,13 +926,10 @@ class SectionShift(Section):
                 self.computationCoordinates[index] = self.shape.ordine
                 self.computationDim[index] = self.father.size - 2*self.shape.ordine
 
-                self.realSendCoordinates[index] = self.shape.ordine
-                self.realSendDim[index] = self.father.finalSize - 2*self.shape.ordine
+                if not config.RUNTIME_DIM:
 
-                self.realComputationCoordinates[index]= self.shape.ordine
-                self.realComputationDim[index] = self.father.finalSize - 2*self.shape.ordine
+                    self.realSendCoordinates[index] = self.shape.ordine
+                    self.realSendDim[index] = self.father.finalSize - 2*self.shape.ordine
 
-
-
-if __name__ == "__main__":
-    print "Hello World"
+                    self.realComputationCoordinates[index]= self.shape.ordine
+                    self.realComputationDim[index] = self.father.finalSize - 2*self.shape.ordine

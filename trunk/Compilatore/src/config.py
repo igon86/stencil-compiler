@@ -6,7 +6,7 @@ __date__ ="$4-mar-2012 18.28.37$"
 
 SHIFT               = True
 QT                  = False
-DOMAIN_EDGE_SIZE    = 8
+DOMAIN_EDGE_SIZE    = 16
 ITERATIONS          = 2
 PARALLELISM_DEGREE  = 1
 OUTPUT_FILENAME     = "./testBench/compilato.c"
@@ -28,11 +28,9 @@ TESTBENCH_DIR       = "./testBench/"
 HEADERS_DIR         = "./headers/"
 
 # questo file contiene la matrice risulato per la computazione specificata in questo config
-RISULTATO           = "../UNIT_TEST/matrices/2d1_8"
+RISULTATO           = "../UNIT_TEST/matrices/2d1_16"
 
 
 DATATYPE = "int"
-OPEN_MP = True
-
-RUNTIME_DIM = True
-
+OPEN_MP = False
+RUNTIME_DIM = False

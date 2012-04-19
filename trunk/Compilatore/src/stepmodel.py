@@ -63,8 +63,8 @@ class StepModel(object):
         for s in self.partitions[0].sezioni.flat:
             s.buildTree()
             s.buildCommTree()
-        # the partition is copied
-        # FIX THIS, IT"S UGLY
+        # the partition is copied, this halves compilation time,
+        # TO BE USED CAREFULLY
         self.partitions[1] = copy.copy(self.partitions[0])
 
 
@@ -122,9 +122,10 @@ class StepModel(object):
             out += f.read()
 
         out += partizione.generaFillSections()
+        
         # start generating iterations
         if self.iterazioni % len(self.partitions):
-            raise ValueError("Number of iterations is not divisible by the number of iterations of the step model")
+            raise ValueError("Number of iterations:"+self.iterazioni+ "is not divisible by the number of iterations of the step model: "+len(self.partitions))
 
         iter = self.iterazioni / len(self.partitions)
 
@@ -137,23 +138,17 @@ class StepModel(object):
             target = (index+1) % len(self.partitions)
 
             #this indicates which part of the local section has been generated
-            p.generated = 0
+            #p.generated = 0
             
             # the legnth of the edgeof the local section is computed
             # FIX this should become an attriute of stepmodel
-            p.localSectionEdge =  p.finalSize - 2*self.shape.ordine
+            #p.localSectionEdge =  p.finalSize - 2*self.shape.ordine
 
-            for step in range(p.numberOfSteps):
-                # I firstly compute which interval of the local section should be updated in this partition step
-                intervalLength = int(math.ceil((p.localSectionEdge-p.generated)/(p.numberOfSteps-step)))
-                print "this interval has length",intervalLength
-                start = p.generated
-                end = int(start + intervalLength - 1)
-                print "this interval goes from ",start," to ",end
+            for step in range(p.numberOfSteps):               
                 out += p.generaSend(str(source),step)
-                out += p.generaCalcoloInterno(str(source),str(target),start,end)
+                out += p.generaCalcoloInterno(str(source),str(target),step)
                 out += p.generaReceive(step)
-                p.generated +=intervalLength
+                #p.generated +=intervalLength
 
             out += p.generaCalcoloEsterno(str(source),str(target))
             
