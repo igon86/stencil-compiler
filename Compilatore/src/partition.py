@@ -1,6 +1,3 @@
-import pdb
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
 
 __author__="andrealottarini"
 __date__ ="$5-feb-2012 14.40.07$"
@@ -10,7 +7,7 @@ import numpy as np
 from section import *
 import config
 
-import pdb
+import math
 
 from communicationList import *
 
@@ -85,8 +82,6 @@ class Partition(object):
 
         print "\n\n\nCOSTRUISCO LA LISTA DELLA COMUNICAZIONE\n\n\n"
         
-        
-        
         goodSections = len(filter(lambda x:x.isGood,self.sezioni.flat))
         while len(self.communicationList) < goodSections:
             for s in self.sezioni.flat:
@@ -96,9 +91,21 @@ class Partition(object):
         print str(self.communicationList)
         # I acquire the number of steps that this partition requires
         self.numberOfSteps = len(self.communicationList.commList)
+
+        self.localSectionEdge =  finalSize - 2*self.shape.ordine
+        #a questo punto costrusco la lista delle dimensioni da computare ad ogni passo
+        #e significativa solo se il metodo di shift e utilizzato e le dimensioni finali sono statiche
+        self.steps = []
+        generated = 0
+        for step in range(self.numberOfSteps):
+                # I firstly compute which interval of the local section should be updated in this partition step
+                intervalLength = int(math.ceil((self.localSectionEdge - generated)/(self.numberOfSteps-step)))
+                
+                start = generated
+                end = int(start + intervalLength - 1)
+                self.steps.append([start,end])
+                generated +=intervalLength
                              
-
-
     def __len__(self):
         return len(self.sezioni.flat)
 
@@ -238,13 +245,26 @@ class Partition(object):
         return out
 
 
-    def generaCalcoloInterno(self,sourceId,targetId,start=None,end=None):
+    def generaCalcoloInterno(self,sourceId,targetId,step):
+        ''' Generates code of the local section for the given source,target and step
+
+            sourceId    - subscript of the input sections
+            sourceId    - subscript of the output sections
+            step        - index of the step that has to be generated
+        '''
+        
         out = ""
-        localSectionTag = self.getLocalSectionTag()
-            
-        localSection = self[localSectionTag]        
+
+        #first a reference to the local section is obtained
+        localSectionTag = self.getLocalSectionTag()            
+        localSection = self[localSectionTag]
         out += localSection.generaDebugPrint(sourceId)
-        out+=localSection.generaCalcoloC(sourceId,targetId,start,end)
+
+        if config.RUNTIME_DIM:
+            out += localSection.generaCalcoloRuntimeDim(sourceId,targetId,step)
+        else:            
+            out += localSection.generaCalcoloC(sourceId,targetId,self.steps[step][0],self.steps[step][1])
+            
         out += localSection.generaDebugPrint(targetId)
 
         return out
