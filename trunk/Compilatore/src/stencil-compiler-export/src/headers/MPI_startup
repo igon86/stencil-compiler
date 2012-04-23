@@ -1,0 +1,19 @@
+
+
+	/* SCATTER DEI DATI */
+	if (my_rank == EMETTITORE) {
+
+		scatter(local,matrix);
+
+	}else {
+
+		/* RECEIVE DELLE PARTIZIONI */
+		MPI_Recv(local, localsize, MPI_DATATYPE, EMETTITORE, TAG, MPI_COMM_WORLD,&status);
+
+	}
+
+	/* INIZIALIZZAZIONE DELLE SEZIONI */
+	init_sections(sezioni,my_rank);
+
+
+	/*CODICE GENERATO DAL COMPILATORE */
