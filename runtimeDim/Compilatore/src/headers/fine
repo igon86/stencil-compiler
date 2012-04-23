@@ -1,0 +1,24 @@
+        STAMPA("condensa terminata\n")
+
+#if DEBUG
+	 //printSections(localfp,sezioni);
+#endif
+
+	/* CONDENSA */
+	//condensa(sezioni,local);
+
+	/* GATHER DEI DATI */
+	if (my_rank == COLLETTORE) {
+
+		gather(local, matrix);
+
+                /* stampa della matrice finale */
+		writeMatrix(OUTPUT_MATRIX, matrix);
+
+	} else {
+
+		MPI_Send(local, localsize, MPI_INT, COLLETTORE, TAG,
+				 MPI_COMM_WORLD);
+	}
+	MPI_Finalize();
+}
