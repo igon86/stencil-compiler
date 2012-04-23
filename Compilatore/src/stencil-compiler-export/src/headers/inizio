@@ -1,0 +1,78 @@
+/* generato.c 
+  * 
+  *	Output del compilatore 
+  */ 
+ 
+ #include <stdio.h> 
+ #include <stdlib.h> 
+ #include <sys/time.h>
+ 
+ #include "conf.h" 
+ #include "supporto.h" 
+ 
+ #define    LOTS_OF_CHAR 100
+ #define    OUTPUT_MATRIX "./matrixpost"
+
+int p;                  /* Parallelism Degree   */
+int domain_edge_size;   /* Size of the Domain   */
+int iterations;         /* Number of iterations */
+FILE* localfp;          /* File for DEBUG               */
+
+extern int extension;           /* Difference between domain_edge_size and compile-time size*/
+extern int partition_edge_size;
+extern int localsize;           
+
+
+ /******************************************************************* 
+ 					MAIN 
+  *******************************************************************/ 
+ 
+ main(int argc, char *argv[]) 
+ { 
+ 	
+ 	int my_rank;					/* Rank of process		*/
+ 	MPI_Status status;				/* Return status for MPI_Recv	*/
+
+        char filename[LOTS_OF_CHAR];
+	
+        sezione sezioni[num_sezioni];                   /* Auxiliary data structure for MPI comm*/
+	
+        struct timeval tv1,tv2;                         /* Data structures for time     */
+
+        int i;                                          /* Iteration index              */
+
+        int* matrix;                                     /* matrix containing the input data */
+
+        /* RETRIEVE INFORMATION FROM COMMAND LINE*/
+        if (argc != 3){
+            fprintf(stderr,"Incorrect number of parameters\nPARALLELISM DEGREE \
+                - DOMAIN EDGE SIZE - NUMBER OF ITERATIONS\n");
+            exit(-1);
+        }
+        domain_edge_size    = atoi(argv[1]);
+        iterations          = atoi(argv[2]);
+        if (domain_edge_size == 0 || iterations == 0){
+            fprintf(stderr,"One of the parameters is not a valid number\n");
+            exit(-1);
+        }
+
+
+
+        /* Start up MPI */
+	MPI_Init(&argc, &argv);
+
+        /* Find out the number of processes*/
+        MPI_Comm_size(MPI_COMM_WORLD, &p);
+
+	/* Find out process rank  */
+	MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
+
+        #if DEBUG
+        /* Apertura del file di log locale */
+        sprintf(filename, "PROCESSO_%d", my_rank);
+        localfp = fopen(filename, "w");
+        #endif
+
+        check_init_parameters();
+
+

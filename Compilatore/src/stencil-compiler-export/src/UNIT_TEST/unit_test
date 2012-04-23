@@ -1,0 +1,96 @@
+#!/bin/bash
+
+#parameter which specifies where to read config files
+#config files are the input of the compiler
+CONFIG_DIR=./config_files
+
+#clean up
+rm -f ./$CONFIG_DIR/*~
+
+echo -e "\nINIZIO\n"
+
+echo -e "benchmark\n\n" > benchmark
+
+for i in $(ls $CONFIG_DIR); do
+    echo $i
+    # the config file is copied in the folder containing the compiler code and the compiler is invoked
+    cp ./config_files/$i ../config.py
+    cd ..
+    python ./compilatore.py > outputCompilatore
+    if [ $? -gt 0 ]
+    then
+        echo "PROBLEMA NEL COMPILATORE"
+        exit 113
+    fi
+
+    echo $i >> benchmark
+    grep TIME outputCompilatore >> benchmark
+    echo -e "\n\n\n" >> benchmark
+
+    cd ./UNIT_TEST
+    
+    openmp=$(awk '{ if($1 == "OPEN_MP") print $3}' ./config_files/$i)
+    #echo $openmp
+    if [ $openmp == 'True' ]
+    then        
+        echo "compilo con openMP"
+        mpicc -g -fopenmp -lm -w -DDEBUG ../testBench/compilato.c ../testBench/supporto.c ../testBench/algebric.c -o ../testBench/worker
+    else
+        mpicc -g -lm -w -DDEBUG ../testBench/compilato.c ../testBench/supporto.c ../testBench/algebric.c -o ../testBench/worker
+    fi
+    
+    if [ $? -gt 0 ]
+    then
+        echo "PROBLEMA CON MPICC "
+        exit 113
+    fi
+
+    #parso il grado di parallelismo
+    p=$(awk '{ if($1 == "PARALLELISM_DEGREE") print $3}' ./config_files/$i)
+    #echo $p
+
+    #parso dove si trova la matrice
+    risultato=$(awk '{ if($1 == "RISULTATO") print $3}' ./config_files/$i | tr '"' ' ')
+    #echo $risultato
+
+    cd ../testBench
+    #questo test per qualche motivo e necessario, a volte il file conf.h non viene creato correttamente
+    fgh=$(grep "#define p $p" ./conf.h | wc -l)
+    if [ $fgh -eq 0 ]
+    then
+	echo "PROBLEMA INCAPIBILE NELLA GENERAZIONE DI CONF.H"
+	exit 111
+    fi	
+    mpirun -np $p ./worker > outMPI
+    if [ $? -gt 0 ]
+    then
+        echo "PROBLEMA CON MPIRUN"
+        exit 113
+    fi
+    
+    out=$(diff -B ./matrixpost $risultato)
+    if [ $? -eq 2 ]
+    then
+	echo "PROBLEMA NEL DIFF"
+	exit 113
+    fi 
+
+    out1=$(diff -B ./matrixpost $risultato | wc -l )
+    if [ $out1 -gt 0 ]
+    then
+	echo "CALCOLO NON CORRETTO"
+	echo $out1
+	exit 114
+    fi	
+
+    echo -e "\nGOOD\n\n"
+
+    rm ./compilato.c
+    rm ./worker
+    rm ./conf.h
+    rm ./matrixpost
+
+    cd ../UNIT_TEST
+done
+
+echo "TERMINO CON SUCCESSO"
