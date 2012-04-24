@@ -90,6 +90,8 @@ class StepModel(object):
             with open(config.HEADERS_DIR+"conf.h") as fin:
                 out += fin.read()
 
+            partition =  self.partitions[0]
+
             # user defined data type
             out += ('#define DATATYPE ')+str(config.DATATYPE)+"\n"
             dict = {'int': '"%d\\t"\n','double': '"%lf\\t"\n','float': '"%f\\t"\n'}
@@ -99,11 +101,12 @@ class StepModel(object):
             # corresponding MPI datatype
             out += "#define MPI_DATATYPE "+dict[config.DATATYPE]
 
-            out += ("#define num_sezioni "+str(len(self.partitions[0]))+"\n")
-            out += ("#define local_section "+str(section.tagToIndex(self.partitions[0].getLocalSectionTag()))+"\n")
-            out += ("#define ordine "+str(self.partitions[0].shape.ordine)+"\n")
+            out += ("#define num_sezioni "+str(len(partition))+"\n")
+            out += ("#define num_steps "+str(partition.numberOfSteps)+"\n")
+            out += ("#define local_section "+str(section.tagToIndex(partition.getLocalSectionTag()))+"\n")
+            out += ("#define ordine "+str(partition.shape.ordine)+"\n")
             out += ("#define dim "+str(self.shape.dim)+"\n")
-            out += "#define compile_time_size "+str(self.partitions[0].size)+"\n"
+            out += "#define compile_time_size "+str(partition.size)+"\n"
 #            out += ("#define p "+str(self.parallelism)+"\n")
 #            out += ("#define M "+str(self.M)+"\n")
 #            out += ("#define lato "+str(self.lato)+"\n")
@@ -136,44 +139,34 @@ class StepModel(object):
 
         out += partizione.generaFillSections()
         out += partizione.generaSectionPrints()
-#        # start generating iterations
-#        if self.iterazioni % len(self.partitions):
-#            raise ValueError("Number of iterations is not divisible by the number of iterations of the step model")
-#
-#        iter = self.iterazioni / len(self.partitions)
-#
-#        out += ("for ( i = 0 ; i < "+str(iter)+";i++){\n" )
-#
-#        for index,p in enumerate(self.partitions):
-#            print "GENRATING PARTITION",index,"CONTAINING",p.numberOfSteps,"STEPS"
-#
-#            source = index
-#            target = (index+1) % len(self.partitions)
-#
-#            #this indicates which part of the local section has been generated
-#            p.generated = 0
-#
-#            # the legnth of the edgeof the local section is computed
-#            # FIX this should become an attriute of stepmodel
-#            p.localSectionEdge =  p.finalSize - 2*self.shape.ordine
-#
-#            for step in range(p.numberOfSteps):
-#                # I firstly compute which interval of the local section should be updated in this partition step
-#                intervalLength = int(math.ceil((p.localSectionEdge-p.generated)/(p.numberOfSteps-step)))
-#                print "this interval has length",intervalLength
-#                start = p.generated
-#                end = int(start + intervalLength - 1)
-#                print "this interval goes from ",start," to ",end
-#                out += p.generaSend(str(source),step)
-#                out += p.generaCalcoloInterno(str(source),str(target),start,end)
-#                out += p.generaReceive(step)
-#                p.generated +=intervalLength
-#
-#            out += p.generaCalcoloEsterno(str(source),str(target))
-#
-#        out += "}\n"
-#
-#        out +='STAMPA("calcolo terminato\\n")\n'
+        # GENERATE ITERATIONS
+
+        #if config.SHIFT:
+        out += "int generated,start,interval,end = 0;\n"
+        out += ("for ( i = 0 ; i < iterations/2;i++){\n" )
+
+        for index,p in enumerate(self.partitions):
+            print "GENRATING PARTITION",index,"CONTAINING",p.numberOfSteps,"STEPS"
+            out += "\n\n /* PARTITION "+str(index)+" */\n\n"
+            source = index
+            target = (index+1) % len(self.partitions)
+
+
+            for step in range(p.numberOfSteps):
+                out += "\n\n /* STEP "+str(step)+" */\n\n"                
+                if config.GENERATE_COMM:
+                    out += p.generaSend(str(source),step)
+                if config.GENERATE_CALC:                                        
+                    out += p.generaCalcoloInterno(str(source),str(target),step)
+                if config.GENERATE_COMM:
+                    out += p.generaReceive(step)
+                
+            if config.GENERATE_CALC:
+                out += p.generaCalcoloEsterno(str(source),str(target))
+
+        out += "}\n"
+
+        out +='STAMPA("calcolo terminato\\n")\n'
 
         out += partizione.generaCondensa()
 
@@ -225,8 +218,8 @@ class StepModelQT(StepModel):
 
         # there is only one partition in the naive method
         self.partitions = []
-        self.partitions.append( Partition(shape.getNegativeShape(),self.partitionSize,0) )
-        self.partitions.append( Partition(shape.getPositiveShape(),self.partitionSize,1) )
+        self.partitions.append( Partition(shape.getNegativeShape(),0) )
+        self.partitions.append( Partition(shape.getPositiveShape(),1) )
         self.iterazioni = iterazioni
         self.parallelism = parallelismDegree
 

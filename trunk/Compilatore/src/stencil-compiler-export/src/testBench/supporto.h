@@ -50,5 +50,8 @@ void gather(DATATYPE* local,DATATYPE* matrix);
 void printSections(FILE* localfp,sezione* sezioni);
 
 void writeMatrix(char* file_out, DATATYPE* data);
- 
+
+int min(int a,int b);
+
+int max(int a,int b);
 #endif

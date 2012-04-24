@@ -49,19 +49,21 @@ for i in $(ls $CONFIG_DIR); do
     p=$(awk '{ if($1 == "PARALLELISM_DEGREE") print $3}' ./config_files/$i)
     #echo $p
 
+    #parso la dimensione del dominio
+    domain=$(awk '{ if($1 == "DOMAIN_EDGE_SIZE") print $3}' ./config_files/$i)
+
     #parso dove si trova la matrice
-    risultato=$(awk '{ if($1 == "RISULTATO") print $3}' ./config_files/$i | tr '"' ' ')
-    #echo $risultato
+    risultato=$(awk '{ if($1 == "RISULTATO") print $3}' ./config_files/$i | tr '"' ' ')    
 
     cd ../testBench
     #questo test per qualche motivo e necessario, a volte il file conf.h non viene creato correttamente
-    fgh=$(grep "#define p $p" ./conf.h | wc -l)
-    if [ $fgh -eq 0 ]
-    then
-	echo "PROBLEMA INCAPIBILE NELLA GENERAZIONE DI CONF.H"
-	exit 111
-    fi	
-    mpirun -np $p ./worker > outMPI
+    #fgh=$(grep "#define p $p" ./conf.h | wc -l)
+    #if [ $fgh -eq 0 ]
+    #then
+    #echo "PROBLEMA INCAPIBILE NELLA GENERAZIONE DI CONF.H"
+#	exit 111
+ #   fi	
+    mpirun -np $p ./worker $domain 2 > outMPI
     if [ $? -gt 0 ]
     then
         echo "PROBLEMA CON MPIRUN"

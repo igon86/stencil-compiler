@@ -4,23 +4,22 @@
 __author__="andrealottarini"
 __date__ ="$4-mar-2012 18.28.37$"
 
-SHIFT               = True
+SHIFT               = False
 QT                  = False
-DOMAIN_EDGE_SIZE    = 16
+DOMAIN_EDGE_SIZE    = 8
 ITERATIONS          = 2
 PARALLELISM_DEGREE  = 1
 OUTPUT_FILENAME     = "./testBench/compilato.c"
 STEP_MODEL_OUTPUT   = "./stepModel"
 MAGIC_PARAMETER     = 7
 MAGIC_THRESHOLD_FOR_OFFSET  = 4
-GENERATE_COMM       =   False
-GENERATE_CALC       =   False
 
 #questo e il path al file dalla shape
-SHAPE_FILENAME      = "./shapes/shape2d1"
+SHAPE_FILENAME      = "./shapes/shape3d"
 
 # questo file contiene la #define di MACRO
-HEADER_FUNZIONE     = "../headers/macro2d1.h"
+HEADER_FUNZIONE     = "../headers/macro3d.h"
+
 
 #questa cartella contiene il supporto a runtime del compilatore e i dati per la computazione
 TESTBENCH_DIR       = "./testBench/"
@@ -29,7 +28,10 @@ TESTBENCH_DIR       = "./testBench/"
 HEADERS_DIR         = "./headers/"
 
 # questo file contiene la matrice risulato per la computazione specificata in questo config
-RISULTATO           = "../UNIT_TEST/matrices/2d1_16"
+RISULTATO           = "../UNIT_TEST/matrices/3d_8"
+
 
 DATATYPE = "int"
-OPEN_MP = False
+OPEN_MP = True
+GENERATE_CALC = True
+GENERATE_COMM = True

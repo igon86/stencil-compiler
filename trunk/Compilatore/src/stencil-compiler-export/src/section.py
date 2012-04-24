@@ -11,8 +11,6 @@ from TreeNode import *
 
 import time
 
-import pdb
-
 def chooseWinner(x,y):
     ''' This function is a reduce function which just return the best point for code generation
         coolness is a point property and depends on the section that the point lives in
@@ -96,19 +94,26 @@ class Section(object):
         else:
             return True
 
-#    def getDim(self):
-#        out = 1
-#        for i in self.realSendDim:
-#            out *= i
-#
-#        return out
-#
-#    def getOdim(self):
-#        out = 1
-#        for i in self.realOutsideDim:
-#            out *= i
-#
-#        return out
+    def getDim(self):
+        out = ""
+        for i in self.sendDim:
+            if i > self.father.ordine:
+                out += "("+str(i)+"+extension)*"
+            else:
+                out += str(i)+"*"
+        out+="1"
+        return out
+
+    def getOdim(self):
+        out = ""
+        for i in self.outsideDim:
+            if i > self.father.ordine:
+                out += "("+str(i)+"+extension)*"
+            else:
+                out += str(i)+"*"
+        out+="1"
+
+        return out
 
     def initSize(self):
         self.sendCoordinates = []
@@ -258,27 +263,28 @@ class Section(object):
         #this has been determined in the initSize method
         if self.isGood:
             #pdb.set_trace()
-            self.sendEnd = []
+            self.innerEnd = []
             self.outsideEnd = []
             print "SEZIONE ",self.tag
-            for index in range(len(self.tag)):
-                print "coordinata",index
-                print "SOMMO ",self.sendCoordinates[index],self.sendDim[index]
-                self.sendEnd.append(self.sendCoordinates[index] + self.sendDim[index]-1)
-                print "SOMMO ",self.outsideCoordinates[index],self.outsideDim[index]
-                self.outsideEnd.append(self.outsideCoordinates[index] + self.outsideDim[index]-1)
+            if not self.isLocal:
+                for index in range(len(self.tag)):
+                    print "coordinata",index
+                    print "SOMMO ",self.sendCoordinates[index],self.sendDim[index]
+                    self.innerEnd.append(self.sendCoordinates[index] + self.sendDim[index]-1)
+                    print "SOMMO ",self.outsideCoordinates[index],self.outsideDim[index]
+                    self.outsideEnd.append(self.outsideCoordinates[index] + self.outsideDim[index]-1)
 
-            print "il risultato e",self.sendEnd,self.outsideEnd
-            #the offset between computation and send coordinates is stored
-            # it will be used in tree expansion
-            self.offset = []
-            for item1,item2 in zip(self.computationCoordinates,self.sendCoordinates):
-                self.offset.append(item1-item2)
+                print "il risultato e",self.innerEnd,self.outsideEnd
+                #the offset between computation and send coordinates is stored
+                # it will be used in tree expansion
+                self.offset = []
+                for item1,item2 in zip(self.computationCoordinates,self.sendCoordinates):
+                    self.offset.append(item1-item2)
 
-            #THIS points are used by the getCandidates functions
+                #THIS points are used by the getCandidates functions
 
 
-            # internal points of the section are initialized (they may contain shift points)
+                # internal points of the section are initialized (they may contain shift points)
             self.points = np.empty(self.sendDim,dtype=Point)
             self.shiftPoints = []
             self.recursiveInit(self.points,0,[])
@@ -661,7 +667,7 @@ class Section(object):
         return out
 
 
-    def generaCalcoloC(self,sourceId,targetId,start=None,end=None):
+    def generaCalcoloC(self,sourceId,targetId):
         ''' This method generates the for loops in C relative to section self
 
             self        - section which invoke code generation
@@ -677,24 +683,25 @@ class Section(object):
             for c in self.root.childs:
                 codice = ""
                 #out += c.generaNodeC(self.generaId(),sourceId,targetId,start,end)
-                size = c.checkInterval(start, end)
-                if size > 0:
-                    codice = c.generaNodeC(self.generaId(),sourceId,targetId,start,end)
+                #size = c.checkInterval(start, end)
+                #if size > 0:
+                codice = c.generaNodeC(self.generaId(),sourceId,targetId)
                 if config.OPEN_MP:
                     if self.isLocal:
-                        if size > self.shape.ordine:
-                            aggiunta = "#pragma omp parallel for private("
-                            for i in range(len(self.tag)):
-                                if i>1:
-                                    aggiunta += ","
-                                if i >0:
-                                    aggiunta += ( "i"+str(i) )
-                            aggiunta += ")\n"
-                            codice=aggiunta+codice
+                       # if size > self.shape.ordine:
+                       #FIX usare extended in un treenode
+                        aggiunta = "#pragma omp parallel for private("
+                        for i in range(len(self.tag)):
+                            if i>1:
+                                aggiunta += ","
+                            if i >0:
+                                aggiunta += ( "i"+str(i) )
+                        aggiunta += ")\n"
+                        codice=aggiunta+codice
                     else:
                         codice='#pragma omp section\n{\n'+codice+'\n}\n'
-                if size >0:
-                    out +=codice
+                #if size >0:
+                out +=codice
 
         return out
 
@@ -725,6 +732,7 @@ class Section(object):
         return out
 
     def isOuter(self,item):
+        ''' Checks if item is a point inside the receive buffer of the section '''
         if self.isLocal:
             return False
         for index in range(len(self.tag)):
@@ -733,8 +741,9 @@ class Section(object):
         return True
 
     def isInner(self,item):
+        ''' This method checks if item is inside the Send section '''
         for index in range(len(self.tag)):
-            if item[index] > self.sendEnd[index] or item[index] < self.sendCoordinates[index]:
+            if item[index] > self.innerEnd[index] or item[index] < self.sendCoordinates[index]:
                 return False
         return True
 
@@ -920,7 +929,119 @@ class SectionShift(Section):
 #                self.realComputationCoordinates[index]= self.shape.ordine
 #                self.realComputationDim[index] = self.father.finalSize - 2*self.shape.ordine
 
+class LocalSection(Section):
 
+    def __init__(self,tag,father):
+        #coordinate nello spazio delle sezioni
+        self.tag = tag
+
+        #partition which owns this section
+        self.father  = father
+
+        # shape della computazione
+        self.shape = father.shape
+
+        # flags that indicates if the section has to be sent
+        # or reveived (initially false)
+        self.needsReceive = False
+        self.needsSend    = False
+
+        self.outsideCoordinates = []
+        self.outsideDim = []
+
+        self.computationCoordinates = []
+        self.computationDim = []
+
+        self.sendCoordinates = []
+        self.sendDim = []
+
+        self.shiftPoints = []
+
+        # this will be checked in the initSize method
+        self.isLocal = True
+
+        self.isGood = True
+
+        self.initSize()
+
+        #this has been determined in the initSize method
+        if self.isGood:
+            self.innerEnd = []
+            print "SEZIONE ",self.tag
+            for index in range(len(self.tag)):
+                print "coordinata",index
+                print "SOMMO ",self.sendCoordinates[index],self.sendDim[index]
+                self.innerEnd.append(self.sendCoordinates[index] + self.sendDim[index]-1)
+
+            print "il risultato e",self.innerEnd
+            
+            #the offset will be zero
+            self.offset = []
+            for item1,item2 in zip(self.computationCoordinates,self.sendCoordinates):
+                self.offset.append(item1-item2)
+
+
+            # internal points of the section are initialized (they may contain shift points)
+            self.points = np.empty(self.sendDim,dtype=Point)            
+            self.recursiveInit(self.points,0,[])
+
+            self.opoints = np.empty(1,dtype=Point)
+
+    def __str__(self):
+        if self.isGood:
+            return " sono la Section Locale: " +str(self.tag) + \
+            "\n sendBuffer" + str(self.sendCoordinates) +"dim"+str(self.sendDim) +"Computation Buffer "+str(self.computationCoordinates) +" dim"+str(self.computationDim)+"p"+str(self.points)
+
+    def initSize(self):
+        for index in range(len(self.tag)):
+
+            self.sendCoordinates.append(self.shape.ordine)
+            self.sendDim.append(self.father.size - 2*self.shape.ordine)
+
+            self.computationCoordinates.append(self.shape.ordine)
+            self.computationDim.append(self.father.size - 2*self.shape.ordine)
+
+    def isOuter(self,item):
+        return False
+
+    def isInner(self,item):
+        ''' This method checks if item is inside the section '''
+        for index in range(len(self.tag)):
+            if item[index] > self.innerEnd[index] or item[index] < self.computationCoordinates[index]:
+                return False
+        return True
+
+    def generaCalcoloC(self,sourceId,targetId):
+        ''' This method generates the for loops in C relative to section self
+
+            self        - section which invoke code generation
+            sourceId    - string containing the postfix of the section which are read targets
+            targetId    - string containing the postfix of the section which are write targets
+
+            output  - string containing generated code
+        '''
+        out = ""
+
+        #I do not check if the local section is good -> it has to be good
+
+        for c in self.root.childs:
+            codice = ""
+            codice = c.generaNodeC(self.generaId(),sourceId,targetId)
+            if config.OPEN_MP:
+
+                aggiunta = "#pragma omp parallel for private("
+                for i in range(len(self.tag)):
+                    if i>1:
+                        aggiunta += ","
+                    if i >0:
+                        aggiunta += ( "i"+str(i) )
+                aggiunta += ")\n"
+                codice=aggiunta+codice
+
+
+            out +=codice
+
+        return out
 
 if __name__ == "__main__":
     print "Hello World"
