@@ -1,12 +1,14 @@
 #!/bin/bash
 #questo abominio non e fatto per essere eseguito, solo per prendere spunto e fare editing dei config files
 
-sed -ibak s:'/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/':'../shapes/': *.py
-sed -ibak s:'/Users/andrealottarini/NetBeansProjects/Compilatore/src/':'../': *.py
-for i in $(ls *.py); do
+#sed -ibak s:'/Users/andrealottarini/Desktop/TIROCINIO/YesWeSten/PYTHON/':'../shapes/': *.py
+#sed -ibak s:'/Users/andrealottarini/NetBeansProjects/Compilatore/src/':'../': *.py
+for i in $(ls ./config_files/*.py); do
     echo $i
-    echo 'DATATYPE = "int"' >> $i
-    echo 'OPEN_MP = False' >> $i
+    #echo 'DATATYPE = "int"' >> $i
+    #echo 'OPEN_MP = False' >> $i
+    echo 'GENERATE_CALC = True' >> $i
+    echo 'GENERATE_COMM = True' >> $i
 done
 
-for i in $(ls *.py); do cp $i $i.old; awk '{ if($1 == "OPEN_MP") {$3="True";print}else print}' $i > $i.new;cp $i.new $i;rm $i.new ;done
+#for i in $(ls *.py); do cp $i $i.old; awk '{ if($1 == "OPEN_MP") {$3="True";print}else print}' $i > $i.new;cp $i.new $i;rm $i.new ;done

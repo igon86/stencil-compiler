@@ -93,7 +93,7 @@ class Node(object):
             ordine      --  shape.ordine used to determined whether an interval has to be extended
 
         '''
-        print "Espansione CALCOLO\n"
+        #print "Espansione CALCOLO\n"
         for item in self.offsets:
             item.expand(ordine)
 
@@ -107,10 +107,10 @@ class Node(object):
             else:
                 if item.getInterval() >= ordine :
                     extended = True
-                    item.end += extension
+                    item.end = str(item.end)+"+extension"
         #print "Ho ottenuto ", self
         for item in self.childs:
-            item.expandTree(ordine,extension)
+            item.expandTree(ordine)
 
     def expandCommTree(self,ordine,originalSize):
         ''' This method is similar to the previous. It expands the the code for the memcpy of shift section
@@ -121,31 +121,30 @@ class Node(object):
                                 it is used to detect "jumps" between clusters of shift points
             
         '''
-        print "Espansione COMUNICAZIONE\n"
+        #print "Espansione COMUNICAZIONE\n"
         for item in self.offsets:
-            item.expand(extension,ordine)
+            item.expand(ordine)
 
         extended = False
         #print self.childs
         for item in self.childs:
 
             if extended:
-                item.start += extension
-                item.end += extension
+                item.start = str(item.start) + "+extension"
+                item.end = str(item.end) +"+extension"
             else:
                 if item.getInterval() >= ordine:
                     extended = True
-                    item.end += extension
-                print "confronto "+str(item.start)+" " +str(originalSize)
+                    item.end = str(item.end) +"+extension"                
                 if item.start > originalSize:
                     # THIS IS THE DEGENERATE CASE OF THE SHIFT
                     # CHECK FIX CHECK
-                    item.start += extension
-                    item.end += extension
+                    item.start = str(item.start) + "+extension"
+                    item.end = str(item.end) +"+extension"
                     extended = True
         #print "Ho ottenuto ", self
         for item in self.childs:
-            item.expandCommTree(ordine,extension,originalSize)
+            item.expandCommTree(ordine,originalSize)
 
 
     def generaTab(self):
@@ -153,42 +152,6 @@ class Node(object):
         for i in range(self.level):
             tab +="\t"
         return tab
-
-    def generaNode(self,secId):
-        out = ""
-        tab = self.generaTab()
-        node = self
-
-        # the for loop associated to this level is generated
-        out += (tab+"for i"+str(node.level)+" = "+str(node.start+1)+" : " +str(node.end+1)+"\n")
-        
-        if len(node.offsets) > 0:
-            #se ho degli offset allora sono al nodo foglia
-            #_1 e per avere output separato da input
-            out += (tab+"\ts"+secId+"_1(")
-
-            for j in range(node.level):
-                out+=("i"+str(j)+",")
-            out+=("i"+str(j+1)+")")
-            out += (" = funzione( " )
-            count = 0
-            for offset in node.offsets:
-                if offset.isOuter is True:
-                    out +=("o")
-                else:
-                    out +=("s")
-                out += (offset.father.generaId())
-                out += (offset.getStr())
-                count +=1
-                if count < len(node.offsets):
-                    out +=(",")
-            out +=(");\n")
-
-
-        for c in self.childs:
-            out += c.generaNode(secId)
-        out +=(tab+"end\n")
-        return out
 
     def generaMemCpy(self,secId,sourceId):
         out = ""
@@ -228,22 +191,22 @@ class Node(object):
 
         return out
 
-    def checkInterval(self,start,end):
-        ''' returns the size of the tree which would be generated if self.GeneraNodeC()
-            was invoked with start and end
-            
-        '''
-        if start is not None and end is not None:
-            start = max(start,self.start)
-            end = min(end,self.end)
-        else:
-            start = self.start
-            end = self.end
+#    def checkInterval(self,start,end):
+#        ''' returns the size of the tree which would be generated if self.GeneraNodeC()
+#            was invoked with start and end
+#
+#        '''
+#        if start is not None and end is not None:
+#            start = max(start,self.start)
+#            end = min(end,self.end)
+#        else:
+#            start = self.start
+#            end = self.end
+#
+#        if end >= start:
+#            return end - start + 1
 
-        if end >= start:
-            return end - start + 1
-
-    def generaNodeC(self,secId,sourceId,targetId,start=None,end=None):
+    def generaNodeC(self,secId,sourceId,targetId,NeedSplit=False):
         ''' Generate the code associated with the node self, a for loop is generated
             if the node contains a list of offsets: the function (kernel) invocation is generated
             otherwise generaNodeC is invoked recursively on the children of the node
@@ -251,7 +214,6 @@ class Node(object):
             secId       -- Is the string id of the the section which owns the node self
             sourceId    -- Is the string postfix associated with the source point
             targetId    -- Is the string postfix to be used
-            start,end   -- Used to generate code relative only to the interval [start,end]
 
             example of generated code:    s$(secId)_$(targetId)[][] = funzione( so2_$(sourceId) , ...  )
 
@@ -260,48 +222,43 @@ class Node(object):
         tab = self.generaTab()
         node = self
 
-        # the for loop associated to this level is generated
-        if start is not None and end is not None:
-            start = max(start,node.start)
-            end = min(end,node.end)
+        start = node.start
+        end = node.end
+        if NeedSplit:
+            out += (tab+"for (i"+str(node.level)+" = max(start,"+str(start)+") ; i"+str(node.level)+" <= min(end," +str(end)+");i"+str(node.level)+"++){\n")
         else:
-            start = node.start
-            end = node.end
-
-
-        if end >= start:
             out += (tab+"for (i"+str(node.level)+" = "+str(start)+" ; i"+str(node.level)+" <=" +str(end)+";i"+str(node.level)+"++){\n")
 
-            #dovrei fare la generaOffset
-            if len(node.offsets) > 0:
-                #se ho degli offset allora sono al nodo foglia
-                #_1 e per avere output separato da input
-                out += (tab+"\ts"+secId+"_"+targetId)
+        #dovrei fare la generaOffset
+        if len(node.offsets) > 0:
+            #se ho degli offset allora sono al nodo foglia
+            #_1 e per avere output separato da input
+            out += (tab+"\ts"+secId+"_"+targetId)
 
-                for j in range(node.level+1):
-                    out+=("[i"+str(j)+"]")
+            for j in range(node.level+1):
+                out+=("[i"+str(j)+"]")
 
 
-                out += (" = MACRO( " )
-                count = 0
-                for offset in node.offsets:
-                    if offset.isOuter is True:
-                        out +=("o")
-                    else:
-                        out +=("s")
-                    out += (offset.father.generaId())
-                    if offset.isOuter is not True:
-                        out += ("_"+sourceId)
-                    out += (offset.getStrC())
-                    count +=1
-                    if count < len(node.offsets):
-                        out +=(",")
-                out +=(");\n")
+            out += (" = MACRO( " )
+            count = 0
+            for offset in node.offsets:
+                if offset.isOuter is True:
+                    out +=("o")
+                else:
+                    out +=("s")
+                out += (offset.father.generaId())
+                if offset.isOuter is not True:
+                    out += ("_"+sourceId)
+                out += (offset.getStrC())
+                count +=1
+                if count < len(node.offsets):
+                    out +=(",")
+            out +=(");\n")
 
-            for c in self.childs:
-                # notice that the start and end are lost in the recursive calls
-                out += c.generaNodeC(secId,sourceId,targetId)
-            out +=(tab+"}\n")
+        for c in self.childs:
+            # notice that the start and end are lost in the recursive calls
+            out += c.generaNodeC(secId,sourceId,targetId)
+        out +=(tab+"}\n")
             
         return out
 

@@ -32,3 +32,5 @@ RISULTATO           = "../UNIT_TEST/matrices/2d1_8"
 
 DATATYPE = "int"
 OPEN_MP = True
+GENERATE_CALC = True
+GENERATE_COMM = True

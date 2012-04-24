@@ -107,13 +107,16 @@ class Offset(Point):
                 out += "[i" +str(index)+"+"+str(item)+"]"
         return out
     
-    def expand(self,extension,ordine):
+    def expand(self,ordine):
         for index,item in enumerate(self.coordinates):
             #the logic of this condition is completely obscure to me now
             # FIX - this is taken from the previous project with little to no reasoning
             # UPDATE - added offset to make shift work
             if abs(item) > config.MAGIC_THRESHOLD_FOR_OFFSET*ordine:
-                self[index] = (item/abs(item)) * (abs(item) + extension)
+                if item > 0:
+                    self[index] = str(item) +"+extension"
+                else:
+                    self[index] = str(item) +"-extension"
 
 
 

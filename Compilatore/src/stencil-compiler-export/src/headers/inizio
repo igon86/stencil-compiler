@@ -20,7 +20,8 @@ FILE* localfp;          /* File for DEBUG               */
 
 extern int extension;           /* Difference between domain_edge_size and compile-time size*/
 extern int partition_edge_size;
-extern int localsize;           
+extern int localsize;
+extern int local_section_edge_size;
 
 
  /******************************************************************* 

@@ -25,9 +25,10 @@ class Partition(object):
                 coordinate.append(index)
                 isLast = self.recursiveInit(item,level+1,coordinate)
                 if isLast:
-                    #print "sto per modificare", str(element[index])
-                    #print self
-                    if config.SHIFT:
+                    if coordinate == self.getLocalSectionTag():
+                        print "LOCAL SECTION "+str(coordinate)
+                        element[index] = LocalSection(copy.deepcopy(coordinate),self)
+                    elif config.SHIFT:
                         print "SHIFT SECTION "+str(coordinate)
                         element[index] = SectionShift(copy.deepcopy(coordinate),self)
                     else:
@@ -274,13 +275,18 @@ class Partition(object):
 
         return out
 
-    def generaCalcoloInterno(self,sourceId,targetId,start=None,end=None):
+    def generaCalcoloInterno(self,sourceId,targetId,step):
         out = ""
         localSectionTag = self.getLocalSectionTag()
             
         localSection = self[localSectionTag]        
         out += localSection.generaDebugPrint(sourceId)
-        out+=localSection.generaCalcoloC(sourceId,targetId,start,end)
+
+        #piece of code that handle shift
+        out += "interval = (local_section_edge_size -generated) / (num_steps - "+str(step)+");\n"
+        out += "start = generated;\ngenerated += interval;\nend = generated;\n"
+        out+= localSection.generaCalcoloC(sourceId,targetId)
+        
         out += localSection.generaDebugPrint(targetId)
 
         return out

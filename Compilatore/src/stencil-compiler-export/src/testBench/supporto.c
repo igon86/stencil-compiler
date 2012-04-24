@@ -9,7 +9,8 @@
 #define SCATTER_MATRIX "matrix_pre"
 
 int partition_edge_size;
-int localsize;        /* Number of elements in a partition                        */
+int localsize;                  /* Number of elements in a partition       */
+int local_section_edge_size;    /* lenght of the edge of the local section */
 
 extern int p;
 extern int domain_edge_size;
@@ -20,6 +21,15 @@ static int ppd;
 static int domainsize;
 
 int extension;               /* Difference between domain_edge_size and compile-time size*/
+
+
+int max(int a,int b){
+    if (a<b) return b; else return a;
+}
+
+int min(int a, int b){
+    if (a<b) return a; else return b;
+}
 
 void check_init_parameters(){
     /* checks that the parallelism degree is correct */
@@ -55,6 +65,8 @@ void check_init_parameters(){
 
     localsize = pow(partition_edge_size,dim);
     domainsize = pow(domain_edge_size,dim);
+
+    local_section_edge_size = partition_edge_size - 2*ordine;
 
 #if DEBUG
     fprintf(localfp,"PPD is: %d\nPartition edge size is: %d\nExtension is: %d\nLocalsize is: %d\nDomainSize is: %d\n\n",ppd,partition_edge_size,extension,localsize,domainsize);

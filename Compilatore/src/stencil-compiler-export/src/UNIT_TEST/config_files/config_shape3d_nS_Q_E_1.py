@@ -33,3 +33,5 @@ RISULTATO           = "../UNIT_TEST/matrices/3d_32"
 
 DATATYPE = "int"
 OPEN_MP = True
+GENERATE_CALC = True
+GENERATE_COMM = True

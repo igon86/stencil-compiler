@@ -33,3 +33,5 @@ RISULTATO           = "../UNIT_TEST/matrices/jacobi16"
 
 DATATYPE = "int"
 OPEN_MP = True
+GENERATE_CALC = True
+GENERATE_COMM = True

@@ -18,6 +18,12 @@ typedef int bool;
 #define true 1
 #define false 0
 
+#define MAX(X,Y) \
+        ((X) > (Y) ? : (X) : (Y))
+
+#define MIN(X,Y) \
+        ((X) < (Y) ? : (X) : (Y))
+
 #define ec_meno1(s,m) \
 	if ( (s) == -1 ) { perror(m); exit(errno); }
 
