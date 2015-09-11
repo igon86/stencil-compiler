@@ -1,0 +1,1 @@
+compilatore per stencil
